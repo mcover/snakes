@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BoardObject : MonoBehaviour { 
 
@@ -12,27 +13,28 @@ public class BoardObject : MonoBehaviour {
 	void Update () {
 	
 	}
-
-	//needs initializer for startPos
+    
 	private Vector2 startPos;
+    public readonly bool traversable = false;
+
+    public BoardObject(Vector2 startPos){
+        this.startPos = startPos;
+    }
 
 	//returns list of all positions object takes at time t
-	public ArrayList<Vector2> getPositionAtTime(int t){
+	public List<Vector2> getPositionAtTime(int t){
 		if (startPos == null) {
-			fprintf (stderr, "position of the gameObject is null .\n");
-			exit (-1);
+            return null;
 		}
-		// I bet there is a better way of creating story here
-		Vector2[] storyArray = new Vector2[][] {startPos};
-		ArrayList story = new ArrayList(storyArray);
+		List<Vector2> story = new List<Vector2> ();
+        story.Add(startPos);
 		return story;
 	}
 
 	//returns whether or not the BoardObject is still on the board
 	public bool onBoardAtTime(int t){
 		if (startPos == null) {
-			fprintf(stderr, "startPos is null;.\n");
-			exit(-1);
+            return false;
 		}
 		return true;
 	}

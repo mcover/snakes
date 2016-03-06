@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Goal : BoardObject {
 
@@ -14,7 +15,12 @@ public class Goal : BoardObject {
 	}
 
 	private string ID;
-	private Vector2 position;
+    public new readonly bool traversable = true;
 
-	//implement class methods
+    public Goal(Vector2 startPos, string ID) : base(startPos)
+    {
+        this.ID = ID;
+    }
+
+    //implement class methods
 }

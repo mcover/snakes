@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameLoop : MonoBehaviour {
 
@@ -16,9 +17,9 @@ public class GameLoop : MonoBehaviour {
 	private Map map;
 	private int gameTime; //current timestep of game
 	private Snake activeSnake;
-	private ArrayList<Snake> pastSnakes;
-	private ArrayList<Snake> allSnakes; //list of all snakes that exist in the puzzle
-	private ArrayList<BoardObject> puzzleObjects; //list of all objects inside the puzzle
+	private List<Snake> pastSnakes;
+	private List<Snake> allSnakes; //list of all snakes that exist in the puzzle
+	private List<BoardObject> puzzleObjects; //list of all objects inside the puzzle
 
 
 	//take keyboard input somehow

@@ -13,5 +13,9 @@ public class Wall : BoardObject {
 	
 	}
 
-	//implement inherited vars and methods
+    public Wall(Vector2 startPos) : base(startPos)
+    {
+    }
+
+    //implement inherited vars and methods
 }
