@@ -27,7 +27,7 @@ public class Snake : BoardObject {
 			fprintf(stderr, "story is null or empty;.\n");
 			exit(-1);
 		}
-		return story.get(story.Count - 1)
+		return story.get (story.Count - 1);
 	}
 
 	//add position to story
@@ -55,7 +55,7 @@ public class Snake : BoardObject {
 			exit(-1);
 		}
 		int tailIndex = Math.Max(0, t - length);
-		return story.GetRange(tailIndex, t + 1)
+		return story.GetRange (tailIndex, t + 1);
 	}
 
 	//returns whether or not the snake is still on the board
