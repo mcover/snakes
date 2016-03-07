@@ -30,13 +30,29 @@ public class Map {
     //arraylist BoardObject
     public List<BoardEvent> checkTiles() {
         List<BoardEvent> events = new List<BoardEvent>();
+        // double for loop --> for each location
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 List<BoardObject> objs = map[i, j];
+                
+                // if at least one event could occur
                 if (objs.Count >= 2) {
-                    BoardEvent e = new BoardEvent(new Vector2(i, j), objs);
+                    // double for loop to find each event that could occur
+                    for (int firstObjectIndex = 0; firstObjectIndex < objs.Count - 1; firstObjectIndex++)
+                    {
+                        for (int secondObjectIndex = firstObjectIndex + 1; secondObjectIndex < objs.Count; secondObjectIndex++)
+                        {
+                            BoardObject obj1 = objs[firstObjectIndex];
+                            BoardObject obj2 = objs[secondObjectIndex];
+                            List<BoardObject> objectPair = new List<BoardObject>();
+                            objectPair.Add(obj1);
+                            objectPair.Add(obj2);
+
+                            BoardEvent e = new BoardEvent(new Vector2(i, j), objectPair);
+                        }
+                    }
                 }
             }
         }
