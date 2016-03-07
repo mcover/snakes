@@ -59,7 +59,7 @@ public class GameLoop : MonoBehaviour {
 
 	//increase timestep, update board visually
 	void updateBoard(){
-		map = Map (gameTime, mapWidth, mapHeight);
+		map = new Map (gameTime, mapWidth, mapHeight);
 		putObjs ();
 		parseCheckTiles ();
 		//parse check tiles
@@ -71,7 +71,7 @@ public class GameLoop : MonoBehaviour {
 		foreach (var obstacle in puzzleObjects){
 			map.put (obstacle); // put in all obstacles
 		}
-		foreach (object snake in pastSnakes){
+		foreach (var snake in pastSnakes){
 			map.put(snake); // put in the snakes you've already moved
 		}
 	}
