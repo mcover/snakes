@@ -4,16 +4,6 @@ using System.Collections.Generic;
 
 public class Goal : BoardObject {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	private string ID;
     public new readonly bool traversable = true;
 

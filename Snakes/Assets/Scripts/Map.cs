@@ -3,19 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class Map : MonoBehaviour {
-
-    // Use this for initialization
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
-
-
+public class Map {
 
     private int time; //time step map represents
     private List<BoardObject>[,] map; //2d array of arrays of boardObjects
@@ -68,7 +56,7 @@ public class Map : MonoBehaviour {
         List<BoardObject> objs = map[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
         
         // if any objects are not traversable at location return false
-        if (objs.Find(x => !x.traversable))
+        if (objs.Exists(x => !x.traversable))
         {
             return false;
         }
