@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public class BoardEvent {
 
     private Vector2 pos;
-    private List<BoardObject> objs;
+    private List<BoardObject> objectPair;
 
-    public BoardEvent(Vector2 pos, List<BoardObject> objs)
+    public BoardEvent(Vector2 pos, List<BoardObject> objectPair)
     {
         this.pos = pos;
-        this.objs = objs;
+        this.objectPair = objectPair;
     }
 
     public Vector2 getPos()
@@ -18,8 +18,8 @@ public class BoardEvent {
         return pos;
     }
 
-    public List<BoardObject> getObjs()
+    public List<BoardObject> getObjectPair()
     {
-        return objs;
+        return objectPair;
     }
 }
