@@ -8,6 +8,7 @@ public class Snake : BoardObject {
 	//unique ID for snake, must match goal
 	private string ID;
 	private int length;
+	private Vector2 startPos;
 	private List<Vector2> story;
 	private string heading;
     public new readonly bool traversable = true;
@@ -17,6 +18,7 @@ public class Snake : BoardObject {
         this.ID = ID;
         this.length = length;
         this.heading = heading;
+		this.startPos = startPos;
         this.story = new List<Vector2>();
         this.story.Add(startPos);
     }
@@ -64,5 +66,11 @@ public class Snake : BoardObject {
 
 	public bool isLethal() {
 		return true;
+	}
+
+	// Reset the story of the snake to the original position. (Used to rollBackTime)
+	public void resetStory(){
+	story = new List<Vector2>();
+	story.Add(startPos);
 	}
 }

@@ -8,6 +8,15 @@ public class GameLoop : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//statically write in data
+		int mapWidth = 7;
+		int mapHeight = 7;
+		gameTime = 0;
+		map = new Map (gameTime, mapWidth, mapHeight);
+		puzzleObjects = null;
+		allSnakes = null;
+		activeSnake = allSnakes[0];
+		pastSnakes = new List<Snake>(new Snake[] {});
+		updateBoard ();
 	}
 
 	// Update is called once per frame
@@ -79,7 +88,8 @@ public class GameLoop : MonoBehaviour {
 		map = new Map (gameTime, mapWidth, mapHeight);
 		putObjs ();
 		parseCheckTiles ();
-		//parse check tiles
+		//TODO parse check tiles
+		//TODO trigger the drawing of the board?
 	}
 
 	//put all objects in the map at the current time
@@ -117,6 +127,9 @@ public class GameLoop : MonoBehaviour {
 
 	//
 	void collision(){
+		//TODO Draw collision on the board, give feedback for the error, and wait a few seconds
+		//Go back in time to the beginning of the game, mantaining the activeSnake
+		rollBackTime();
 	}
 
 	//
@@ -124,6 +137,13 @@ public class GameLoop : MonoBehaviour {
 		//increase timestep
 		//updateboard
 		//check if all snakes are on board
+	}
+
+	//Reset the gameTime to 0 and reset the story of the activeSnake to 0, then redraw the board with updateBoard
+	void rollBackTime(){
+		gameTime = 0;
+		activeSnake.resetStory ();
+		updateBoard ();
 	}
 
 }
