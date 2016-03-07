@@ -22,11 +22,11 @@ public class GameLoop : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// Button for snake selection
-		//		if(Input.GetButtonDown("snakeSelect"))
-		//		{
+		//        if(Input.GetButtonDown("snakeSelect"))
+		//        {
 		// Probably something like buttonID
-		//			Debug.Log(Input.mousePosition);
-		//		}
+		//            Debug.Log(Input.mousePosition);
+		//        }
 		if (Input.GetKeyUp (KeyCode.UpArrow)) {
 			Debug.Log("up key was released");
 			move (activeSnake, Vector2.up);
@@ -62,7 +62,6 @@ public class GameLoop : MonoBehaviour {
 	//check if moving the current snake to the new position would be a valid move
 	//move the snake
 	//if the move took place, call update board
-
 	void move(BoardObject obj, Vector2 direction){
 		Vector2 newPos = obj.getPositionAtTime(gameTime)[-1] + direction; 
 		if (canMove(obj, newPos)){
@@ -102,38 +101,42 @@ public class GameLoop : MonoBehaviour {
 			map.put(snake); // put in the snakes you've already moved
 		}
 	}
-		
+
 	//parses map.checkTiles(), runs any animations/game logic needed
 	void parseCheckTiles(){
 		List<Vector2> collisions = new List<Vector2> ();
-
+		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
 		foreach (var boardEvent in boardEvents){
 			var obj0 = boardEvent.getObjectPair ()[0];
 			var obj1 = boardEvent.getObjectPair ()[1];
 
 			if ((obj0 == activeSnake && obj1.isLethal ()) || (obj1 == activeSnake && obj0.isLethal ())) {
-				collision ();
+				collision (boardEvent.getPos ());
 			} else if (obj0 is Goal && obj1 is Snake && obj0.getID () == obj1.getID ()) {
-				reachedExit ();
+				exitPosition = boardEvent.getPos ();
 			} else if (obj1 is Goal && obj0 is Snake && obj0.getID () == obj1.getID ()) {
-				reachedExit ();
+				exitPosition = boardEvent.getPos ();
 			} else {
 				//this means a snake has collided with something that is not its goal, do nothing
 			}
 		}
 
+		if (exitPosition.x != -1) { //-1 is magic value as there can never be negative position
+			reachedExit (exitPosition);
+		}
 	}
 
 	//
-	void collision(){
+
+	void collision(Vector2 collCoord){
 		//TODO Draw collision on the board, give feedback for the error, and wait a few seconds
 		//Go back in time to the beginning of the game, mantaining the activeSnake
 		rollBackTime();
 	}
 
 	//
-	void reachedExit(){
+	void reachedExit(Vector2 exitCoord){
 		//increase timestep
 		//updateboard
 		//check if all snakes are on board

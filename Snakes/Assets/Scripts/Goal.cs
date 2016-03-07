@@ -12,7 +12,7 @@ public class Goal : BoardObject {
         this.ID = ID;
     }
 
-	public string getID(){
+	new public string getID(){
 		return ID;
 	}
 

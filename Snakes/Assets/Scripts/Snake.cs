@@ -30,7 +30,7 @@ public class Snake : BoardObject {
 	}
 
 	//add position to story
-	public void moveTo(Vector2 pos){
+	new public void moveTo(Vector2 pos){
 		if (story == null || story.Count == 0) {
             
 		}
@@ -64,7 +64,7 @@ public class Snake : BoardObject {
 
     //implement inherited vars and methods
 
-	public bool isLethal() {
+	new public bool isLethal() {
 		return true;
 	}
 
