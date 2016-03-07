@@ -11,6 +11,32 @@ public class GameLoop : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// Button for snake selection
+		//		if(Input.GetButtonDown("snakeSelect"))
+		//		{
+		// Probably something like buttonID
+		//			Debug.Log(Input.mousePosition);
+		//		}
+		if (Input.GetKeyUp (KeyCode.UpArrow)) {
+			Debug.Log("up key was released");
+			updateBoard ();
+		}
+		if (Input.GetKeyUp (KeyCode.DownArrow)) {
+			Debug.Log("down key was released");
+			updateBoard ();
+		}
+		if (Input.GetKeyUp (KeyCode.LeftArrow)) {
+			Debug.Log("left key was released");
+			updateBoard ();
+		}
+		if (Input.GetKeyUp (KeyCode.RightArrow)) {
+			Debug.Log("right key was released");
+			updateBoard ();
+		}
+		if (Input.GetKeyUp (KeyCode.Alpha1)) {
+			Debug.Log("1 key was released");
+			// Possibly refresh game / refresh snake
+		}
 
 	}
 
