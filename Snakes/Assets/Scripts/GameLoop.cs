@@ -6,7 +6,7 @@ public class GameLoop : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		//statically write in data
 	}
 
 	// Update is called once per frame
@@ -48,7 +48,6 @@ public class GameLoop : MonoBehaviour {
 	private List<Snake> allSnakes; //list of all snakes that exist in the puzzle
 	private List<BoardObject> puzzleObjects; //list of all objects inside the puzzle
 
-
 	//take keyboard input somehow
 	//check if moving the current snake to the new position would be a valid move
 	//move the snake
@@ -75,14 +74,29 @@ public class GameLoop : MonoBehaviour {
 			map.put(snake); // put in the snakes you've already moved
 		}
 	}
-
-
+		
 	//parses map.checkTiles(), runs any animations/game logic needed
 	void parseCheckTiles(){
-		map.checkTiles ();
+		List<BoardEvent> boardEvents = map.checkTiles ();
+		foreach (var boardEvent in boardEvents){
+			var obj0 = boardEvent.getObjs ()[0];
+			var obj1 = boardEvent.getObjs ()[1];
+
+
+
+		}
+
 	}
 
+	//
+	void collision(){
+	}
 
-
+	//
+	void reachedExit(){
+		//increase timestep
+		//updateboard
+		//check if all snakes are on board
+	}
 
 }
