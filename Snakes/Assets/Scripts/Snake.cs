@@ -61,4 +61,8 @@ public class Snake : BoardObject {
 	}
 
     //implement inherited vars and methods
+
+	public bool isLethal() {
+		return true;
+	}
 }
