@@ -57,4 +57,8 @@ public class UIManager : MonoBehaviour {
         startCanvas.enabled = true;
         levelCanvas.enabled = false;
     }
+    public void LoadLevel(int num)
+    {
+        //load level num
+    }
 }
