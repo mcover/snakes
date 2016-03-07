@@ -19,19 +19,19 @@ public class GameLoop : MonoBehaviour {
 		//		}
 		if (Input.GetKeyUp (KeyCode.UpArrow)) {
 			Debug.Log("up key was released");
-			updateBoard ();
+			move (activeSnake, Vector2.up);
 		}
 		if (Input.GetKeyUp (KeyCode.DownArrow)) {
 			Debug.Log("down key was released");
-			updateBoard ();
+			move (activeSnake, Vector2.down);
 		}
 		if (Input.GetKeyUp (KeyCode.LeftArrow)) {
 			Debug.Log("left key was released");
-			updateBoard ();
+			move (activeSnake, Vector2.left);
 		}
 		if (Input.GetKeyUp (KeyCode.RightArrow)) {
 			Debug.Log("right key was released");
-			updateBoard ();
+			move (activeSnake, Vector2.right);
 		}
 		if (Input.GetKeyUp (KeyCode.Alpha1)) {
 			Debug.Log("1 key was released");
@@ -53,7 +53,18 @@ public class GameLoop : MonoBehaviour {
 	//move the snake
 	//if the move took place, call update board
 
-	void move(string direction){
+	void move(BoardObject obj, Vector2 direction){
+		Vector2 newPos = obj.getPositionAtTime(gameTime)[-1] + direction; 
+		if (canMove(obj, newPos)){
+			obj.moveTo (newPos);
+			updateBoard  	();
+		}
+	}
+
+	// Check if map is traversable and check if you the snake is breaking its own neck
+	bool canMove(BoardObject obj, Vector2 pos){
+		//TODO
+		return true;
 	}
 
 	//increase timestep, update board visually

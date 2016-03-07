@@ -28,7 +28,7 @@ public class Snake : BoardObject {
 	}
 
 	//add position to story
-	void moveTo(Vector2 pos){
+	public void moveTo(Vector2 pos){
 		if (story == null || story.Count == 0) {
             
 		}

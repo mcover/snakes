@@ -29,6 +29,12 @@ public class BoardObject {
 		return true;
 	}
 
+	//add position to story
+	public void moveTo(Vector2 pos){
+
+	}
+
+
 	public string getID(){
 		return "";
 	}
