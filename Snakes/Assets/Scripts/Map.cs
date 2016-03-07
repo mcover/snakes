@@ -68,6 +68,11 @@ public class Map {
         }
 	}
 
+	public List<BoardObject> get(Vector2 pos){
+		List<BoardObject> objs = map[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
+		return objs;
+	}
+
 	public bool isTraversable(Vector2 pos){
         List<BoardObject> objs = map[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
         
