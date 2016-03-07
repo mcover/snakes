@@ -6,15 +6,17 @@ public class GameLoop : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
+		
 
 	}
 
 	private Map map;
+	private int mapWidth, mapHeight;
 	private int gameTime; //current timestep of game
 	private Snake activeSnake;
 	private List<Snake> pastSnakes;
@@ -26,20 +28,33 @@ public class GameLoop : MonoBehaviour {
 	//check if moving the current snake to the new position would be a valid move
 	//move the snake
 	//if the move took place, call update board
-	/*
+
 	void move(string direction){
 	}
-	*/
 
 	//increase timestep, update board visually
 	void updateBoard(){
-		//clear map
-		//put map
+		map = Map (gameTime, mapWidth, mapHeight);
+		putObjs ();
+		parseCheckTiles ();
 		//parse check tiles
 	}
 
+	//put all objects in the map at the current time
+	void putObjs(){
+		map.put (activeSnake); //put in the active snake
+		foreach (var obstacle in puzzleObjects){
+			map.put (obstacle); // put in all obstacles
+		}
+		foreach (object snake in pastSnakes){
+			map.put(snake); // put in the snakes you've already moved
+		}
+	}
+
+
 	//parses map.checkTiles(), runs any animations/game logic needed
 	void parseCheckTiles(){
+		map.checkTiles ();
 	}
 
 
