@@ -5,16 +5,6 @@ using System.Collections.Generic;
 
 public class Snake : BoardObject {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	//unique ID for snake, must match goal
 	private string ID;
 	private int length;

@@ -2,17 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BoardObject : MonoBehaviour { 
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+public class BoardObject { 
     
 	private Vector2 startPos;
     public readonly bool traversable = false;
