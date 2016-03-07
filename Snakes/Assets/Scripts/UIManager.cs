@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour {
     public Canvas settingsCanvas;
     public Canvas mainCanvas;
     public Text helpText;
+    public Canvas finishedLevelCanvas;
 
 	// Use this for initialization
 	void Start () {
@@ -18,13 +19,10 @@ public class UIManager : MonoBehaviour {
         settingsCanvas.enabled = false;
         mainCanvas.enabled = false;
         helpText.enabled = false;
+        finishedLevelCanvas.enabled = false;
 	
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     public void PlayGame()
     {
@@ -73,6 +71,7 @@ public class UIManager : MonoBehaviour {
         mainCanvas.enabled = false;
         startCanvas.enabled = true;
         levelCanvas.enabled = false;
+        finishedLevelCanvas.enabled = false;
     }
     public void ToggleHelpText()
     {
