@@ -28,4 +28,12 @@ public class BoardObject {
 		}
 		return true;
 	}
+
+	public string getID(){
+		return "";
+	}
+
+	public bool isLethal() {
+		return false;
+	}
 }

@@ -12,5 +12,9 @@ public class Goal : BoardObject {
         this.ID = ID;
     }
 
+	public string getID(){
+		return ID;
+	}
+
     //implement class methods
 }

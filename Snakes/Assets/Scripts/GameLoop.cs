@@ -77,13 +77,22 @@ public class GameLoop : MonoBehaviour {
 		
 	//parses map.checkTiles(), runs any animations/game logic needed
 	void parseCheckTiles(){
+		List<Vector2> collisions = new List<Vector2> ();
+
 		List<BoardEvent> boardEvents = map.checkTiles ();
 		foreach (var boardEvent in boardEvents){
-			var obj0 = boardEvent.getObjs ()[0];
-			var obj1 = boardEvent.getObjs ()[1];
+			var obj0 = boardEvent.getObjectPair ()[0];
+			var obj1 = boardEvent.getObjectPair ()[1];
 
-
-
+			if ((obj0 == activeSnake && obj1.isLethal ()) || (obj1 == activeSnake && obj0.isLethal ())) {
+				collision ();
+			} else if (obj0 is Goal && obj1 is Snake && obj0.getID () == obj1.getID ()) {
+				reachedExit ();
+			} else if (obj1 is Goal && obj0 is Snake && obj0.getID () == obj1.getID ()) {
+				reachedExit ();
+			} else {
+				//this means a snake has collided with something that is not its goal, do nothing
+			}
 		}
 
 	}
