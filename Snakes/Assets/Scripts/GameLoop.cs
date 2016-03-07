@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -57,14 +58,20 @@ public class GameLoop : MonoBehaviour {
 		Vector2 newPos = obj.getPositionAtTime(gameTime)[-1] + direction; 
 		if (canMove(obj, newPos)){
 			obj.moveTo (newPos);
-			updateBoard  	();
+			updateBoard ();
 		}
 	}
 
-	// Check if map is traversable and check if you the snake is breaking its own neck
+	// Check the object obj is allowed to move in position pos
 	bool canMove(BoardObject obj, Vector2 pos){
-		//TODO
-		return true;
+		// Find the last position that this object occupied, (possibly the same one if gameTime = 0)
+		int previousIndex = Math.Max(0, gameTime - 1);
+		Vector2 previousPos = obj.getPositionAtTime (previousIndex)[-1];
+		// Check if the position is traversable, and check if the object is walking into itself
+		if (map.isTraversable(pos) && previousPos != pos){
+			return true;
+		}
+		return false;
 	}
 
 	//increase timestep, update board visually
