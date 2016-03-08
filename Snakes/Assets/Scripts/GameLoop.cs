@@ -8,8 +8,8 @@ public class GameLoop : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//statically write in data
-		int mapWidth = 7;
-		int mapHeight = 7;
+		mapWidth = 7;
+		mapHeight = 7;
 		gameTime = 0;
 		map = new Map (gameTime, mapWidth, mapHeight);
 		puzzleObjects = null;
@@ -110,7 +110,6 @@ public class GameLoop : MonoBehaviour {
 
 	//parses map.checkTiles(), runs any animations/game logic needed
 	void parseCheckTiles(){
-		List<Vector2> collisions = new List<Vector2> ();
 		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
 		foreach (var boardEvent in boardEvents){
