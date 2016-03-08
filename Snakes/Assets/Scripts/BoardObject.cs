@@ -6,6 +6,7 @@ public class BoardObject {
     
 	private Vector2 startPos;
     public readonly bool traversable = false;
+	private string ID;
 
     public BoardObject(Vector2 startPos){
         this.startPos = startPos;
@@ -36,7 +37,7 @@ public class BoardObject {
 
 
 	public string getID(){
-		return "";
+		return ID;
 	}
 
 	public bool isLethal() {

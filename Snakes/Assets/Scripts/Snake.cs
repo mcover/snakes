@@ -6,8 +6,8 @@ using System.Collections.Generic;
 public class Snake : BoardObject {
 
 	//unique ID for snake, must match goal
-	private string ID;
 	private int length;
+	private string ID;
 	private Vector2 startPos;
 	private List<Vector2> story;
 	private List<Vector2> directionStory;
