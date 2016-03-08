@@ -10,14 +10,16 @@ public class Snake : BoardObject {
 	private int length;
 	private Vector2 startPos;
 	private List<Vector2> story;
-	private string heading;
+	private List<Vector2> directionStory;
     public new readonly bool traversable = true;
 
-    public Snake(Vector2 startPos, int length, string heading, string ID) : base(startPos)
+	public Snake(Vector2 startPos, int length, Vector2 heading, string ID) : base(startPos)
     {
         this.ID = ID;
         this.length = length;
-        this.heading = heading;
+		this.directionStory = new List<Vector2>();
+		// Initialize the directionStory with the initial heading
+		this.directionStory.Add (heading);
 		this.startPos = startPos;
         this.story = new List<Vector2>();
         this.story.Add(startPos);
@@ -29,7 +31,8 @@ public class Snake : BoardObject {
         return story[story.Count - 1];
 	}
 
-	//add position to story
+	//add position to story, and newDirection to directionStory
+	// NOTE: If we want to teleport the snake to a cell far away, we will need to pass a new heading
 	new public void moveTo(Vector2 pos){
 		if (story == null || story.Count == 0) {
             
@@ -37,6 +40,11 @@ public class Snake : BoardObject {
 		if (pos == null) {
             
 		}
+		// Compute new direction of the snake and add it to the directionStory  
+		Vector2 prevPos = this.getHead ();
+		Vector2 newDirection = pos - prevPos;
+		directionStory.Add (newDirection);
+		// Add position to story
 		story.Add(pos);
 	}
 
