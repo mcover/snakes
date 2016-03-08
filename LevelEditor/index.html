@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="levelEditor.js"></script>
+        <style>
+            table {
+                border-collapse: collapse;
+                border: 1px solid black;
+                float: left;
+            }
+            td {
+                width: 20px;
+                height: 20px;
+                border: 1px solid black;
+                background-repeat: no-repeat;
+                background-size: 20px 20px;
+            }
+
+            td.snake {
+              background-image: url('Art/snake_face.png');
+            }
+
+            td.wall {
+              background-image: url('Art/obstacle.png');
+            }
+
+
+            #map-width-input, #map-height-input {
+                width: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <table id="map-container">
+
+        </table>
+        <table id="tile-container" style="margin-left: 100px">
+            <tr>
+                <td draggable="true" class="snake"></td>
+            </tr>
+            <tr>
+                <td draggable="true"></td>
+            </tr>
+            <tr>
+                <td draggable="true" class="wall"></td>
+            </tr>
+        </table>
+        <textarea id="output-box" cols="50" disabled>
+
+        </textarea>
+        <br style="clear:both"/>
+        <div>
+            <input id="map-width-input" value="10"/>
+            <input id="map-height-input" value="10"/>
+            <button id="build-map-btn">Reset Map with New Values</button>
+            <button id="print-map-btn">Print Map</button>
+        </div>
+    </body>
+</html>
