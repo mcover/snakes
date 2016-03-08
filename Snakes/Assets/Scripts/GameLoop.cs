@@ -28,6 +28,10 @@ public class GameLoop : MonoBehaviour {
 		//            Debug.Log(Input.mousePosition);
 		//        }
 
+		// if game time is zero, this is the special case
+		// reset the past snake if it's in there
+		// disable the snake selection panel
+
 		if (keyboardLock) {
 			return;
 		}
@@ -58,7 +62,9 @@ public class GameLoop : MonoBehaviour {
 	private Map map;
 	private int mapWidth, mapHeight;
 	private bool keyboardLock;
-	private int gameTime; //current timestep of game
+	private int gameTime {
+		set { /*updateLabel*/}
+	} //current timestep of game
 	private Snake activeSnake;
 	private List<Snake> pastSnakes;
 	private List<Snake> allSnakes; //list of all snakes that exist in the puzzle
@@ -180,5 +186,30 @@ public class GameLoop : MonoBehaviour {
 		activeSnake.resetStory ();
 		updateBoard ();
 	}
+
+	void rewind(){
+		if (gameTime > 0) {
+			gameTime--;
+			updateBoard ();
+			//make noise
+			//delay
+			//rewind();
+		} else {
+			//return;
+		}
+	}
+
+
+	//timer func
+	//if (gameTime > 0) {
+	//rewind();
+	//}
+
+//	private void alertSnakeSelectionPanel(){
+//		List<bool> = ;
+//	
+//	}
+
+	public Action InitButtonColors = (List<Color>) => {};
 
 }
