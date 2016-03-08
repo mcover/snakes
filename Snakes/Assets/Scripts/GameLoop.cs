@@ -27,6 +27,11 @@ public class GameLoop : MonoBehaviour {
 		// Probably something like buttonID
 		//            Debug.Log(Input.mousePosition);
 		//        }
+
+		if (keyboardLock) {
+			return;
+		}
+
 		if (Input.GetKeyUp (KeyCode.UpArrow)) {
 			Debug.Log("up key was released");
 			move (activeSnake, Vector2.up);
@@ -52,6 +57,7 @@ public class GameLoop : MonoBehaviour {
 
 	private Map map;
 	private int mapWidth, mapHeight;
+	private bool keyboardLock;
 	private int gameTime; //current timestep of game
 	private Snake activeSnake;
 	private List<Snake> pastSnakes;
@@ -65,6 +71,7 @@ public class GameLoop : MonoBehaviour {
 	void move(BoardObject obj, Vector2 direction){
 		Vector2 newPos = obj.getPositionAtTime(gameTime)[-1] + direction; 
 		if (canMove(obj, newPos)){
+			gameTime++;
 			obj.moveTo (newPos);
 			updateBoard ();
 		}
@@ -87,8 +94,7 @@ public class GameLoop : MonoBehaviour {
 		map = new Map (gameTime, mapWidth, mapHeight);
 		putObjs ();
 		parseCheckTiles ();
-		//TODO parse check tiles
-		//TODO trigger the drawing of the board?
+		//TODO trigger the drawing of the board
 	}
 
 	//put all objects in the map at the current time
@@ -128,7 +134,6 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	//
-
 	void collision(Vector2 collCoord){
 		//TODO Draw collision on the board, give feedback for the error, and wait a few seconds
 		//Go back in time to the beginning of the game, mantaining the activeSnake
@@ -137,9 +142,37 @@ public class GameLoop : MonoBehaviour {
 
 	//
 	void reachedExit(Vector2 exitCoord){
-		//increase timestep
+		//keyboardLock = true;
+		if (snakesStillOnBoardAtTimeStep (gameTime)) {
+			gameTime++;
+			updateBoard ();
+		} else {
+			pastSnakes.Add (activeSnake);
+			//you've won the level
+			if (pastSnakes.Count == allSnakes.Count) {
+				gameWin ();
+			} else {
+				gameTime = 0;
+				updateBoard ();
+				//put the game in a neutral state
+				//activeSnake = null;
+				//keyboardLock = false;
+			}
+		}
 		//updateboard
-		//check if all snakes are on board
+	}
+
+	void gameWin (){
+		Debug.Log ("Game has been won");
+		//enable win prompt
+	}
+
+	bool snakesStillOnBoardAtTimeStep(int t) {
+		bool stillOn = activeSnake.onBoardAtTime (t);
+			foreach (Snake snake in pastSnakes){
+				stillOn = stillOn || snake.onBoardAtTime(t);
+			}
+		return stillOn;
 	}
 
 	//Reset the gameTime to 0 and reset the story of the activeSnake to 0, then redraw the board with updateBoard
