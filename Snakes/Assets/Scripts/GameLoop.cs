@@ -9,9 +9,15 @@ public class GameLoop : MonoBehaviour {
 	//snake selection UI
 	public Canvas snakeSelectionPanel;
 
+	private void setSnakeSelectionPanel(){
+//		snakeSelectionPanel.enabled = true;
+//		snakeSelectionPanel
+	}
 
-
-
+	private void enableSelectionPanel(){
+		snakeSelectionPanel.enabled = true;
+		//run animation
+	}
 
 
 
@@ -39,9 +45,7 @@ public class GameLoop : MonoBehaviour {
 		//            Debug.Log(Input.mousePosition);
 		//        }
 
-		// if game time is zero, this is the special case
-		// reset the past snake if it's in there
-		// disable the snake selection panel
+
 
 		if (keyboardLock) {
 			return;
@@ -89,6 +93,9 @@ public class GameLoop : MonoBehaviour {
 	void move(BoardObject obj, Vector2 direction){
 		Vector2 newPos = obj.getPositionAtTime(gameTime)[-1] + direction; 
 		if (canMove(obj, newPos)){
+			// if game time is zero and the move is valid, this is the special case
+			// reset the past snake if it's in there
+			// disable the snake selection panel
 			gameTime++;
 			obj.moveTo (newPos);
 			updateBoard ();
