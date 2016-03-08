@@ -2,8 +2,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameLoop : MonoBehaviour {
+
+	//snake selection UI
+	public Canvas snakeSelectionPanel;
+
+
+
+
+
+
+
 
 	// Use this for initialization
 	void Start () {
@@ -64,6 +75,7 @@ public class GameLoop : MonoBehaviour {
 	private bool keyboardLock;
 	private int gameTime {
 		set { /*updateLabel*/}
+		get { return gameTime; }
 	} //current timestep of game
 	private Snake activeSnake;
 	private List<Snake> pastSnakes;
@@ -210,6 +222,6 @@ public class GameLoop : MonoBehaviour {
 //	
 //	}
 
-	public Action InitButtonColors = (List<Color>) => {};
+//	public Action InitButtonColors = (List<Color>) => {};
 
 }
