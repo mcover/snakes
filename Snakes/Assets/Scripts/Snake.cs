@@ -34,12 +34,12 @@ public class Snake : BoardObject {
 	//add position to story, and newDirection to directionStory
 	// NOTE: If we want to teleport the snake to a cell far away, we will need to pass a new heading
 	new public void moveTo(Vector2 pos){
-		if (story == null || story.Count == 0) {
-            
-		}
-		if (pos == null) {
-            
-		}
+//		if (story == null || story.Count == 0) {
+//            
+//		}
+//		if (pos == null) {
+//            
+//		}
 		// Compute new direction of the snake and add it to the directionStory  
 		Vector2 prevPos = this.getHead ();
 		Vector2 newDirection = pos - prevPos;

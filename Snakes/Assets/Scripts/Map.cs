@@ -51,6 +51,7 @@ public class Map {
                             objectPair.Add(obj2);
 
                             BoardEvent e = new BoardEvent(new Vector2(i, j), objectPair);
+							events.Add (e);
                         }
                     }
                 }
