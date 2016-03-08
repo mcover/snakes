@@ -159,7 +159,7 @@ public class GameLoop : MonoBehaviour {
 
 	//
 	void reachedExit(Vector2 exitCoord){
-		//keyboardLock = true;
+		keyboardLock = true;
 		if (snakesStillOnBoardAtTimeStep (gameTime)) {
 			gameTime++;
 			updateBoard ();
@@ -195,7 +195,6 @@ public class GameLoop : MonoBehaviour {
 	//Reset the gameTime to 0 and reset the story of the activeSnake to 0, then redraw the board with updateBoard
 	void rollBackTime(){
 		gameTime = 0;
-		activeSnake.resetStory ();
 		updateBoard ();
 	}
 
@@ -209,6 +208,11 @@ public class GameLoop : MonoBehaviour {
 		} else {
 			//return;
 		}
+	}
+
+	public void selectSnakeatIndex( int snakeIndex) {
+		activeSnake = allSnakes [snakeIndex];
+		keyboardLock = false;
 	}
 
 
