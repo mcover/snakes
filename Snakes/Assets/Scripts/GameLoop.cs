@@ -15,7 +15,8 @@ public class GameLoop : MonoBehaviour {
 		foreach (Snake snake in allSnakes) {
 			buttonColors.Add (snake.getColor ());
 		}
-		//UIPanel.setButtonColors(buttonColors); //RANDI
+        //UIPanel.setButtonColors(buttonColors); //RANDI
+        Camera.current.GetComponent<UIManager>().SetColors(buttonColors); //grabs UI manager and calls the fuction which sets the colors.
 	}
 
 	//updates selection panel by giving a list of booleans
@@ -29,10 +30,11 @@ public class GameLoop : MonoBehaviour {
 				}
 			}
 		}
-		//UIPanel.updateSnakeButtons(complete);
-	}
+        //UIPanel.updateSnakeButtons(complete);
+        Camera.current.GetComponent<UIManager>().UpdateSnakeButtons(complete);
+    }
 
-	private void enableSelectionPanel(){
+    private void enableSelectionPanel(){
 		snakeSelectionPanel.enabled = true;
 		//run animation
 	}
