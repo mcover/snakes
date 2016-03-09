@@ -124,7 +124,9 @@ public class GameLoop : MonoBehaviour {
 		mapHeight = 7;
 		gameTime = 0;
 		map = new Map (gameTime, mapWidth, mapHeight);
-		puzzleObjects = new List<BoardObject>();
+		Vector2 goalPos = new Vector2 (1, 2);	
+		Goal goal = new Goal (goalPos, Color.black); 
+		puzzleObjects = new List<BoardObject>((new BoardObject[] {}));
 		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
 		allSnakes = new List<Snake> (new Snake[] {activeSnake});
 		pastSnakes = new List<Snake>(new Snake[] {});
