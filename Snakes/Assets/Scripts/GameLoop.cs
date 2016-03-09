@@ -15,7 +15,6 @@ public class GameLoop : MonoBehaviour {
 		foreach (Snake snake in allSnakes) {
 			buttonColors.Add (snake.getColor ());
 		}
-        //UIPanel.setButtonColors(buttonColors); //RANDI
         Camera.current.GetComponent<UIManager>().SetColors(buttonColors); //grabs UI manager and calls the fuction which sets the colors.
 	}
 
@@ -30,7 +29,6 @@ public class GameLoop : MonoBehaviour {
 				}
 			}
 		}
-        //UIPanel.updateSnakeButtons(complete);
         Camera.current.GetComponent<UIManager>().UpdateSnakeButtons(complete);
     }
 
@@ -39,7 +37,7 @@ public class GameLoop : MonoBehaviour {
 		//run animation
 	}
 
-    private void loadLevel(int level)
+    public void loadLevel(int level)
     {
         TextAsset txt = (TextAsset)Resources.Load("levels/level" + level.ToString(), typeof(TextAsset));
         string levelString = txt.text;
@@ -104,7 +102,6 @@ public class GameLoop : MonoBehaviour {
         }
 
     }
-
 
 	// Use this for initialization
 	void Start () {
@@ -226,14 +223,14 @@ public class GameLoop : MonoBehaviour {
 		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
 		foreach (var boardEvent in boardEvents){
-			var obj0 = boardEvent.getObjectPair ()[0];
-			var obj1 = boardEvent.getObjectPair ()[1];
+			BoardObject obj0 = boardEvent.getObjectPair ()[0];
+			BoardObject obj1 = boardEvent.getObjectPair ()[1];
 
 			if ((obj0 == activeSnake && obj1.isLethal ()) || (obj1 == activeSnake && obj0.isLethal ())) {
 				collision (boardEvent.getPos ());
-			} else if (obj0 is Goal && obj1 is Snake && obj0.getID () == obj1.getID ()) {
+			} else if (obj0 is Goal && obj1 is Snake && ((Goal)obj0).getColor ().Equals (((Snake)obj1).getColor ())) {
 				exitPosition = boardEvent.getPos ();
-			} else if (obj1 is Goal && obj0 is Snake && obj0.getID () == obj1.getID ()) {
+			} else if (obj1 is Goal && obj0 is Snake && ((Snake)obj1).getColor ().Equals  (((Goal)obj1).getColor ())) {
 				exitPosition = boardEvent.getPos ();
 			} else {
 				//this means a snake has collided with something that is not its goal, do nothing
@@ -266,8 +263,8 @@ public class GameLoop : MonoBehaviour {
 			} else {
 				gameTime = 0;
 				updateBoard ();
-				//put the game in a neutral state
-				//activeSnake = null;
+				updateSnakeSelectionPanel ();
+				activeSnake = null;
 				//keyboardLock = false;
 			}
 		}
@@ -323,12 +320,5 @@ public class GameLoop : MonoBehaviour {
 	//if (gameTime > 0) {
 	//rewind();
 	//}
-
-//	private void alertSnakeSelectionPanel(){
-//		List<bool> = ;
-//	
-//	}
-
-//	public Action InitButtonColors = (List<Color>) => {};
 
 }

@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 public class Goal : BoardObject {
 
-	private string ID;
+	private Color color;
     public new readonly bool traversable = true;
 
-    public Goal(Vector2 startPos, string ID) : base(startPos)
+	public Goal(Vector2 startPos,Color color) : base(startPos)
     {
-        this.ID = ID;
+        this.color = color;
     }
 
-	new public string getID(){
-		return ID;
+	new public Color getColor(){
+		return color;
 	}
 
     //implement class methods
