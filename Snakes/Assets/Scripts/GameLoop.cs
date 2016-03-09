@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class GameLoop : MonoBehaviour {
 
-	//snake selection UI
-	public Canvas snakeSelectionPanel;
 
 	//initialization of the snake buttons based upon snake colors
 	private void setSnakeSelectionPanel(){
@@ -34,13 +32,15 @@ public class GameLoop : MonoBehaviour {
 
 	//
     private void enableSelectionPanel(){
-		snakeSelectionPanel.enabled = true;
-		//run animation
-	}
+        Camera.current.GetComponent<UIManager>().DisableSnakeSelection();
+        //run animation
+    }
 
 	private void disableSelectionPanel() {
-		
-	}
+        Camera.current.GetComponent<UIManager>().EnableSnakeSelection();
+
+
+    }
 
     public void loadLevel(int level)
     {
@@ -110,16 +110,19 @@ public class GameLoop : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {	
+
+	void Start () {
+		Debug.Log("starting");  
 		//statically write in data
 		mapWidth = 7;
 		mapHeight = 7;
 		gameTime = 0;
 		map = new Map (gameTime, mapWidth, mapHeight);
-		puzzleObjects = null;
-		allSnakes = null;
-//		activeSnake = allSnakes[0];
+		puzzleObjects = new List<BoardObject>();
+		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
+		allSnakes = new List<Snake> (new Snake[] {activeSnake});
 		pastSnakes = new List<Snake>(new Snake[] {});
+		Debug.Log("hello world");  
 		updateBoard ();
 	}
 

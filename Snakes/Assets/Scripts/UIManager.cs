@@ -11,12 +11,14 @@ public class UIManager : MonoBehaviour {
     public Canvas mainCanvas;
     public Text helpText;
     public Canvas finishedLevelCanvas;
+    public GameObject snakeSelectionBlocker;
    
 
     public List<Button> buttons;
 
 	// Use this for initialization
 	void Start () {
+        snakeSelectionBlocker.SetActive(false);
         startCanvas.enabled = true;
         levelCanvas.enabled = false;
         creditCanvas.enabled = false;
@@ -73,6 +75,8 @@ public class UIManager : MonoBehaviour {
         //load level num
         levelCanvas.enabled = false;
         mainCanvas.enabled = true;
+        //call GameLoop Function
+        //Camera.current.GetComponent<GameLoop>().function(int num);
     }
     public void BackToMenu()
     {
@@ -130,5 +134,13 @@ public class UIManager : MonoBehaviour {
                 buttons[i].image.sprite = buttonSprite;
             }
         }
+    }
+    public void DisableSnakeSelection()
+    {
+        snakeSelectionBlocker.SetActive(true);
+    }
+    public void EnableSnakeSelection()
+    {
+        snakeSelectionBlocker.SetActive(false);
     }
 }
