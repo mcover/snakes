@@ -7,16 +7,14 @@ public class Snake : BoardObject {
 
 	//unique ID for snake, must match goal
 	private int length;
-	private string ID;
 	private Vector2 startPos;
 	private List<Vector2> story;
 	private List<Vector2> directionStory;
     public new readonly bool traversable = true;
 	private Color color;
 
-	public Snake(Vector2 startPos, int length, Vector2 heading, string ID, Color color) : base(startPos)
+	public Snake(Vector2 startPos, int length, Vector2 heading, Color color) : base(startPos)
     {
-        this.ID = ID;
         this.length = length;
 		this.directionStory = new List<Vector2>();
 		// Initialize the directionStory with the initial heading

@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class GameLoop : MonoBehaviour {
 
-	//snake selection UI
-	public Canvas snakeSelectionPanel;
 
 	//initialization of the snake buttons based upon snake colors
 	private void setSnakeSelectionPanel(){
@@ -15,7 +13,7 @@ public class GameLoop : MonoBehaviour {
 		foreach (Snake snake in allSnakes) {
 			buttonColors.Add (snake.getColor ());
 		}
-		//UIPanel.setButtonColors(buttonColors); //RANDI
+        Camera.current.GetComponent<UIManager>().SetColors(buttonColors); //grabs UI manager and calls the fuction which sets the colors.
 	}
 
 	//updates selection panel by giving a list of booleans
@@ -29,28 +27,102 @@ public class GameLoop : MonoBehaviour {
 				}
 			}
 		}
-		//UIPanel.updateSnakeButtons(complete);
-	}
+        Camera.current.GetComponent<UIManager>().UpdateSnakeButtons(complete);
+    }
 
-	private void enableSelectionPanel(){
-		snakeSelectionPanel.enabled = true;
-		//run animation
-	}
+	//
+    private void enableSelectionPanel(){
+        Camera.current.GetComponent<UIManager>().DisableSnakeSelection();
+        //run animation
+    }
+
+	private void disableSelectionPanel() {
+        Camera.current.GetComponent<UIManager>().EnableSnakeSelection();
 
 
+    }
 
+    public void loadLevel(int level)
+    {
+        TextAsset txt = (TextAsset)Resources.Load("levels/level" + level.ToString(), typeof(TextAsset));
+        string levelString = txt.text;
+        string[] objectStrings = levelString.Split('\r');
+        allSnakes = new List<Snake>(); //list of all snakes that exist in the puzzle
+        puzzleObjects = new List<BoardObject>(); //list of all other objects inside the puzzle
+
+        foreach (string objectString in objectStrings) {
+            string[] tokens = objectString.Split(',');
+            bool noParseErrors = true;
+
+            if (tokens[0] == "snake") {
+                int startX;
+                int startY;
+                int length;
+                int headingX;
+                int headingY;
+                string colorString = tokens[6];
+                noParseErrors = noParseErrors
+                    & int.TryParse(tokens[1], out startX)
+                    & int.TryParse(tokens[2], out startY)
+                    & int.TryParse(tokens[3], out length)
+                    & int.TryParse(tokens[4], out headingX)
+                    & int.TryParse(tokens[5], out headingY);
+                Vector2 startPos = new Vector2(startX, startY);
+                Vector2 heading = new Vector2(headingX, headingY);
+                if (noParseErrors) {
+                    allSnakes.Add(new Snake(startPos, length, heading, Color.green));
+                } else {
+                    Debug.LogError("ERROR PARSING SNAKE" + objectString);
+                }
+            } else if (tokens[0] == "goal") {
+                int startX;
+                int startY;
+                string colorString = tokens[3];
+                noParseErrors = noParseErrors
+                    & int.TryParse(tokens[1], out startX)
+                    & int.TryParse(tokens[2], out startY);
+                Vector2 startPos = new Vector2(startX, startY);
+
+                if (noParseErrors) {
+                    puzzleObjects.Add(new Goal(startPos, Color.green));
+                }
+                else {
+                    Debug.LogError("ERROR PARSING GOAL" + objectString);
+                }
+            } else if (tokens[0] == "wall") {
+                int startX;
+                int startY;
+                noParseErrors = noParseErrors
+                    & int.TryParse(tokens[1], out startX)
+                    & int.TryParse(tokens[2], out startY);
+                Vector2 startPos = new Vector2(startX, startY);
+
+                if (noParseErrors) {
+                    puzzleObjects.Add(new Wall(startPos));
+                }
+                else {
+                    Debug.LogError("ERROR PARSING WALL" + objectString);
+                }
+            }
+        }
+		setSnakeSelectionPanel ();
+		updateBoard ();
+    }
 
 	// Use this for initialization
+
 	void Start () {
+		Debug.Log("starting");  
 		//statically write in data
 		mapWidth = 7;
 		mapHeight = 7;
 		gameTime = 0;
 		map = new Map (gameTime, mapWidth, mapHeight);
-		puzzleObjects = null;
-		allSnakes = null;
-//		activeSnake = allSnakes[0];
+		puzzleObjects = new List<BoardObject>();
+		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
+		allSnakes = new List<Snake> (new Snake[] {activeSnake});
 		pastSnakes = new List<Snake>(new Snake[] {});
+		Debug.Log("hello world");  
 		updateBoard ();
 	}
 
@@ -90,13 +162,15 @@ public class GameLoop : MonoBehaviour {
 
 	}
 
+	public Text gameTimeLabel;
+
 	private Map map;
 	private int mapWidth, mapHeight;
 	private bool keyboardLock;
-	private int gameTime {
-		set { /*updateLabel*/}
+	private int gameTime; /*{
+		set { gameTimeLabel.text = gameTime.ToString ();}
 		get { return gameTime; }
-	} //current timestep of game
+	}*/ //current timestep of game
 	private Snake activeSnake;
 	private List<Snake> pastSnakes;
 	private List<Snake> allSnakes; //list of all snakes that exist in the puzzle
@@ -109,9 +183,14 @@ public class GameLoop : MonoBehaviour {
 	void move(BoardObject obj, Vector2 direction){
 		Vector2 newPos = obj.getPositionAtTime(gameTime)[-1] + direction; 
 		if (canMove(obj, newPos)){
-			// if game time is zero and the move is valid, this is the special case
+			// if game time is zero, this is the special case
 			// reset the past snake if it's in there
 			// disable the snake selection panel
+			if (gameTime == 0 && activeSnake != null) {
+				confirmActiveSnake ();
+				disableSelectionPanel ();
+				// TODO disable the snake selection panel
+			}
 			gameTime++;
 			obj.moveTo (newPos);
 			updateBoard ();
@@ -155,14 +234,14 @@ public class GameLoop : MonoBehaviour {
 		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
 		foreach (var boardEvent in boardEvents){
-			var obj0 = boardEvent.getObjectPair ()[0];
-			var obj1 = boardEvent.getObjectPair ()[1];
+			BoardObject obj0 = boardEvent.getObjectPair ()[0];
+			BoardObject obj1 = boardEvent.getObjectPair ()[1];
 
 			if ((obj0 == activeSnake && obj1.isLethal ()) || (obj1 == activeSnake && obj0.isLethal ())) {
 				collision (boardEvent.getPos ());
-			} else if (obj0 is Goal && obj1 is Snake && obj0.getID () == obj1.getID ()) {
+			} else if (obj0 is Goal && obj1 is Snake && ((Goal)obj0).getColor ().Equals (((Snake)obj1).getColor ())) {
 				exitPosition = boardEvent.getPos ();
-			} else if (obj1 is Goal && obj0 is Snake && obj0.getID () == obj1.getID ()) {
+			} else if (obj1 is Goal && obj0 is Snake && ((Snake)obj1).getColor ().Equals  (((Goal)obj1).getColor ())) {
 				exitPosition = boardEvent.getPos ();
 			} else {
 				//this means a snake has collided with something that is not its goal, do nothing
@@ -183,7 +262,7 @@ public class GameLoop : MonoBehaviour {
 
 	//
 	void reachedExit(Vector2 exitCoord){
-		//keyboardLock = true;
+		keyboardLock = true;
 		if (snakesStillOnBoardAtTimeStep (gameTime)) {
 			gameTime++;
 			updateBoard ();
@@ -195,8 +274,8 @@ public class GameLoop : MonoBehaviour {
 			} else {
 				gameTime = 0;
 				updateBoard ();
-				//put the game in a neutral state
-				//activeSnake = null;
+				updateSnakeSelectionPanel ();
+				activeSnake = null;
 				//keyboardLock = false;
 			}
 		}
@@ -219,7 +298,6 @@ public class GameLoop : MonoBehaviour {
 	//Reset the gameTime to 0 and reset the story of the activeSnake to 0, then redraw the board with updateBoard
 	void rollBackTime(){
 		gameTime = 0;
-		activeSnake.resetStory ();
 		updateBoard ();
 	}
 
@@ -235,17 +313,23 @@ public class GameLoop : MonoBehaviour {
 		}
 	}
 
+	public void selectSnakeatIndex( int snakeIndex) {
+		activeSnake = allSnakes [snakeIndex];
+		keyboardLock = false;
+	}
+
+	// If the selected snake was already played, reset its story and remove it from past snakes
+	public void confirmActiveSnake(){
+		if (pastSnakes.Contains(activeSnake)) {
+			pastSnakes.Remove (activeSnake);
+			activeSnake.resetStory();
+		}
+	}
+
 
 	//timer func
 	//if (gameTime > 0) {
 	//rewind();
 	//}
-
-//	private void alertSnakeSelectionPanel(){
-//		List<bool> = ;
-//	
-//	}
-
-//	public Action InitButtonColors = (List<Color>) => {};
 
 }
