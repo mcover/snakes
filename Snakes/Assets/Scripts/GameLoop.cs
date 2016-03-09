@@ -37,6 +37,10 @@ public class GameLoop : MonoBehaviour {
 		//run animation
 	}
 
+	private void disableSelectionPanel() {
+		
+	}
+
     public void loadLevel(int level)
     {
         TextAsset txt = (TextAsset)Resources.Load("levels/level" + level.ToString(), typeof(TextAsset));
@@ -100,7 +104,8 @@ public class GameLoop : MonoBehaviour {
                 }
             }
         }
-
+		setSnakeSelectionPanel ();
+		updateBoard ();
     }
 
 	// Use this for initialization
