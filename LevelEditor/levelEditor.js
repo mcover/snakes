@@ -1,4 +1,10 @@
 $(function() {
+    var headingMap = {
+        'up': [0,-1],
+        'right': [1, 0],
+        'left': [-1, 0],
+        'down': [1, 0]
+    };
     var $mapContainer = $('#map-container');
     var $outputBox = $('#output-box');
 
@@ -13,6 +19,7 @@ $(function() {
         if ($lastOver && $lastOver.length) {
             $lastOver.removeClass();
             $lastOver.attr('class', $this.attr('class'));
+            $lastOver.attr('heading', $this.attr('heading'));
         }
     });
 
@@ -37,17 +44,33 @@ $(function() {
     $('#build-map-btn').click(buildMap);
 
     var printSetup = function() {
-        var output = '';
+        var width = Number($('#map-width-input').val());
+        var height = Number($('#map-height-input').val());
+        var output = 'dims,' + width + ',' + height + '\r';
         var objsCount = 0;
         $mapContainer.find('td').each(function() {
             var $this = $(this);
-            if ($this.attr('class')) {
+            var classStr = $this.attr('class');
+            if (classStr) {
                 objsCount += 1;
-                output += $this.attr('class') + ' ' + $this.data('x') + ' ' + $this.data('y') + '\r';
+                var split = classStr.split('-');
+                var type = split[0];
+                if (type == 'snake') {
+                    var color = split[1];
+                    var heading = headingMap[$this.attr('heading')];
+                    var snakeLength = $('#' + color + '-snake-length-input').val();
+                    output += type + ',' + $this.data('x') + ',' + $this.data('y') + ',' + snakeLength + ',' + heading[0] + ',' + heading[1] + ',' + color +  '\r';
+                } else if (type == 'goal') {
+                    var color = split[1];
+                    output += type + ',' + $this.data('x') + ',' + $this.data('y') + ',' + color + '\r';
+
+                } else if (type == 'wall') {
+                    output += type + ',' + $this.data('x') + ',' + $this.data('y') + '\r';
+                }
             }
         });
         $outputBox.text(output);
-        $outputBox.attr('rows', objsCount);
+        $outputBox.attr('rows', objsCount+3);
     };
 
     $('#print-map-btn').click(printSetup);

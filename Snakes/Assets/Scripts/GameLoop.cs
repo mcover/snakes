@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class GameLoop : MonoBehaviour {
 
-	//snake selection UI
-	public Canvas snakeSelectionPanel;
 
 	//initialization of the snake buttons based upon snake colors
 	private void setSnakeSelectionPanel(){
@@ -32,10 +30,17 @@ public class GameLoop : MonoBehaviour {
         Camera.current.GetComponent<UIManager>().UpdateSnakeButtons(complete);
     }
 
+	//
     private void enableSelectionPanel(){
-		snakeSelectionPanel.enabled = true;
-		//run animation
-	}
+        Camera.current.GetComponent<UIManager>().DisableSnakeSelection();
+        //run animation
+    }
+
+	private void disableSelectionPanel() {
+        Camera.current.GetComponent<UIManager>().EnableSnakeSelection();
+
+
+    }
 
     public void loadLevel(int level)
     {
@@ -106,20 +111,24 @@ public class GameLoop : MonoBehaviour {
                 }
             }
         }
-
+		setSnakeSelectionPanel ();
+		updateBoard ();
     }
 
 	// Use this for initialization
+
 	void Start () {
+		Debug.Log("starting");  
 		//statically write in data
 		mapWidth = 7;
 		mapHeight = 7;
 		gameTime = 0;
 		map = new Map (gameTime, mapWidth, mapHeight);
-		puzzleObjects = null;
-		allSnakes = null;
-//		activeSnake = allSnakes[0];
+		puzzleObjects = new List<BoardObject>();
+		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
+		allSnakes = new List<Snake> (new Snake[] {activeSnake});
 		pastSnakes = new List<Snake>(new Snake[] {});
+		Debug.Log("hello world");  
 		updateBoard ();
 	}
 
@@ -161,13 +170,15 @@ public class GameLoop : MonoBehaviour {
 
 	}
 
+	public Text gameTimeLabel;
+
 	private Map map;
 	private int mapWidth, mapHeight;
 	private bool keyboardLock;
-	private int gameTime {
-		set { /*updateLabel*/}
+	private int gameTime; /*{
+		set { gameTimeLabel.text = gameTime.ToString ();}
 		get { return gameTime; }
-	} //current timestep of game
+	}*/ //current timestep of game
 	private Snake activeSnake;
 	private List<Snake> pastSnakes;
 	private List<Snake> allSnakes; //list of all snakes that exist in the puzzle
@@ -185,6 +196,7 @@ public class GameLoop : MonoBehaviour {
 			// disable the snake selection panel
 			if (gameTime == 0 && activeSnake != null) {
 				confirmActiveSnake ();
+				disableSelectionPanel ();
 				// TODO disable the snake selection panel
 			}
 			gameTime++;
