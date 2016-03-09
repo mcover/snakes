@@ -118,6 +118,7 @@ public class GameLoop : MonoBehaviour {
 		}
 	}
 
+
 	// Check the object obj is allowed to move in position pos
 	bool canMove(BoardObject obj, Vector2 pos){
 		// Find the last position that this object occupied, (possibly the same one if gameTime = 0)

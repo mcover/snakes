@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour {
         mainCanvas.enabled = false;
         helpText.enabled = false;
         finishedLevelCanvas.enabled = false;
-	
 	}
 	
 
