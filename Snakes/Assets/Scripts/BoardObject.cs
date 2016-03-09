@@ -6,14 +6,13 @@ public class BoardObject {
     
 	private Vector2 startPos;
     public readonly bool traversable = false;
-	private string ID;
 
     public BoardObject(Vector2 startPos){
         this.startPos = startPos;
     }
 
 	//returns list of all positions object takes at time t
-	public List<Vector2> getPositionAtTime(int t){
+	public virtual List<Vector2> getPositionAtTime(int t){
 //		if (startPos == null) {
 //            return null;
 //		}
@@ -31,16 +30,12 @@ public class BoardObject {
 	}
 
 	//add position to story
-	public void moveTo(Vector2 pos){
-
+	public virtual void moveTo(Vector2 pos){
 	}
 
 
-	public string getID(){
-		return ID;
-	}
 
-	public bool isLethal() {
+	public virtual bool isLethal() {
 		return false;
 	}
 }

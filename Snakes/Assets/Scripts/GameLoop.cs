@@ -3,8 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-
 public class GameLoop : MonoBehaviour {
+
 
 
 	//initialization of the snake buttons based upon snake colors
@@ -22,7 +22,7 @@ public class GameLoop : MonoBehaviour {
 		List<bool> complete = new List<bool> (allSnakes.Count);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
 		for (int i = 0; i < allSnakes.Count; i++) {
 			foreach (Snake snake in pastSnakes){
-				if (snake.getID () == allSnakes [i].getID ()) {
+				if (snake.getColor () == allSnakes [i].getColor ()) {
 					complete [i] = true;
 				}
 			}
@@ -124,12 +124,15 @@ public class GameLoop : MonoBehaviour {
 		mapHeight = 7;
 		gameTime = 0;
 		map = new Map (gameTime, mapWidth, mapHeight);
-		puzzleObjects = new List<BoardObject>();
+		Vector2 goalPos = new Vector2 (1, 2);	
+		Goal goal = new Goal (goalPos, Color.black); 
+		puzzleObjects = new List<BoardObject>((new BoardObject[] {}));
 		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
 		allSnakes = new List<Snake> (new Snake[] {activeSnake});
 		pastSnakes = new List<Snake>(new Snake[] {});
-		Debug.Log("hello world");  
 		updateBoard ();
+		move (activeSnake, Vector2.up);
+		Debug.Log ("Position of the active snake after movement" + activeSnake.getHead ());
 	}
 
 	// Update is called once per frame
@@ -187,17 +190,21 @@ public class GameLoop : MonoBehaviour {
 	//move the snake
 	//if the move took place, call update board
 	void move(BoardObject obj, Vector2 direction){
-		Vector2 newPos = obj.getPositionAtTime(gameTime)[-1] + direction; 
+		List<Vector2> storyAtTime = obj.getPositionAtTime(gameTime);
+		Vector2 newPos = storyAtTime[storyAtTime.Count - 1] + direction;
 		if (canMove(obj, newPos)){
 			// if game time is zero, this is the special case
 			// reset the past snake if it's in there
 			// disable the snake selection panel
 			if (gameTime == 0 && activeSnake != null) {
 				confirmActiveSnake ();
-				disableSelectionPanel ();
+				//NOTE: Commented out for debugging
+//				disableSelectionPanel ();
 				// TODO disable the snake selection panel
 			}
 			gameTime++;
+			Debug.Log ("Attemt to move to new position: " + newPos	);
+			Debug.Log ("The object is: " + obj);
 			obj.moveTo (newPos);
 			updateBoard ();
 		}
@@ -208,7 +215,8 @@ public class GameLoop : MonoBehaviour {
 	bool canMove(BoardObject obj, Vector2 pos){
 		// Find the last position that this object occupied, (possibly the same one if gameTime = 0)
 		int previousIndex = Math.Max(0, gameTime - 1);
-		Vector2 previousPos = obj.getPositionAtTime (previousIndex)[-1];
+		List<Vector2> storyAtPrevTime = obj.getPositionAtTime (previousIndex);
+		Vector2 previousPos = storyAtPrevTime[storyAtPrevTime.Count - 1];
 		// Check if the position is traversable, and check if the object is walking into itself
 		if (map.isTraversable(pos) && previousPos != pos){
 			return true;

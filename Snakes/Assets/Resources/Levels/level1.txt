@@ -1,0 +1,5 @@
+dims,7,7
+snake,3,0,4,1,0,green
+snake,0,3,3,1,0,yellow
+goal,6,3,yellow
+goal,3,6,green
