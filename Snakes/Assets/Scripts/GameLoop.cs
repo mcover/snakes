@@ -9,9 +9,27 @@ public class GameLoop : MonoBehaviour {
 	//snake selection UI
 	public Canvas snakeSelectionPanel;
 
+	//initialization of the snake buttons based upon snake colors
 	private void setSnakeSelectionPanel(){
-//		snakeSelectionPanel.enabled = true;
-//		snakeSelectionPanel
+		List<Color> buttonColors = new List<Color> ();
+		foreach (Snake snake in allSnakes) {
+			buttonColors.Add (snake.getColor ());
+		}
+		//UIPanel.setButtonColors(buttonColors); //RANDI
+	}
+
+	//updates selection panel by giving a list of booleans
+	//false: snake isn't complete
+	private void updateSnakeSelectionPanel(){
+		List<bool> complete = new List<bool> (allSnakes.Count);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
+		for (int i = 0; i < allSnakes.Count; i++) {
+			foreach (Snake snake in pastSnakes){
+				if (snake.getID () == allSnakes [i].getID ()) {
+					complete [i] = true;
+				}
+			}
+		}
+		//UIPanel.updateSnakeButtons(complete);
 	}
 
 	private void enableSelectionPanel(){
@@ -31,7 +49,7 @@ public class GameLoop : MonoBehaviour {
 		map = new Map (gameTime, mapWidth, mapHeight);
 		puzzleObjects = null;
 		allSnakes = null;
-		activeSnake = allSnakes[0];
+//		activeSnake = allSnakes[0];
 		pastSnakes = new List<Snake>(new Snake[] {});
 		updateBoard ();
 	}
