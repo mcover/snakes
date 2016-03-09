@@ -141,8 +141,6 @@ public class GameLoop : MonoBehaviour {
 		//            Debug.Log(Input.mousePosition);
 		//        }
 
-
-
 		if (keyboardLock) {
 			return;
 		}
@@ -204,6 +202,7 @@ public class GameLoop : MonoBehaviour {
 			updateBoard ();
 		}
 	}
+
 
 	// Check the object obj is allowed to move in position pos
 	bool canMove(BoardObject obj, Vector2 pos){
