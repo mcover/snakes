@@ -48,8 +48,14 @@ public class GameLoop : MonoBehaviour {
         foreach (string objectString in objectStrings) {
             string[] tokens = objectString.Split(',');
             bool noParseErrors = true;
-
-            if (tokens[0] == "snake") {
+            if (tokens[0] == "dims") {
+                noParseErrors = noParseErrors
+                    & int.TryParse(tokens[1], out mapWidth)
+                    & int.TryParse(tokens[2], out mapHeight);
+                if (!noParseErrors) {
+                    Debug.LogError("ERROR PARSING DIMENSIONS" + objectString);
+                }
+            } else if (tokens[0] == "snake") {
                 int startX;
                 int startY;
                 int length;
