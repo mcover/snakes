@@ -110,15 +110,18 @@ public class GameLoop : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Debug.Log("starting");  
+
 		//statically write in data
 		mapWidth = 7;
 		mapHeight = 7;
 		gameTime = 0;
 		map = new Map (gameTime, mapWidth, mapHeight);
-		puzzleObjects = null;
-		allSnakes = null;
-//		activeSnake = allSnakes[0];
+		puzzleObjects = new List<BoardObject>();
+		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
+		allSnakes = new List<Snake> (new Snake[] {activeSnake});
 		pastSnakes = new List<Snake>(new Snake[] {});
+		Debug.Log("hello world");  
 		updateBoard ();
 	}
 
