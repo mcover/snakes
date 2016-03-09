@@ -39,7 +39,71 @@ public class GameLoop : MonoBehaviour {
 		//run animation
 	}
 
+    private void loadLevel(int level)
+    {
+        TextAsset txt = (TextAsset)Resources.Load("levels/level" + level.ToString(), typeof(TextAsset));
+        string levelString = txt.text;
+        string[] objectStrings = levelString.Split('\r');
+        allSnakes = new List<Snake>(); //list of all snakes that exist in the puzzle
+        puzzleObjects = new List<BoardObject>(); //list of all other objects inside the puzzle
 
+        foreach (string objectString in objectStrings) {
+            string[] tokens = objectString.Split(',');
+            bool noParseErrors = true;
+
+            if (tokens[0] == "snake") {
+                int startX;
+                int startY;
+                int length;
+                int headingX;
+                int headingY;
+                string colorString = tokens[6];
+                noParseErrors = noParseErrors
+                    & int.TryParse(tokens[1], out startX)
+                    & int.TryParse(tokens[2], out startY)
+                    & int.TryParse(tokens[3], out length)
+                    & int.TryParse(tokens[4], out headingX)
+                    & int.TryParse(tokens[5], out headingY);
+                Vector2 startPos = new Vector2(startX, startY);
+                Vector2 heading = new Vector2(headingX, headingY);
+                if (noParseErrors) {
+                    allSnakes.Add(new Snake(startPos, length, heading, Color.green));
+                } else {
+                    Debug.LogError("ERROR PARSING SNAKE" + objectString);
+                }
+            } else if (tokens[0] == "goal") {
+                int startX;
+                int startY;
+                string colorString = tokens[3];
+                noParseErrors = noParseErrors
+                    & int.TryParse(tokens[1], out startX)
+                    & int.TryParse(tokens[2], out startY);
+                Vector2 startPos = new Vector2(startX, startY);
+
+                if (noParseErrors) {
+                    puzzleObjects.Add(new Goal(startPos, Color.green));
+                }
+                else {
+                    Debug.LogError("ERROR PARSING GOAL" + objectString);
+                }
+            } else if (tokens[0] == "wall") {
+                int startX;
+                int startY;
+                noParseErrors = noParseErrors
+                    & int.TryParse(tokens[1], out startX)
+                    & int.TryParse(tokens[2], out startY);
+                Vector2 startPos = new Vector2(startX, startY);
+
+                if (noParseErrors) {
+                    puzzleObjects.Add(new Wall(startPos));
+                }
+                else {
+                    Debug.LogError("ERROR PARSING WALL" + objectString);
+                }
+            }
+        }
+
+    }
 
 
 	// Use this for initialization
