@@ -12,8 +12,9 @@ public class Snake : BoardObject {
 	private List<Vector2> story;
 	private List<Vector2> directionStory;
     public new readonly bool traversable = true;
+	private Color color;
 
-	public Snake(Vector2 startPos, int length, Vector2 heading, string ID) : base(startPos)
+	public Snake(Vector2 startPos, int length, Vector2 heading, string ID, Color color) : base(startPos)
     {
         this.ID = ID;
         this.length = length;
@@ -23,6 +24,7 @@ public class Snake : BoardObject {
 		this.startPos = startPos;
         this.story = new List<Vector2>();
         this.story.Add(startPos);
+		this.color = color;
     }
     //return position of the head
     public Vector2 getHead(){
@@ -74,6 +76,10 @@ public class Snake : BoardObject {
 
 	new public bool isLethal() {
 		return true;
+	}
+
+	public Color getColor() {
+		return color;
 	}
 
 	// Reset the story of the snake to the original position. (Used to rollBackTime)
