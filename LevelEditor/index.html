@@ -17,10 +17,61 @@
                 background-size: 20px 20px;
             }
 
-            td.snake {
-              background-image: url('Art/snake_face.png');
+            [heading=up] {
+                -webkit-transform: rotate(270deg);
             }
 
+            [heading=left] {
+                -webkit-transform: rotate(180deg);
+            }
+
+            [heading=right] {
+                -webkit-transform: rotate(0deg);
+            }
+
+            [heading=down] {
+                -webkit-transform: rotate(90deg);
+            }
+
+            td.snake-red {
+              background-image: url('Art/red_snake.png');
+            }
+
+            td.snake-yellow {
+              background-image: url('Art/yellow_snake.png');
+            }
+
+            td.snake-green {
+              background-image: url('Art/green_snake.png');
+            }
+
+            td.snake-blue {
+              background-image: url('Art/blue_snake.png');
+            }
+
+            td.snake-purple {
+              background-image: url('Art/purple_snake.png');
+            }
+
+            td.goal-red {
+              background-image: url('Art/red_goal.png');
+            }
+
+            td.goal-yellow {
+              background-image: url('Art/yellow_goal.png');
+            }
+
+            td.goal-green {
+              background-image: url('Art/green_goal.png');
+            }
+
+            td.goal-blue {
+              background-image: url('Art/blue_goal.png');
+            }
+
+            td.goal-purple {
+              background-image: url('Art/purple_goal.png');
+            }
             td.wall {
               background-image: url('Art/obstacle.png');
             }
@@ -37,7 +88,34 @@
         </table>
         <table id="tile-container" style="margin-left: 100px">
             <tr>
-                <td draggable="true" class="snake"></td>
+                <td draggable="true" class="snake-red" heading="left"></td>
+                <td draggable="true" class="snake-red" heading="up"></td>
+                <td draggable="true" class="snake-red" heading="right"></td>
+                <td draggable="true" class="snake-red" heading="down"></td>
+            </tr>
+            <tr>
+                <td draggable="true" class="snake-yellow" heading="left"></td>
+                <td draggable="true" class="snake-yellow" heading="up"></td>
+                <td draggable="true" class="snake-yellow" heading="right"></td>
+                <td draggable="true" class="snake-yellow" heading="down"></td>
+            </tr>
+            <tr>
+                <td draggable="true" class="snake-green" heading="left"></td>
+                <td draggable="true" class="snake-green" heading="up"></td>
+                <td draggable="true" class="snake-green" heading="right"></td>
+                <td draggable="true" class="snake-green" heading="down"></td>
+            </tr>
+            <tr>
+                <td draggable="true" class="snake-blue" heading="left"></td>
+                <td draggable="true" class="snake-blue" heading="up"></td>
+                <td draggable="true" class="snake-blue" heading="right"></td>
+                <td draggable="true" class="snake-blue" heaidng="down"></td>
+            </tr>
+            <tr>
+                <td draggable="true" class="snake-purple" heading="left"></td>
+                <td draggable="true" class="snake-purple" heading="up"></td>
+                <td draggable="true" class="snake-purple" heading="right"></td>
+                <td draggable="true" class="snake-purple" heading="down"></td>
             </tr>
             <tr>
                 <td draggable="true"></td>
@@ -45,16 +123,33 @@
             <tr>
                 <td draggable="true" class="wall"></td>
             </tr>
+            <tr>
+                <td draggable="true" class="goal-red"></td>
+                <td draggable="true" class="goal-yellow"></td>
+                <td draggable="true" class="goal-green"></td>
+                <td draggable="true" class="goal-blue"></td>
+                <td draggable="true" class="goal-purple"></td>
+            </tr>
+
         </table>
         <textarea id="output-box" cols="50" disabled>
 
         </textarea>
         <br style="clear:both"/>
+        <br />
         <div>
-            <input id="map-width-input" value="10"/>
-            <input id="map-height-input" value="10"/>
+            Width: <input id="map-width-input" value="10"/>
+            Height: <input id="map-height-input" value="10"/>
             <button id="build-map-btn">Reset Map with New Values</button>
             <button id="print-map-btn">Print Map</button>
+        </div>
+        <div>
+            <h3>Lengths</h3>
+            Red: <input id="red-snake-length-input" value="5" />
+            Yellow: <input id="yellow-snake-length-input" value="5" />
+            Green: <input id="green-snake-length-input" value="5" />
+            Blue: <input id="blue-snake-length-input" value="5" />
+            Purple: <input id="purple-snake-length-input" value="5" />
         </div>
     </body>
 </html>
