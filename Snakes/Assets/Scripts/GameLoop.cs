@@ -45,8 +45,6 @@ public class GameLoop : MonoBehaviour {
 		//            Debug.Log(Input.mousePosition);
 		//        }
 
-
-
 		if (keyboardLock) {
 			return;
 		}
