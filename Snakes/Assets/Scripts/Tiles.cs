@@ -13,14 +13,20 @@ public class Tiles: MonoBehaviour {
 
 	// private List<GameObject> mapTiles;
 		void drawEmptyBoard(int mapWidth, int mapHeight) {
+		//		GameObject tile = new GameObject();
+//		tile.tag = "Tile";
 			for (int i = 0; i < mapWidth; i++) {
 				for (int j = 0; j < mapHeight; j++) {
 					GameObject tile = new GameObject();
+//				GameObject newTile = this.gameObject.AddComponent<GameObject>("Tile");
 					SpriteRenderer tileRenderer = tile.AddComponent<SpriteRenderer> ();
-					tileRenderer.sprite = Resources.Load<Sprite>("Sprites/snake_face");
+				Sprite tileSprite = Resources.Load<Sprite>("square");
+				tileRenderer.sprite = tileSprite;
 					// transform.rotation not necessary untill handling boardObjects
 					Vector3 tilePos = new Vector3(i*tileWidth,j*tileHeight,0);
-					tile.transform.position = tilePos;
+					Vector3 newTilePos = this.gameObject.transform.position + tilePos;
+//					Debug.Log ("panel size"+this.gameObject.transform.position.ToString());	
+					tile.transform.position = newTilePos;
 				}
 			}
 		}
@@ -28,7 +34,6 @@ public class Tiles: MonoBehaviour {
 
 	// I would personally add all the sprites you want as components to your GameObject and 
 	// activate/deactivate the sprites as necessary.
-
 		void drawUpdates() {
 		
 		}
