@@ -12,7 +12,7 @@ public class Goal : BoardObject {
         this.color = color;
     }
 
-	new public Color getColor(){
+	public Color getColor(){
 		return color;
 	}
 

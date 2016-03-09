@@ -23,6 +23,7 @@ public class Snake : BoardObject {
         this.story = new List<Vector2>();
         this.story.Add(startPos);
 		this.color = color;
+		Debug.Log (this.color);
     }
     //return position of the head
     public Vector2 getHead(){
@@ -33,7 +34,7 @@ public class Snake : BoardObject {
 
 	//add position to story, and newDirection to directionStory
 	// NOTE: If we want to teleport the snake to a cell far away, we will need to pass a new heading
-	new public void moveTo(Vector2 pos){
+	 public override void moveTo(Vector2 pos){
 //		if (story == null || story.Count == 0) {
 //            
 //		}
@@ -41,6 +42,7 @@ public class Snake : BoardObject {
 //            
 //		}
 		// Compute new direction of the snake and add it to the directionStory  
+		Debug.Log("Correctly inherited");
 		Vector2 prevPos = this.getHead ();
 		Vector2 newDirection = pos - prevPos;
 		directionStory.Add (newDirection);

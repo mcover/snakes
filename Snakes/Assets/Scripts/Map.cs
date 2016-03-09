@@ -6,7 +6,7 @@ using System;
 public class Map {
 
     private int time; //time step map represents
-    private List<BoardObject>[,] map; //2d array of arrays of boardObjects
+    public List<BoardObject>[,] map; //2d array of arrays of boardObjects
     private int width;
     private int height;
 
