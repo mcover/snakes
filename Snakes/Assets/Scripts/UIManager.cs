@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour {
     public Canvas startCanvas;
@@ -10,6 +11,9 @@ public class UIManager : MonoBehaviour {
     public Canvas mainCanvas;
     public Text helpText;
     public Canvas finishedLevelCanvas;
+   
+
+    public List<Button> buttons;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +24,10 @@ public class UIManager : MonoBehaviour {
         mainCanvas.enabled = false;
         helpText.enabled = false;
         finishedLevelCanvas.enabled = false;
+        foreach (Button snakeButton in buttons)
+        {
+            snakeButton.enabled = false;
+        }
 	
 	}
 	
@@ -88,5 +96,39 @@ public class UIManager : MonoBehaviour {
             Debug.Log(helpText.enabled);
         }
 
+    }
+    public void SetColors(List<Color> buttonColors)
+    {
+        
+        for (int i=0; i< buttons.Count;i++)
+        {
+            if (i < buttonColors.Count)
+            {
+                buttons[i].enabled = true;
+                var buttonColor = buttons[i].colors;
+                buttonColor.normalColor = buttonColors[i];
+                buttons[i].colors = buttonColor;
+            }
+            else
+            {
+                buttons[i].enabled = false; //makes unused buttons go away?
+            }
+        }
+    }
+    public void UpdateSnakeButtons(List<bool> completed)
+    {
+        for (int i=0; i< completed.Count;i++)
+        {
+            if (completed[i])
+            {
+                Sprite buttonSprite = Resources.Load<Sprite>("completed_square");
+                buttons[i].image.sprite = buttonSprite;
+            }
+            else
+            {
+                Sprite buttonSprite = Resources.Load<Sprite>("square");
+                buttons[i].image.sprite = buttonSprite;
+            }
+        }
     }
 }
