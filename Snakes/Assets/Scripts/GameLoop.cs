@@ -113,9 +113,13 @@ public class GameLoop : MonoBehaviour {
 	void move(BoardObject obj, Vector2 direction){
 		Vector2 newPos = obj.getPositionAtTime(gameTime)[-1] + direction; 
 		if (canMove(obj, newPos)){
-			// if game time is zero and the move is valid, this is the special case
+			// if game time is zero, this is the special case
 			// reset the past snake if it's in there
 			// disable the snake selection panel
+			if (gameTime == 0 && activeSnake != null) {
+				confirmActiveSnake ();
+				// TODO disable the snake selection panel
+			}
 			gameTime++;
 			obj.moveTo (newPos);
 			updateBoard ();
@@ -240,6 +244,14 @@ public class GameLoop : MonoBehaviour {
 	public void selectSnakeatIndex( int snakeIndex) {
 		activeSnake = allSnakes [snakeIndex];
 		keyboardLock = false;
+	}
+
+	// If the selected snake was already played, reset its story and remove it from past snakes
+	public void confirmActiveSnake(){
+		if (pastSnakes.Contains(activeSnake)) {
+			pastSnakes.Remove (activeSnake);
+			activeSnake.resetStory();
+		}
 	}
 
 
