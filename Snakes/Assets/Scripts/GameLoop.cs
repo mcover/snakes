@@ -32,6 +32,7 @@ public class GameLoop : MonoBehaviour {
         Camera.current.GetComponent<UIManager>().UpdateSnakeButtons(complete);
     }
 
+	//
     private void enableSelectionPanel(){
 		snakeSelectionPanel.enabled = true;
 		//run animation
@@ -109,7 +110,7 @@ public class GameLoop : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {
+	void Start () {	
 		//statically write in data
 		mapWidth = 7;
 		mapHeight = 7;
@@ -160,13 +161,15 @@ public class GameLoop : MonoBehaviour {
 
 	}
 
+	public Text gameTimeLabel;
+
 	private Map map;
 	private int mapWidth, mapHeight;
 	private bool keyboardLock;
-	private int gameTime {
-		set { /*updateLabel*/}
+	private int gameTime; /*{
+		set { gameTimeLabel.text = gameTime.ToString ();}
 		get { return gameTime; }
-	} //current timestep of game
+	}*/ //current timestep of game
 	private Snake activeSnake;
 	private List<Snake> pastSnakes;
 	private List<Snake> allSnakes; //list of all snakes that exist in the puzzle
@@ -184,6 +187,7 @@ public class GameLoop : MonoBehaviour {
 			// disable the snake selection panel
 			if (gameTime == 0 && activeSnake != null) {
 				confirmActiveSnake ();
+				disableSelectionPanel ();
 				// TODO disable the snake selection panel
 			}
 			gameTime++;
