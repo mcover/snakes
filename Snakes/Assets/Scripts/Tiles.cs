@@ -2,10 +2,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 public class Tiles: MonoBehaviour {
 	private int tileWidth = 100;
 	private int tileHeight = 100;
+    public Canvas tileCanvas;
 	// Use this for initialization - init with empty board here?
 	void Start () {
 		drawEmptyBoard (7,7);
@@ -18,15 +21,20 @@ public class Tiles: MonoBehaviour {
 			for (int i = 0; i < mapWidth; i++) {
 				for (int j = 0; j < mapHeight; j++) {
 					GameObject tile = new GameObject();
+                tile.transform.parent = tileCanvas.transform;
+                //tileCanvas.gameObject.;
 //				GameObject newTile = this.gameObject.AddComponent<GameObject>("Tile");
-					SpriteRenderer tileRenderer = tile.AddComponent<SpriteRenderer> ();
-				Sprite tileSprite = Resources.Load<Sprite>("square");
-				tileRenderer.sprite = tileSprite;
+					Image tileImage = tile.AddComponent<Image> ();
+                
+				Sprite tileSprite = Resources.Load<Sprite>("square") as Sprite;
+				tileImage.sprite = tileSprite;
+                
 					// transform.rotation not necessary untill handling boardObjects
-					Vector3 tilePos = new Vector3(i*tileWidth,j*tileHeight,0);
+					Vector3 tilePos = new Vector3(i*tileWidth,j*tileHeight,0); //shouldn't this be related to the total space the board has?
 					Vector3 newTilePos = this.gameObject.transform.position + tilePos;
-//					Debug.Log ("panel size"+this.gameObject.transform.position.ToString());	
-					tile.transform.position = newTilePos;
+                //					Debug.Log ("panel size"+this.gameObject.transform.position.ToString());	
+                //tile.transform.position = newTilePos;
+                tile.transform.position = tilePos;
 				}
 			}
 		}
