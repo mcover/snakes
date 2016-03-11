@@ -1,4 +1,4 @@
-dims,9,9
+dims,7,7
 wall,0,0
 wall,1,0
 wall,2,0
