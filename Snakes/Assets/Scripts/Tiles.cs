@@ -38,8 +38,7 @@ public class Tiles: MonoBehaviour {
 					Debug.Log	("ratio");
 					Debug.Log (scaleRatio);
 					Debug.Log (pWidth/mapWidth);
-					// TODO: change to square when outlined tile image is ready - completed_square for debugging purposes
-				    Sprite tileSprite = Resources.Load<Sprite>("completed_square") as Sprite;
+				    Sprite tileSprite = Resources.Load<Sprite>("tile") as Sprite;
 				    tileImage.sprite = tileSprite;
                 
 					// transform.rotation not necessary untill handling boardObjects
