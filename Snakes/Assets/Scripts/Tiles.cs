@@ -6,48 +6,52 @@ using UnityEngine.UI;
 
 
 public class Tiles: MonoBehaviour {
-	
-
-    public int boardWidth;
-    public int boardHeight;
-
-    private float tileWidth;
-    private float tileHeight;
-
+//	private int tileWidth = 10;
+//	private int tileHeight = 10;
     //public Transform tileCanvas;
-    // Use this for initialization - init with empty board here?
-    void Start () {
+	// Use this for initialization - init with empty board here?
+	void Start () {
 		drawEmptyBoard (7,7);
 	}
 
 	// private List<GameObject> mapTiles;
 		void drawEmptyBoard(int mapWidth, int mapHeight) {
-        //		GameObject tile = new GameObject();
-        //		tile.tag = "Tile";
-        tileHeight = boardHeight*1.0f / mapHeight;
-        tileWidth = boardWidth*1.0f / mapWidth;
-        Vector3 topRight = new Vector3(-boardWidth*1.0f / 2.0f, -boardHeight*1.0f / 2.0f, 0f);
-        Vector3 offset = topRight + this.transform.position;
-			for (int i = 0; i < mapWidth; i++) {
-				for (int j = 0; j < mapHeight; j++) {
+		//		GameObject tile = new GameObject();
+//		tile.tag = "Tile";
+//			for (int i = 0; i < mapWidth; i++) {
+//				for (int j = 0; j < mapHeight; j++) {
 					GameObject tile = new GameObject();
-                    tile.transform.parent = this.transform;
+//                    tile.transform.parent = this.transform;
+					tile.transform.parent = this.gameObject.transform;
                     //tileCanvas.gameObject.;
 //				    GameObject newTile = this.gameObject.AddComponent<GameObject>("Tile");
 					Image tileImage = tile.AddComponent<Image> ();
-                
-				    Sprite tileSprite = Resources.Load<Sprite>("square") as Sprite;
+					RectTransform rt = tileImage.rectTransform;
+					RectTransform panelRT = (RectTransform)this.gameObject.transform;
+
+					float width = rt.rect.width;
+					float height = rt.rect.height;
+
+					float pWidth = panelRT.rect.width; // 400
+					float pHeight = panelRT.rect.height; // 400
+
+				    Sprite tileSprite = Resources.Load<Sprite>("completed_square") as Sprite;
+					Debug.Log (tile.gameObject.transform.position);
 				    tileImage.sprite = tileSprite;
-                    
+                
 					// transform.rotation not necessary untill handling boardObjects
-					Vector3 tilePos = new Vector3(i*tileWidth,j*tileHeight,0); //shouldn't this be related to the total space the board has?
-					//Vector3 newTilePos = this.gameObject.transform.position + tilePos;
+					Vector3 tilePos = new Vector3(0,0,0);
+//					Vector3 tilePos = new Vector3(i*tileWidth,j*tileHeight,0); //shouldn't this be related to the total space the board has?
+					Vector3 panelWidthOffset = new Vector3(-pWidth/2,pHeight/2,0);
+					Vector3 panelOffset = this.gameObject.transform.position + panelWidthOffset;
                 	//Debug.Log ("panel size"+this.gameObject.transform.position.ToString());	
                     //tile.transform.position = newTilePos;
-
-                    tile.transform.position = tilePos+offset;
-				}
-			}
+					Vector3 offset = new Vector3 (width/2, -height/2,0);
+//					tile.transform.position = tilePos + offset; 
+//					tile.transform.localScale = new Vector3 (1,1,1);
+					tile.transform.localPosition = tilePos + panelWidthOffset + offset;
+//				}
+//			}
 		}
 
 
