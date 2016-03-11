@@ -11,7 +11,7 @@ public class Tiles: MonoBehaviour {
     //public Transform tileCanvas;
 	// Use this for initialization - init with empty board here?
 	void Start () {
-		drawEmptyBoard (7,7);
+		drawEmptyBoard (2,2);
 	}
 
 	// private List<GameObject> mapTiles;
@@ -22,10 +22,8 @@ public class Tiles: MonoBehaviour {
 					GameObject tile = new GameObject();
 //                    tile.transform.parent = this.transform;
 					tile.transform.parent = this.gameObject.transform;
-                    //tileCanvas.gameObject.;
 //				    GameObject newTile = this.gameObject.AddComponent<GameObject>("Tile");
 					Image tileImage = tile.AddComponent<Image> ();
-					
 					RectTransform rt = tileImage.rectTransform;
 					RectTransform panelRT = (RectTransform)this.gameObject.transform;
 
@@ -34,8 +32,10 @@ public class Tiles: MonoBehaviour {
 					
 					float pWidth = panelRT.rect.width; // 400
 					float pHeight = panelRT.rect.height; // 400
+
 					float scaleRatio = (float)(pWidth/mapWidth)/width;
-					tileImage.transform.localScale = new Vector3 (scaleRatio,scaleRatio,1);
+
+					tile.transform.localScale = new Vector3 (scaleRatio,scaleRatio,1);
 					Debug.Log	("ratio");
 					Debug.Log (scaleRatio);
 					Debug.Log (pWidth/mapWidth);
