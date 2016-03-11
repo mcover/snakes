@@ -40,7 +40,7 @@ public class Tiles: MonoBehaviour {
 					Debug.Log (scaleRatio);
 					Debug.Log (pWidth/mapWidth);
 
-				    Sprite tileSprite = Resources.Load<Sprite>("square") as Sprite;
+				    Sprite tileSprite = Resources.Load<Sprite>("tile") as Sprite;
 				    tileImage.sprite = tileSprite;
                 
 					// transform.rotation not necessary untill handling boardObjects
