@@ -52,13 +52,15 @@ public class Snake : BoardObject {
 
 	//return list of positions snake occupies at given time
 	//Note: assuming t starts at 0 at that snakes are instantiated with nonempty story
-	public new List<Vector2> getPositionAtTime(int t){
+	public override List<Vector2> getPositionAtTime(int t){
+		Debug.Log ("HADS;LFKJA;SDLKFJ;ALSDKFJ");
 		if (story == null || story.Count == 0) {
             return null;
 		}
 		if (t > story.Count){
             return null;
 		}
+		Debug.Log ("IN SNAKE STORY" + this.story);
 		int tailIndex = Math.Max(0, t - length);
         return story.GetRange(tailIndex, t + 1);
 	}
@@ -78,7 +80,8 @@ public class Snake : BoardObject {
 		return true;
 	}
 
-	public Color getColor() {
+	public override Color getColor() {
+		Debug.Log ("Snake color called");
 		return color;
 	}
 

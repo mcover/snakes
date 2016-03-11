@@ -126,6 +126,7 @@ public class GameLoop : MonoBehaviour {
 		Vector2 goalPos = new Vector2 (1, 2);	
 		Goal goal = new Goal (goalPos, Color.black); 
 		puzzleObjects = new List<BoardObject>((new BoardObject[] {}));
+		puzzleObjects.Add (goal);
 		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
 		allSnakes = new List<Snake> (new Snake[] {activeSnake});
 		pastSnakes = new List<Snake>(new Snake[] {});
@@ -189,22 +190,27 @@ public class GameLoop : MonoBehaviour {
 	//move the snake
 	//if the move took place, call update board
 	void move(BoardObject obj, Vector2 direction){
+		Debug.Log ("MOVING SNAKE");
 		List<Vector2> storyAtTime = obj.getPositionAtTime(gameTime);
 		Vector2 newPos = storyAtTime[storyAtTime.Count - 1] + direction;
 		if (canMove(obj, newPos)){
+			Debug.Log ("OBJECT CAN MOVE");
 			// if game time is zero, this is the special case
 			// reset the past snake if it's in there
 			// disable the snake selection panel
 			if (gameTime == 0 && activeSnake != null) {
+				Debug.Log ("special case of game time = 0");
 				confirmActiveSnake ();
 				//NOTE: Commented out for debugging
 //				disableSelectionPanel ();
 				// TODO disable the snake selection panel
 			}
 			gameTime++;
-			Debug.Log ("Attemt to move to new position: " + newPos	);
-			Debug.Log ("The object is: " + obj);
+//			Debug.Log ("Attemt to move to new position: " + newPos	);
+//		Debug.Log ("The object is: " + obj);
 			obj.moveTo (newPos);
+
+//			Debug.Log ("Snake head position " + (Snake(obj)).getHead() );
 			updateBoard ();
 		}
 	}
@@ -212,6 +218,7 @@ public class GameLoop : MonoBehaviour {
 
 	// Check the object obj is allowed to move in position pos
 	bool canMove(BoardObject obj, Vector2 pos){
+//		Debug.Log ("Can move being called");
 		// Find the last position that this object occupied, (possibly the same one if gameTime = 0)
 		int previousIndex = Math.Max(0, gameTime - 1);
 		List<Vector2> storyAtPrevTime = obj.getPositionAtTime (previousIndex);
@@ -235,27 +242,36 @@ public class GameLoop : MonoBehaviour {
 	//put all objects in the map at the current time
 	void putObjs(){
 		map.put (activeSnake); //put in the active snake
-		foreach (var obstacle in puzzleObjects){
+//		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
+		foreach (BoardObject obstacle in puzzleObjects){
+			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
 			map.put (obstacle); // put in all obstacles
 		}
 		foreach (var snake in pastSnakes){
 			map.put(snake); // put in the snakes you've already moved
 		}
+
 	}
 
 	//parses map.checkTiles(), runs any animations/game logic needed
 	void parseCheckTiles(){
+//
+//		Debug.Log ("Checking tiles");
+//		Debug.Log ("snake head is at " + activeSnake.getHead ());
+//		Debug.Log ("map position 1,2" + map.map [1, 2].Count);
+
 		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
+		Debug.Log ("Board event list size = " + boardEvents.Count);
 		foreach (var boardEvent in boardEvents){
 			BoardObject obj0 = boardEvent.getObjectPair ()[0];
 			BoardObject obj1 = boardEvent.getObjectPair ()[1];
-
+			Debug.Log ("Getting board event");
 			if ((obj0 == activeSnake && obj1.isLethal ()) || (obj1 == activeSnake && obj0.isLethal ())) {
 				collision (boardEvent.getPos ());
 			} else if (obj0 is Goal && obj1 is Snake && ((Goal)obj0).getColor ().Equals (((Snake)obj1).getColor ())) {
 				exitPosition = boardEvent.getPos ();
-			} else if (obj1 is Goal && obj0 is Snake && ((Snake)obj1).getColor ().Equals  (((Goal)obj1).getColor ())) {
+			} else if (obj1 is Goal && obj0 is Snake && obj0.getColor ().Equals  (obj1.getColor ())) {
 				exitPosition = boardEvent.getPos ();
 			} else {
 				//this means a snake has collided with something that is not its goal, do nothing
@@ -264,6 +280,7 @@ public class GameLoop : MonoBehaviour {
 
 		if (exitPosition.x != -1) { //-1 is magic value as there can never be negative position
 			reachedExit (exitPosition);
+			Debug.Log ("reached exit");
 		}
 	}
 
