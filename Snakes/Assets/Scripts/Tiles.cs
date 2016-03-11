@@ -40,13 +40,13 @@ public class Tiles: MonoBehaviour {
 					Debug.Log (scaleRatio);
 					Debug.Log (pWidth/mapWidth);
 
-				    Sprite tileSprite = Resources.Load<Sprite>("completed_square") as Sprite;
+				    Sprite tileSprite = Resources.Load<Sprite>("square") as Sprite;
 				    tileImage.sprite = tileSprite;
                 
 					// transform.rotation not necessary untill handling boardObjects
-					Vector3 tilePos = new Vector3(i*width*scaleRatio,j*height*scaleRatio,0);
-					Vector3 panelOffset = new Vector3(-pWidth/2,-pHeight/2,0);
-					Vector3 tileOffset = new Vector3 (width*scaleRatio/2, -height*scaleRatio/2,0);
+					Vector3 tilePos = new Vector3(i*width*scaleRatio,j*height*scaleRatio,0f);
+					Vector3 panelOffset = new Vector3(-pWidth/2f,-pHeight/2f,0f);
+					Vector3 tileOffset = new Vector3 (width*scaleRatio/2f, height*scaleRatio/2f,0f);
 					
 					tile.transform.localPosition = tilePos + panelOffset + tileOffset;
 				}
