@@ -6,12 +6,11 @@ using UnityEngine.UI;
 
 
 public class Tiles: MonoBehaviour {
-//	private int tileWidth = 10;
-//	private int tileHeight = 10;
+	// store the GameObjects in a List
+	public List<GameObject>[,] tileList;
     //public Transform tileCanvas;
-	// Use this for initialization - init with empty board here?
 	void Start () {
-		drawEmptyBoard (2,2);
+		drawEmptyBoard (5,5);
 	}
 
 	// private List<GameObject> mapTiles;
@@ -39,8 +38,8 @@ public class Tiles: MonoBehaviour {
 					Debug.Log	("ratio");
 					Debug.Log (scaleRatio);
 					Debug.Log (pWidth/mapWidth);
-
-				    Sprite tileSprite = Resources.Load<Sprite>("square") as Sprite;
+					// TODO: change to square when outlined tile image is ready - completed_square for debugging purposes
+				    Sprite tileSprite = Resources.Load<Sprite>("completed_square") as Sprite;
 				    tileImage.sprite = tileSprite;
                 
 					// transform.rotation not necessary untill handling boardObjects
@@ -49,19 +48,25 @@ public class Tiles: MonoBehaviour {
 					Vector3 tileOffset = new Vector3 (width*scaleRatio/2f, height*scaleRatio/2f,0f);
 					
 					tile.transform.localPosition = tilePos + panelOffset + tileOffset;
+				//	store tile GameObjects to access later for updates
+//					tileList[i,j].Add(tile);
 				}
 			}
 		}
-
-
+		
 	// I would personally add all the sprites you want as components to your GameObject and 
 	// activate/deactivate the sprites as necessary.
 		void drawUpdates() {
-		
+			
 		}
 		
 	// or drawSnakes? allSnakes? pastSnakes?
-		void drawSnakes() {
+		public void drawSnakes(int gameTime, Snake activeSnake, List<Snake> pastSnakes) {
+			// drawing active snake
+			List<Vector2> activePositionList = activeSnake.getPositionAtTime(gameTime);
+			foreach (Vector2 pos in activePositionList) {
+				Vector3 pos3 = pos;
+			}
 		}
 
 		// Tile object should read information from GameLoop
