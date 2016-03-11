@@ -10,12 +10,12 @@ public class Tiles: MonoBehaviour {
 	public List<GameObject>[,] tileList;
     //public Transform tileCanvas;
 	void Start () {
-		drawEmptyBoard (5,5);
+//		drawEmptyBoard (5,5);
 	}
 
 	// private List<GameObject> mapTiles;
-		void drawEmptyBoard(int mapWidth, int mapHeight) {
-		
+		public void drawEmptyBoard(int mapWidth, int mapHeight) {
+		Debug.Log ("level dim" + mapWidth + " " + mapHeight);
 			for (int i = 0; i < mapWidth; i++) {
 				for (int j = 0; j < mapHeight; j++) {
 					GameObject tile = new GameObject();
@@ -64,7 +64,8 @@ public class Tiles: MonoBehaviour {
 			// drawing active snake
 			List<Vector2> activePositionList = activeSnake.getPositionAtTime(gameTime);
 			foreach (Vector2 pos in activePositionList) {
-				Vector3 pos3 = pos;
+//				GameObject tile = tileList[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
+//				Image image = tile.GetComponent<Image>();
 			}
 		}
 

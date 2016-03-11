@@ -4,16 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 public class GameLoop : MonoBehaviour {
-
-
-
+	public GameObject tileReference;
 	//initialization of the snake buttons based upon snake colors
 	private void setSnakeSelectionPanel(){
 		List<Color> buttonColors = new List<Color> ();
 		foreach (Snake snake in allSnakes) {
 			buttonColors.Add (snake.getColor ());
 		}
-        Camera.current.GetComponent<UIManager>().SetColors(buttonColors); //grabs UI manager and calls the fuction which sets the colors.
+        this.GetComponent<UIManager>().SetColors(buttonColors); //grabs UI manager and calls the fuction which sets the colors.
 	}
 
 	//updates selection panel by giving a list of booleans
@@ -27,23 +25,24 @@ public class GameLoop : MonoBehaviour {
 				}
 			}
 		}
-        Camera.current.GetComponent<UIManager>().UpdateSnakeButtons(complete);
+        this.GetComponent<UIManager>().UpdateSnakeButtons(complete);
     }
 
 	//
     private void enableSelectionPanel(){
-        Camera.current.GetComponent<UIManager>().DisableSnakeSelection();
+        this.GetComponent<UIManager>().DisableSnakeSelection();
         //run animation
     }
 
 	private void disableSelectionPanel() {
-        Camera.current.GetComponent<UIManager>().EnableSnakeSelection();
+		this.GetComponent<UIManager>().EnableSnakeSelection();
 
 
     }
 
     public void loadLevel(int level)
-    {
+    {	
+		Debug.Log ("level" + level);
         TextAsset txt = (TextAsset)Resources.Load("levels/level" + level.ToString(), typeof(TextAsset));
         string levelString = txt.text;
         string[] objectStrings = levelString.Split('\r');
@@ -230,6 +229,7 @@ public class GameLoop : MonoBehaviour {
 		putObjs ();
 		parseCheckTiles ();
 		//TODO trigger the drawing of the board
+		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
 	}
 
 	//put all objects in the map at the current time

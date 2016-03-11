@@ -12,7 +12,6 @@ public class UIManager : MonoBehaviour {
     public Text helpText;
     public Canvas finishedLevelCanvas;
     public GameObject snakeSelectionBlocker;
-   
 
     public List<Button> buttons;
 
@@ -75,8 +74,8 @@ public class UIManager : MonoBehaviour {
         //load level num
         levelCanvas.enabled = false;
         mainCanvas.enabled = true;
-        //call GameLoop Function
-        //Camera.current.GetComponent<GameLoop>().function(int num);
+
+        this.GetComponent<GameLoop>().loadLevel(num);
     }
     public void BackToMenu()
     {
