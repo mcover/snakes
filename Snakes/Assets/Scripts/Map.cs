@@ -92,4 +92,15 @@ public class Map {
         }
 	}
 
+	//DRAW FUNCTIONS
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public List<BoardObject> getObjectAtPosition(Vector2 pos){
+		return map [pos.x, pos.y];
+	}
+
 }

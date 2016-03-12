@@ -67,9 +67,21 @@ public class Tiles: MonoBehaviour {
 			List<Vector2> activePositionList = activeSnake.getPositionAtTime(gameTime);
 			foreach (Vector2 pos in activePositionList) {
 				GameObject tile = tileList[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
-//				Image image = tile.GetComponent<Image>();
+
 			}
 		}
+
+	public void drawMap(Map map){
+		for (int i = 0; i < map.getWidth(); i++) {
+			for (int j = 0; j < map.getHeight(); j++) {
+				List<BoardObject> drawObjects = map.getObjectAtPosition (new Vector2 (i, j));
+				foreach (BoardObject drawThis in drawObjects) {
+					GameObject tile = tileList [Convert.ToInt32 (i), Convert.ToInt32 (j)];
+					tile.GetComponent<Image> ().GetComponent<SpriteRenderer> ().color = drawThis.getColor ();
+				}
+			}
+		}
+	}
 
 		// Tile object should read information from GameLoop
 		// and render the correct type of tile in the scene. 
