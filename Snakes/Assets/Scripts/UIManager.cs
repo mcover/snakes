@@ -107,14 +107,16 @@ public class UIManager : MonoBehaviour {
         {
             if (i < buttonColors.Count)
             {
-                buttons[i].enabled = true;
+                buttons[i].gameObject.SetActive(true);
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
                 buttons[i].colors = buttonColor;
             }
-            else
+            else if (i>=buttonColors.Count)
             {
                 buttons[i].enabled = false; //makes unused buttons go away?
+                buttons[i].gameObject.SetActive(false);
+                Debug.Log("disabling buttons");
             }
         }
     }
@@ -127,7 +129,7 @@ public class UIManager : MonoBehaviour {
                 Sprite buttonSprite = Resources.Load<Sprite>("completed_square");
                 buttons[i].image.sprite = buttonSprite;
             }
-            else
+            else if (!completed[i])
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 buttons[i].image.sprite = buttonSprite;
