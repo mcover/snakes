@@ -17,7 +17,7 @@ public class GameLoop : MonoBehaviour {
 	//updates selection panel by giving a list of booleans
 	//false: snake isn't complete
 	private void updateSnakeSelectionPanel(){
-		List<bool> complete = new List<bool> (allSnakes.Count);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
+		List<bool> complete = new List<bool> (new bool[pastSnakes.Count]);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
 		for (int i = 0; i < allSnakes.Count; i++) {
 			foreach (Snake snake in pastSnakes){
 				if (snake.getColor () == allSnakes [i].getColor ()) {
@@ -128,13 +128,13 @@ public class GameLoop : MonoBehaviour {
 		puzzleObjects = new List<BoardObject>((new BoardObject[] {}));
 		puzzleObjects.Add (goal);
 		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
-		activeSnake = new Snake (Vector2.one + Vector2.one, 1, Vector2.right, Color.red);
-		Snake secondSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
+		Snake secondSnake = new Snake (Vector2.one + Vector2.one, 1, Vector2.right, Color.red);
 		allSnakes = new List<Snake> (new Snake[] {activeSnake});
 		allSnakes.Add (secondSnake);
 		pastSnakes = new List<Snake>(new Snake[] {});
 		updateBoard ();
 		move (activeSnake, Vector2.up);
+		updateBoard ();
 		Debug.Log ("Position of the active snake after movement" + activeSnake.getHead ());
 	}
 
@@ -302,13 +302,11 @@ public class GameLoop : MonoBehaviour {
 			updateBoard ();
 		} else {
 			pastSnakes.Add (activeSnake);
-			Debug.Log("DFGKDJIGOF IOGJS IOS FGHGFIULHGUFLI LFGHU UILHGULI S!");
 
 			//you've won the level
 			if (pastSnakes.Count == allSnakes.Count) {
 				gameWin ();
 			} else {
-				Debug.Log("DFGKDJIGOF IOGJS IOS FGHGFIULHGUFLI LFGHU UILHGULI S!");
 				gameTime = 0;
 				updateBoard ();
 				updateSnakeSelectionPanel ();
