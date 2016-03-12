@@ -17,7 +17,7 @@ public class Tiles: MonoBehaviour {
 		public void drawEmptyBoard(int mapWidth, int mapHeight) {
         tileList = new GameObject[mapWidth, mapHeight];
 
-        Debug.Log ("level dim" + mapWidth + " " + mapHeight);
+//        Debug.Log ("level dim" + mapWidth + " " + mapHeight);
 			for (int i = 0; i < mapWidth; i++) {
 				for (int j = 0; j < mapHeight; j++) {
 					GameObject tile = new GameObject();
@@ -37,9 +37,9 @@ public class Tiles: MonoBehaviour {
 					float scaleRatio = (float)(pWidth/mapWidth)/width;
 
 					tile.transform.localScale = new Vector3 (scaleRatio,scaleRatio,1);
-					Debug.Log	("ratio");
-					Debug.Log (scaleRatio);
-					Debug.Log (pWidth/mapWidth);
+//					Debug.Log	("ratio");
+//					Debug.Log (scaleRatio);
+//					Debug.Log (pWidth/mapWidth);
 				    Sprite tileSprite = Resources.Load<Sprite>("tile") as Sprite;
 				    tileImage.sprite = tileSprite;
                 
