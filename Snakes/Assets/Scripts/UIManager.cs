@@ -111,6 +111,7 @@ public class UIManager : MonoBehaviour {
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
                 buttons[i].colors = buttonColor;
+                buttons[i].image.sprite = Resources.Load<Sprite>("square");
             }
             else if (i>=buttonColors.Count)
             {
