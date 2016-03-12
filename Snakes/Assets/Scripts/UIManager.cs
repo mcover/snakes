@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour {
     public Text helpText;
     public Canvas finishedLevelCanvas;
     public GameObject snakeSelectionBlocker;
+    public Transform boardPanel;
 
     public List<Button> buttons;
 
@@ -83,6 +84,7 @@ public class UIManager : MonoBehaviour {
         startCanvas.enabled = true;
         levelCanvas.enabled = false;
         finishedLevelCanvas.enabled = false;
+        ResetTiles();
     }
     public void ToggleHelpText()
     {
@@ -144,5 +146,22 @@ public class UIManager : MonoBehaviour {
     public void EnableSnakeSelection()
     {
         snakeSelectionBlocker.SetActive(false);
+    }
+    public void ResetTiles()
+    {
+        //Debug.Log("reset tiles");
+        //need to delete tiles
+        
+        //while (boardPanel.transform.childCount > 0)
+        //{
+        //    GameObject.Destroy(boardPanel.transform.GetChild(0) );
+        //    Debug.Log(boardPanel.transform.childCount);
+        //}
+        int childs = boardPanel.transform.childCount;
+        for (int i = childs - 1; i >= 0; i--)
+        {
+            GameObject.Destroy(boardPanel.transform.GetChild(i).gameObject);
+        }
+        
     }
 }
