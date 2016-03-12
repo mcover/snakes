@@ -119,32 +119,19 @@ public class GameLoop : MonoBehaviour {
                 }
             }
         }
+		activeSnake = allSnakes [0];
+		pastSnakes = new List<Snake>(new Snake[] {});
 		setSnakeSelectionPanel ();
+		Debug.Log ("GAME LOOP DRAW CALL 0");
+		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
+		Debug.Log ("GAME LOOP DRAW CALL 5");
+
 		updateBoard ();
     }
 
 	// Use this for initialization
 
 	void Start () {
-		Debug.Log("starting");  
-		//statically write in data
-		mapWidth = 7;
-		mapHeight = 7;
-		gameTime = 0;
-		map = new Map (gameTime, mapWidth, mapHeight);
-		Vector2 goalPos = new Vector2 (1, 2);	
-		Goal goal = new Goal (goalPos, Color.black); 
-		puzzleObjects = new List<BoardObject>((new BoardObject[] {}));
-		puzzleObjects.Add (goal);
-		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
-		Snake secondSnake = new Snake (Vector2.one + Vector2.one, 1, Vector2.right, Color.red);
-		allSnakes = new List<Snake> (new Snake[] {activeSnake});
-		allSnakes.Add (secondSnake);
-		pastSnakes = new List<Snake>(new Snake[] {});
-		updateBoard ();
-		move (activeSnake, Vector2.up);
-		updateBoard ();
-		Debug.Log ("Position of the active snake after movement" + activeSnake.getHead ());
 	}
 
 	// Update is called once per frame
@@ -155,7 +142,6 @@ public class GameLoop : MonoBehaviour {
 		// Probably something like buttonID
 		//            Debug.Log(Input.mousePosition);
 		//        }
-
 		if (keyboardLock) {
 			return;
 		}
@@ -236,7 +222,7 @@ public class GameLoop : MonoBehaviour {
 		List<Vector2> storyAtPrevTime = obj.getPositionAtTime (previousIndex);
 		Vector2 previousPos = storyAtPrevTime[storyAtPrevTime.Count - 1];
 		// Check if the position is traversable, and check if the object is walking into itself
-		if (map.isTraversable(pos) && previousPos != pos){
+		if (map.isTraversable(pos) && (previousPos != pos)){
 			return true;
 		}
 		return false;
@@ -248,7 +234,8 @@ public class GameLoop : MonoBehaviour {
 		putObjs ();
 		parseCheckTiles ();
 		//TODO trigger the drawing of the board
-		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
+//		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
+		tileReference.GetComponent<Tiles>().drawMap(map);
 	}
 
 	//put all objects in the map at the current time
@@ -321,7 +308,7 @@ public class GameLoop : MonoBehaviour {
 				updateSnakeSelectionPanel ();
 				activeSnake = allSnakes[1];
 				Debug.Log("Resetting active snake!");
-				//keyboardLock = false;
+				keyboardLock = false;
 			}
 		}
 		//updateboard

@@ -81,6 +81,8 @@ public class Map {
 	public bool isTraversable(Vector2 pos){
         List<BoardObject> objs = map[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
         
+		//TODO: Check that the vector is inside the boundary
+
         // if any objects are not traversable at location return false
         if (objs.Exists(x => !x.traversable))
         {
@@ -100,7 +102,7 @@ public class Map {
 		return height;
 	}
 	public List<BoardObject> getObjectAtPosition(Vector2 pos){
-		return map [((int)pos.x), ((int)pos.y)];
+		return map [Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
 	}
 
 }

@@ -15,8 +15,9 @@ public class Tiles: MonoBehaviour {
 
 	// private List<GameObject> mapTiles;
 		public void drawEmptyBoard(int mapWidth, int mapHeight) {
-        tileList = new GameObject[mapWidth, mapHeight];
-
+		Debug.Log ("Draw empty board being called");
+		tileList = new GameObject[mapWidth, mapHeight];
+		Debug.Log ("initialized tile list to " + tileList);
 //        Debug.Log ("level dim" + mapWidth + " " + mapHeight);
 			for (int i = 0; i < mapWidth; i++) {
 				for (int j = 0; j < mapHeight; j++) {
@@ -62,22 +63,24 @@ public class Tiles: MonoBehaviour {
 		}
 		
 	// or drawSnakes? allSnakes? pastSnakes?
-		public void drawSnakes(int gameTime, Snake activeSnake, List<Snake> pastSnakes) {
-			// drawing active snake
-			List<Vector2> activePositionList = activeSnake.getPositionAtTime(gameTime);
-			foreach (Vector2 pos in activePositionList) {
-				GameObject tile = tileList[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
-
-			}
-		}
+//		public void drawSnakes(int gameTime, Snake activeSnake, List<Snake> pastSnakes) {
+//			// drawing active snake
+//			List<Vector2> activePositionList = activeSnake.getPositionAtTime(gameTime);
+//			foreach (Vector2 pos in activePositionList) {
+//				GameObject tile = tileList[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
+//
+//			}
+//		}
 
 	public void drawMap(Map map){
 		for (int i = 0; i < map.getWidth(); i++) {
 			for (int j = 0; j < map.getHeight(); j++) {
 				List<BoardObject> drawObjects = map.getObjectAtPosition (new Vector2 (i, j));
 				foreach (BoardObject drawThis in drawObjects) {
-					GameObject tile = tileList [Convert.ToInt32 (i), Convert.ToInt32 (j)];
-					tile.GetComponent<Image> ().GetComponent<SpriteRenderer> ().color = drawThis.getColor ();
+					Debug.Log ("Here we are!");
+					Debug.Log ("Tile list is" + tileList);
+					GameObject tile = tileList [i, j];
+					tile.GetComponent<Image> ().color = drawThis.getColor ();
 				}
 			}
 		}
