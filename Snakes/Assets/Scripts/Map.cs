@@ -29,16 +29,19 @@ public class Map {
     //vector2 position
     //arraylist BoardObject
     public List<BoardEvent> checkTiles() {
+//		Debug.Log ("map check tiles");
         List<BoardEvent> events = new List<BoardEvent>();
         // double for loop --> for each location
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
+				
                 List<BoardObject> objs = map[i, j];
-                
+//				Debug.Log ("object list for i = " + i + " and j = " + j + " = " + objs.Count);
                 // if at least one event could occur
                 if (objs.Count >= 2) {
+					Debug.Log ("FOUND TWO OR MORE OBJECTS IN ONE SQUARE");
                     // double for loop to find each event that could occur
                     for (int firstObjectIndex = 0; firstObjectIndex < objs.Count - 1; firstObjectIndex++)
                     {
@@ -63,6 +66,7 @@ public class Map {
 	//takes any board object, places it at the positions it occupies within the map
 	public void put(BoardObject obj){
         List<Vector2> positions = obj.getPositionAtTime(time);
+//		Debug.Log ("OBJECT AT POSITION " + positions.Count);
 	    foreach (Vector2 pos in positions)
         {
             map[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)].Add(obj);
@@ -77,6 +81,8 @@ public class Map {
 	public bool isTraversable(Vector2 pos){
         List<BoardObject> objs = map[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
         
+		//TODO: Check that the vector is inside the boundary
+
         // if any objects are not traversable at location return false
         if (objs.Exists(x => !x.traversable))
         {
@@ -86,6 +92,17 @@ public class Map {
         {
             return true;
         }
+	}
+
+	//DRAW FUNCTIONS
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public List<BoardObject> getObjectAtPosition(Vector2 pos){
+		return map [Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
 	}
 
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class BoardObject { 
     
 	private Vector2 startPos;
-    public readonly bool traversable = false;
+	public bool traversable = false;
 
     public BoardObject(Vector2 startPos){
         this.startPos = startPos;
@@ -16,6 +16,7 @@ public class BoardObject {
 //		if (startPos == null) {
 //            return null;
 //		}
+//		Debug.Log("Gulio!");
 		List<Vector2> story = new List<Vector2> ();
         story.Add(startPos);
 		return story;
@@ -37,5 +38,9 @@ public class BoardObject {
 
 	public virtual bool isLethal() {
 		return false;
+	}
+
+	public virtual Color getColor(){
+		return Color.clear;
 	}
 }

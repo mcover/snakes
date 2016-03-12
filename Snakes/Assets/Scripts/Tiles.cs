@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Tiles: MonoBehaviour {
 	// store the GameObjects in a List
-	public List<GameObject>[,] tileList;
+	public GameObject[,] tileList;
     //public Transform tileCanvas;
 	void Start () {
 //		drawEmptyBoard (5,5);
@@ -15,7 +15,10 @@ public class Tiles: MonoBehaviour {
 
 	// private List<GameObject> mapTiles;
 		public void drawEmptyBoard(int mapWidth, int mapHeight) {
-		Debug.Log ("level dim" + mapWidth + " " + mapHeight);
+		Debug.Log ("Draw empty board being called");
+		tileList = new GameObject[mapWidth, mapHeight];
+		Debug.Log ("initialized tile list to " + tileList);
+//        Debug.Log ("level dim" + mapWidth + " " + mapHeight);
 			for (int i = 0; i < mapWidth; i++) {
 				for (int j = 0; j < mapHeight; j++) {
 					GameObject tile = new GameObject();
@@ -35,9 +38,9 @@ public class Tiles: MonoBehaviour {
 					float scaleRatio = (float)(pWidth/mapWidth)/width;
 
 					tile.transform.localScale = new Vector3 (scaleRatio,scaleRatio,1);
-					Debug.Log	("ratio");
-					Debug.Log (scaleRatio);
-					Debug.Log (pWidth/mapWidth);
+//					Debug.Log	("ratio");
+//					Debug.Log (scaleRatio);
+//					Debug.Log (pWidth/mapWidth);
 				    Sprite tileSprite = Resources.Load<Sprite>("tile") as Sprite;
 				    tileImage.sprite = tileSprite;
                 
@@ -48,7 +51,8 @@ public class Tiles: MonoBehaviour {
 					
 					tile.transform.localPosition = tilePos + panelOffset + tileOffset;
 				//	store tile GameObjects to access later for updates
-					tileList[i,j].Add(tile);
+
+					tileList[i,j] = tile;
 				}
 			}
 		}
@@ -60,15 +64,29 @@ public class Tiles: MonoBehaviour {
 		}
 		
 	// or drawSnakes? allSnakes? pastSnakes?
-		public void drawSnakes(int gameTime, Snake activeSnake, List<Snake> pastSnakes) {
-			// drawing active snake
-			List<Vector2> activePositionList = activeSnake.getPositionAtTime(gameTime);
-			foreach (Vector2 pos in activePositionList) {
-				GameObject tile = tileList[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
-				Image image = tile.GetComponent<Image>();
-				
+
+//		public void drawSnakes(int gameTime, Snake activeSnake, List<Snake> pastSnakes) {
+//			// drawing active snake
+//			List<Vector2> activePositionList = activeSnake.getPositionAtTime(gameTime);
+//			foreach (Vector2 pos in activePositionList) {
+//				GameObject tile = tileList[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
+//
+//			}
+//		}
+
+	public void drawMap(Map map){
+		for (int i = 0; i < map.getWidth(); i++) {
+			for (int j = 0; j < map.getHeight(); j++) {
+				List<BoardObject> drawObjects = map.getObjectAtPosition (new Vector2 (i, j));
+				foreach (BoardObject drawThis in drawObjects) {
+					Debug.Log ("Here we are!");
+					Debug.Log ("Tile list is" + tileList);
+					GameObject tile = tileList [i, j];
+					tile.GetComponent<Image> ().color = drawThis.getColor ();
+				}
 			}
 		}
+	}
 
 		// Tile object should read information from GameLoop
 		// and render the correct type of tile in the scene. 

@@ -1,9 +1,16 @@
-﻿using UnityEngine;
+﻿	using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 public class GameLoop : MonoBehaviour {
+    public Dictionary<string, Color> color_map = new Dictionary<string, Color>() {
+        {"red", Color.red },
+        {"green", Color.green },
+        {"yellow", Color.yellow },
+        {"purple", Color.magenta},
+        {"blue", Color.blue },
+    };
 	public GameObject tileReference;
 	//initialization of the snake buttons based upon snake colors
 	private void setSnakeSelectionPanel(){
@@ -17,7 +24,7 @@ public class GameLoop : MonoBehaviour {
 	//updates selection panel by giving a list of booleans
 	//false: snake isn't complete
 	private void updateSnakeSelectionPanel(){
-		List<bool> complete = new List<bool> (allSnakes.Count);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
+		List<bool> complete = new List<bool> (new bool[pastSnakes.Count]);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
 		for (int i = 0; i < allSnakes.Count; i++) {
 			foreach (Snake snake in pastSnakes){
 				if (snake.getColor () == allSnakes [i].getColor ()) {
@@ -45,7 +52,7 @@ public class GameLoop : MonoBehaviour {
 		Debug.Log ("level" + level);
         TextAsset txt = (TextAsset)Resources.Load("levels/level" + level.ToString(), typeof(TextAsset));
         string levelString = txt.text;
-        string[] objectStrings = levelString.Split('\r');
+        string[] objectStrings = levelString.Replace("\r", "").Split('\n');
         allSnakes = new List<Snake>(); //list of all snakes that exist in the puzzle
         puzzleObjects = new List<BoardObject>(); //list of all other objects inside the puzzle
 
@@ -74,8 +81,9 @@ public class GameLoop : MonoBehaviour {
                     & int.TryParse(tokens[5], out headingY);
                 Vector2 startPos = new Vector2(startX, startY);
                 Vector2 heading = new Vector2(headingX, headingY);
+                Color color = color_map[colorString];
                 if (noParseErrors) {
-                    allSnakes.Add(new Snake(startPos, length, heading, Color.green));
+                    allSnakes.Add(new Snake(startPos, length, heading, color));
                 } else {
                     Debug.LogError("ERROR PARSING SNAKE" + objectString);
                 }
@@ -87,9 +95,10 @@ public class GameLoop : MonoBehaviour {
                     & int.TryParse(tokens[1], out startX)
                     & int.TryParse(tokens[2], out startY);
                 Vector2 startPos = new Vector2(startX, startY);
+                Color color = color_map[colorString];
 
                 if (noParseErrors) {
-                    puzzleObjects.Add(new Goal(startPos, Color.green));
+                    puzzleObjects.Add(new Goal(startPos, color));
                 }
                 else {
                     Debug.LogError("ERROR PARSING GOAL" + objectString);
@@ -110,28 +119,19 @@ public class GameLoop : MonoBehaviour {
                 }
             }
         }
+		activeSnake = allSnakes [0];
+		pastSnakes = new List<Snake>(new Snake[] {});
 		setSnakeSelectionPanel ();
+		Debug.Log ("GAME LOOP DRAW CALL 0");
+		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
+		Debug.Log ("GAME LOOP DRAW CALL 5");
+
 		updateBoard ();
     }
 
 	// Use this for initialization
 
 	void Start () {
-		Debug.Log("starting");  
-		//statically write in data
-		mapWidth = 7;
-		mapHeight = 7;
-		gameTime = 0;
-		map = new Map (gameTime, mapWidth, mapHeight);
-		Vector2 goalPos = new Vector2 (1, 2);	
-		Goal goal = new Goal (goalPos, Color.black); 
-		puzzleObjects = new List<BoardObject>((new BoardObject[] {}));
-		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
-		allSnakes = new List<Snake> (new Snake[] {activeSnake});
-		pastSnakes = new List<Snake>(new Snake[] {});
-		updateBoard ();
-		move (activeSnake, Vector2.up);
-		Debug.Log ("Position of the active snake after movement" + activeSnake.getHead ());
 	}
 
 	// Update is called once per frame
@@ -142,7 +142,6 @@ public class GameLoop : MonoBehaviour {
 		// Probably something like buttonID
 		//            Debug.Log(Input.mousePosition);
 		//        }
-
 		if (keyboardLock) {
 			return;
 		}
@@ -189,22 +188,27 @@ public class GameLoop : MonoBehaviour {
 	//move the snake
 	//if the move took place, call update board
 	void move(BoardObject obj, Vector2 direction){
+//		Debug.Log ("MOVING SNAKE");
 		List<Vector2> storyAtTime = obj.getPositionAtTime(gameTime);
 		Vector2 newPos = storyAtTime[storyAtTime.Count - 1] + direction;
 		if (canMove(obj, newPos)){
+//			Debug.Log ("OBJECT CAN MOVE");
 			// if game time is zero, this is the special case
 			// reset the past snake if it's in there
 			// disable the snake selection panel
 			if (gameTime == 0 && activeSnake != null) {
+//				Debug.Log ("special case of game time = 0");
 				confirmActiveSnake ();
 				//NOTE: Commented out for debugging
 //				disableSelectionPanel ();
 				// TODO disable the snake selection panel
 			}
 			gameTime++;
-			Debug.Log ("Attemt to move to new position: " + newPos	);
-			Debug.Log ("The object is: " + obj);
+//			Debug.Log ("Attemt to move to new position: " + newPos	);
+//		Debug.Log ("The object is: " + obj);
 			obj.moveTo (newPos);
+
+//			Debug.Log ("Snake head position " + (Snake(obj)).getHead() );
 			updateBoard ();
 		}
 	}
@@ -212,12 +216,13 @@ public class GameLoop : MonoBehaviour {
 
 	// Check the object obj is allowed to move in position pos
 	bool canMove(BoardObject obj, Vector2 pos){
+//		Debug.Log ("Can move being called");
 		// Find the last position that this object occupied, (possibly the same one if gameTime = 0)
 		int previousIndex = Math.Max(0, gameTime - 1);
 		List<Vector2> storyAtPrevTime = obj.getPositionAtTime (previousIndex);
 		Vector2 previousPos = storyAtPrevTime[storyAtPrevTime.Count - 1];
 		// Check if the position is traversable, and check if the object is walking into itself
-		if (map.isTraversable(pos) && previousPos != pos){
+		if (map.isTraversable(pos) && (previousPos != pos)){
 			return true;
 		}
 		return false;
@@ -229,33 +234,43 @@ public class GameLoop : MonoBehaviour {
 		putObjs ();
 		parseCheckTiles ();
 		//TODO trigger the drawing of the board
-		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
+//		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
+		tileReference.GetComponent<Tiles>().drawMap(map);
 	}
 
 	//put all objects in the map at the current time
 	void putObjs(){
 		map.put (activeSnake); //put in the active snake
-		foreach (var obstacle in puzzleObjects){
+//		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
+		foreach (BoardObject obstacle in puzzleObjects){
+//			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
 			map.put (obstacle); // put in all obstacles
 		}
 		foreach (var snake in pastSnakes){
 			map.put(snake); // put in the snakes you've already moved
 		}
+
 	}
 
 	//parses map.checkTiles(), runs any animations/game logic needed
 	void parseCheckTiles(){
+//
+//		Debug.Log ("Checking tiles");
+//		Debug.Log ("snake head is at " + activeSnake.getHead ());
+//		Debug.Log ("map position 1,2" + map.map [1, 2].Count);
+
 		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
+//		Debug.Log ("Board event list size = " + boardEvents.Count);
 		foreach (var boardEvent in boardEvents){
 			BoardObject obj0 = boardEvent.getObjectPair ()[0];
 			BoardObject obj1 = boardEvent.getObjectPair ()[1];
-
+			Debug.Log ("Getting board event");
 			if ((obj0 == activeSnake && obj1.isLethal ()) || (obj1 == activeSnake && obj0.isLethal ())) {
 				collision (boardEvent.getPos ());
 			} else if (obj0 is Goal && obj1 is Snake && ((Goal)obj0).getColor ().Equals (((Snake)obj1).getColor ())) {
 				exitPosition = boardEvent.getPos ();
-			} else if (obj1 is Goal && obj0 is Snake && ((Snake)obj1).getColor ().Equals  (((Goal)obj1).getColor ())) {
+			} else if (obj1 is Goal && obj0 is Snake && obj0.getColor ().Equals  (obj1.getColor ())) {
 				exitPosition = boardEvent.getPos ();
 			} else {
 				//this means a snake has collided with something that is not its goal, do nothing
@@ -264,6 +279,7 @@ public class GameLoop : MonoBehaviour {
 
 		if (exitPosition.x != -1) { //-1 is magic value as there can never be negative position
 			reachedExit (exitPosition);
+			Debug.Log ("reached exit");
 		}
 	}
 
@@ -282,6 +298,7 @@ public class GameLoop : MonoBehaviour {
 			updateBoard ();
 		} else {
 			pastSnakes.Add (activeSnake);
+
 			//you've won the level
 			if (pastSnakes.Count == allSnakes.Count) {
 				gameWin ();
@@ -289,8 +306,9 @@ public class GameLoop : MonoBehaviour {
 				gameTime = 0;
 				updateBoard ();
 				updateSnakeSelectionPanel ();
-				activeSnake = null;
-				//keyboardLock = false;
+				activeSnake = allSnakes[1];
+				Debug.Log("Resetting active snake!");
+				keyboardLock = false;
 			}
 		}
 		//updateboard

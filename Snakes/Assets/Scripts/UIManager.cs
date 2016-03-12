@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour {
     public Text helpText;
     public Canvas finishedLevelCanvas;
     public GameObject snakeSelectionBlocker;
+    public Transform boardPanel;
 
     public List<Button> buttons;
 
@@ -83,6 +84,7 @@ public class UIManager : MonoBehaviour {
         startCanvas.enabled = true;
         levelCanvas.enabled = false;
         finishedLevelCanvas.enabled = false;
+        ResetTiles();
     }
     public void ToggleHelpText()
     {
@@ -107,14 +109,17 @@ public class UIManager : MonoBehaviour {
         {
             if (i < buttonColors.Count)
             {
-                buttons[i].enabled = true;
+                buttons[i].gameObject.SetActive(true);
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
                 buttons[i].colors = buttonColor;
+                buttons[i].image.sprite = Resources.Load<Sprite>("square");
             }
-            else
+            else if (i>=buttonColors.Count)
             {
                 buttons[i].enabled = false; //makes unused buttons go away?
+                buttons[i].gameObject.SetActive(false);
+                Debug.Log("disabling buttons");
             }
         }
     }
@@ -127,7 +132,7 @@ public class UIManager : MonoBehaviour {
                 Sprite buttonSprite = Resources.Load<Sprite>("completed_square");
                 buttons[i].image.sprite = buttonSprite;
             }
-            else
+            else if (!completed[i])
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 buttons[i].image.sprite = buttonSprite;
@@ -141,5 +146,22 @@ public class UIManager : MonoBehaviour {
     public void EnableSnakeSelection()
     {
         snakeSelectionBlocker.SetActive(false);
+    }
+    public void ResetTiles()
+    {
+        //Debug.Log("reset tiles");
+        //need to delete tiles
+        
+        //while (boardPanel.transform.childCount > 0)
+        //{
+        //    GameObject.Destroy(boardPanel.transform.GetChild(0) );
+        //    Debug.Log(boardPanel.transform.childCount);
+        //}
+        int childs = boardPanel.transform.childCount;
+        for (int i = childs - 1; i >= 0; i--)
+        {
+            GameObject.Destroy(boardPanel.transform.GetChild(i).gameObject);
+        }
+        
     }
 }

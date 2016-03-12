@@ -5,14 +5,16 @@ using System.Collections.Generic;
 public class Goal : BoardObject {
 
 	private Color color;
-    public new readonly bool traversable = true;
+//    public new bool traversable = true;
 
 	public Goal(Vector2 startPos,Color color) : base(startPos)
     {
+		this.traversable = true;
         this.color = color;
     }
 
-	public Color getColor(){
+	public override Color getColor(){
+		Debug.Log ("Goal color called");
 		return color;
 	}
 
