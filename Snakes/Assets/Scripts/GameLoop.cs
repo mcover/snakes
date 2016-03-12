@@ -4,6 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 public class GameLoop : MonoBehaviour {
+    public Dictionary<string, Color> color_map = new Dictionary<string, Color>() {
+        {"red", Color.red },
+        {"green", Color.green },
+        {"yellow", Color.yellow },
+        {"purple", Color.magenta},
+        {"blue", Color.blue },
+    };
 	public GameObject tileReference;
 	//initialization of the snake buttons based upon snake colors
 	private void setSnakeSelectionPanel(){
@@ -74,8 +81,9 @@ public class GameLoop : MonoBehaviour {
                     & int.TryParse(tokens[5], out headingY);
                 Vector2 startPos = new Vector2(startX, startY);
                 Vector2 heading = new Vector2(headingX, headingY);
+                Color color = color_map[colorString];
                 if (noParseErrors) {
-                    allSnakes.Add(new Snake(startPos, length, heading, Color.green));
+                    allSnakes.Add(new Snake(startPos, length, heading, color));
                 } else {
                     Debug.LogError("ERROR PARSING SNAKE" + objectString);
                 }
@@ -87,9 +95,10 @@ public class GameLoop : MonoBehaviour {
                     & int.TryParse(tokens[1], out startX)
                     & int.TryParse(tokens[2], out startY);
                 Vector2 startPos = new Vector2(startX, startY);
+                Color color = color_map[colorString];
 
                 if (noParseErrors) {
-                    puzzleObjects.Add(new Goal(startPos, Color.green));
+                    puzzleObjects.Add(new Goal(startPos, color));
                 }
                 else {
                     Debug.LogError("ERROR PARSING GOAL" + objectString);
