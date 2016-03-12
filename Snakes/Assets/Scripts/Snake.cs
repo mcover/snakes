@@ -59,7 +59,7 @@ public class Snake : BoardObject {
             return null;
 		}
 		int tailIndex = Math.Max(0, t - length);
-        return story.GetRange(tailIndex, t + 1);
+		return story.GetRange(tailIndex, t + 1 - tailIndex);
 	}
 
 	//returns whether or not the snake is still on the board
