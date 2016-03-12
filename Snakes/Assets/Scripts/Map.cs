@@ -100,7 +100,7 @@ public class Map {
 		return height;
 	}
 	public List<BoardObject> getObjectAtPosition(Vector2 pos){
-		return map [pos.x, pos.y];
+		return map [((int)pos.x), ((int)pos.y)];
 	}
 
 }
