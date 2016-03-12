@@ -45,7 +45,7 @@ public class GameLoop : MonoBehaviour {
 		Debug.Log ("level" + level);
         TextAsset txt = (TextAsset)Resources.Load("levels/level" + level.ToString(), typeof(TextAsset));
         string levelString = txt.text;
-        string[] objectStrings = levelString.Split('\r');
+        string[] objectStrings = levelString.Replace("\r", "").Split("\n");
         allSnakes = new List<Snake>(); //list of all snakes that exist in the puzzle
         puzzleObjects = new List<BoardObject>(); //list of all other objects inside the puzzle
 
