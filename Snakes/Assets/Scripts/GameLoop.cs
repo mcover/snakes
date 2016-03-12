@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿	using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -128,7 +128,10 @@ public class GameLoop : MonoBehaviour {
 		puzzleObjects = new List<BoardObject>((new BoardObject[] {}));
 		puzzleObjects.Add (goal);
 		activeSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
+		activeSnake = new Snake (Vector2.one + Vector2.one, 1, Vector2.right, Color.red);
+		Snake secondSnake = new Snake (Vector2.one, 1, Vector2.right, Color.black);
 		allSnakes = new List<Snake> (new Snake[] {activeSnake});
+		allSnakes.Add (secondSnake);
 		pastSnakes = new List<Snake>(new Snake[] {});
 		updateBoard ();
 		move (activeSnake, Vector2.up);
@@ -190,16 +193,16 @@ public class GameLoop : MonoBehaviour {
 	//move the snake
 	//if the move took place, call update board
 	void move(BoardObject obj, Vector2 direction){
-		Debug.Log ("MOVING SNAKE");
+//		Debug.Log ("MOVING SNAKE");
 		List<Vector2> storyAtTime = obj.getPositionAtTime(gameTime);
 		Vector2 newPos = storyAtTime[storyAtTime.Count - 1] + direction;
 		if (canMove(obj, newPos)){
-			Debug.Log ("OBJECT CAN MOVE");
+//			Debug.Log ("OBJECT CAN MOVE");
 			// if game time is zero, this is the special case
 			// reset the past snake if it's in there
 			// disable the snake selection panel
 			if (gameTime == 0 && activeSnake != null) {
-				Debug.Log ("special case of game time = 0");
+//				Debug.Log ("special case of game time = 0");
 				confirmActiveSnake ();
 				//NOTE: Commented out for debugging
 //				disableSelectionPanel ();
@@ -244,7 +247,7 @@ public class GameLoop : MonoBehaviour {
 		map.put (activeSnake); //put in the active snake
 //		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
 		foreach (BoardObject obstacle in puzzleObjects){
-			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
+//			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
 			map.put (obstacle); // put in all obstacles
 		}
 		foreach (var snake in pastSnakes){
@@ -262,7 +265,7 @@ public class GameLoop : MonoBehaviour {
 
 		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
-		Debug.Log ("Board event list size = " + boardEvents.Count);
+//		Debug.Log ("Board event list size = " + boardEvents.Count);
 		foreach (var boardEvent in boardEvents){
 			BoardObject obj0 = boardEvent.getObjectPair ()[0];
 			BoardObject obj1 = boardEvent.getObjectPair ()[1];
@@ -299,14 +302,18 @@ public class GameLoop : MonoBehaviour {
 			updateBoard ();
 		} else {
 			pastSnakes.Add (activeSnake);
+			Debug.Log("DFGKDJIGOF IOGJS IOS FGHGFIULHGUFLI LFGHU UILHGULI S!");
+
 			//you've won the level
 			if (pastSnakes.Count == allSnakes.Count) {
 				gameWin ();
 			} else {
+				Debug.Log("DFGKDJIGOF IOGJS IOS FGHGFIULHGUFLI LFGHU UILHGULI S!");
 				gameTime = 0;
 				updateBoard ();
 				updateSnakeSelectionPanel ();
-				activeSnake = null;
+				activeSnake = allSnakes[1];
+				Debug.Log("Resetting active snake!");
 				//keyboardLock = false;
 			}
 		}

@@ -16,7 +16,7 @@ public class BoardObject {
 //		if (startPos == null) {
 //            return null;
 //		}
-		Debug.Log("Gulio!");
+//		Debug.Log("Gulio!");
 		List<Vector2> story = new List<Vector2> ();
         story.Add(startPos);
 		return story;

@@ -23,7 +23,7 @@ public class Snake : BoardObject {
         this.story = new List<Vector2>();
         this.story.Add(startPos);
 		this.color = color;
-		Debug.Log (this.color);
+//		Debug.Log (this.color);
     }
     //return position of the head
     public Vector2 getHead(){
@@ -42,7 +42,6 @@ public class Snake : BoardObject {
 //            
 //		}
 		// Compute new direction of the snake and add it to the directionStory  
-		Debug.Log("Correctly inherited");
 		Vector2 prevPos = this.getHead ();
 		Vector2 newDirection = pos - prevPos;
 		directionStory.Add (newDirection);
@@ -53,14 +52,12 @@ public class Snake : BoardObject {
 	//return list of positions snake occupies at given time
 	//Note: assuming t starts at 0 at that snakes are instantiated with nonempty story
 	public override List<Vector2> getPositionAtTime(int t){
-		Debug.Log ("HADS;LFKJA;SDLKFJ;ALSDKFJ");
 		if (story == null || story.Count == 0) {
             return null;
 		}
 		if (t > story.Count){
             return null;
 		}
-		Debug.Log ("IN SNAKE STORY" + this.story);
 		int tailIndex = Math.Max(0, t - length);
         return story.GetRange(tailIndex, t + 1);
 	}
@@ -81,7 +78,6 @@ public class Snake : BoardObject {
 	}
 
 	public override Color getColor() {
-		Debug.Log ("Snake color called");
 		return color;
 	}
 
