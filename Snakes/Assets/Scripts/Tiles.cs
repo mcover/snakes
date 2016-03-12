@@ -48,7 +48,7 @@ public class Tiles: MonoBehaviour {
 					
 					tile.transform.localPosition = tilePos + panelOffset + tileOffset;
 				//	store tile GameObjects to access later for updates
-//					tileList[i,j].Add(tile);
+					tileList[i,j].Add(tile);
 				}
 			}
 		}
@@ -64,8 +64,9 @@ public class Tiles: MonoBehaviour {
 			// drawing active snake
 			List<Vector2> activePositionList = activeSnake.getPositionAtTime(gameTime);
 			foreach (Vector2 pos in activePositionList) {
-//				GameObject tile = tileList[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
-//				Image image = tile.GetComponent<Image>();
+				GameObject tile = tileList[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
+				Image image = tile.GetComponent<Image>();
+				
 			}
 		}
 
