@@ -29,7 +29,7 @@ public class Map {
     //vector2 position
     //arraylist BoardObject
     public List<BoardEvent> checkTiles() {
-		Debug.Log ("map check tiles");
+//		Debug.Log ("map check tiles");
         List<BoardEvent> events = new List<BoardEvent>();
         // double for loop --> for each location
         for (int i = 0; i < width; i++)
@@ -66,7 +66,7 @@ public class Map {
 	//takes any board object, places it at the positions it occupies within the map
 	public void put(BoardObject obj){
         List<Vector2> positions = obj.getPositionAtTime(time);
-		Debug.Log ("OBJECT AT POSITION " + positions.Count);
+//		Debug.Log ("OBJECT AT POSITION " + positions.Count);
 	    foreach (Vector2 pos in positions)
         {
             map[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)].Add(obj);
