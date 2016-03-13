@@ -367,7 +367,7 @@ public class GameLoop : MonoBehaviour {
 	public void selectSnakeatIndex( int snakeIndex) {
 		activeSnake = allSnakes [snakeIndex];
 		keyboardLock = false;
-        Debug.Log("switching to snake" + snakeIndex);
+        //Debug.Log("switching to snake" + snakeIndex);
 	}
 
 	// If the selected snake was already played, reset its story and remove it from past snakes
