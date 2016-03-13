@@ -139,6 +139,7 @@ public class GameLoop : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        gameTimeLabel.text = "Time: " + gameTime;
 		// Button for snake selection
 		//        if(Input.GetButtonDown("snakeSelect"))
 		//        {
@@ -208,6 +209,7 @@ public class GameLoop : MonoBehaviour {
 				// TODO disable the snake selection panel
 			}
 			gameTime++;
+            gameTimeLabel.text = "Time: " + gameTime; 
 //			Debug.Log ("Attemt to move to new position: " + newPos	);
 //		Debug.Log ("The object is: " + obj);
 			obj.moveTo (newPos);
@@ -350,6 +352,7 @@ public class GameLoop : MonoBehaviour {
 	//Reset the gameTime to 0 and reset the story of the activeSnake to 0, then redraw the board with updateBoard
 	void rollBackTime(){
 		gameTime = 0;
+        gameTimeLabel.text = "Time: " + 0;
         activeSnake.resetStory();
 		updateBoard ();
 	}
@@ -357,6 +360,7 @@ public class GameLoop : MonoBehaviour {
 	void rewind(){
 		if (gameTime > 0) {
 			gameTime--;
+            gameTimeLabel.text = "Time: " + gameTime;
 			updateBoard ();
 			//make noise
 			//delay
