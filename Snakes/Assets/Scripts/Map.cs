@@ -82,16 +82,14 @@ public class Map {
         List<BoardObject> objs = map[Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
 
         //TODO: Check that the vector is inside the boundary
-        
+
         // if any objects are not traversable at location return false
-        if (objs.Exists(x => !x.traversable))
+        if (objs.Exists(x => !(x is Snake || x is Goal)))
         {
-            Debug.Log("not traversable map");
             return false;
         }
         else
         {
-            Debug.Log("traversable map");
             return true;
         }
 	}

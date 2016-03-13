@@ -222,11 +222,10 @@ public class GameLoop : MonoBehaviour {
 		List<Vector2> storyAtPrevTime = obj.getPositionAtTime (previousIndex);
 		Vector2 previousPos = storyAtPrevTime[storyAtPrevTime.Count - 1];
         // Check if the position is traversable, and check if the object is walking into itself
-        Debug.Log("snake traversable " + activeSnake.traversable);
 		if (map.isTraversable(pos) && (previousPos != pos)){
 			return true;
 		}
-		return false;
+        return false;
 	}
 
 	//increase timestep, update board visually
@@ -262,13 +261,16 @@ public class GameLoop : MonoBehaviour {
 
 		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
-//		Debug.Log ("Board event list size = " + boardEvents.Count);
+        //		Debug.Log ("Board event list size = " + boardEvents.Count);
 		foreach (var boardEvent in boardEvents){
 			BoardObject obj0 = boardEvent.getObjectPair ()[0];
 			BoardObject obj1 = boardEvent.getObjectPair ()[1];
-			//Debug.Log ("Getting board event");
-			if ((obj0 == activeSnake && obj1.isLethal ()) || (obj1 == activeSnake && obj0.isLethal ())) {
+            //Debug.Log ("Getting board event");
+			if ( (obj0 == activeSnake && (obj1 is Snake)) 
+                || (obj1 == activeSnake && (obj0 is Snake))
+                ) {
 				collision (boardEvent.getPos ());
+                return;
 			} else if (obj0 is Goal && obj1 is Snake && ((Goal)obj0).getColor ().Equals (((Snake)obj1).getColor ())) {
 				exitPosition = boardEvent.getPos ();
                 ((Snake)obj1).exitInStory = true;
@@ -278,7 +280,7 @@ public class GameLoop : MonoBehaviour {
             } else {
 				//this means a snake has collided with something that is not its goal, do nothing
 			}
-		}
+        }
 
 		if (exitPosition.x != -1) { //-1 is magic value as there can never be negative position
 			reachedExit (exitPosition);
@@ -313,9 +315,9 @@ public class GameLoop : MonoBehaviour {
 				gameWin ();
 			} else {
 				gameTime = 0;
-				updateBoard ();
+                activeSnake = allSnakes[1];
+                updateBoard ();
 				updateSnakeSelectionPanel ();
-				activeSnake = allSnakes[1];
 				//Debug.Log("Resetting active snake!");
 				keyboardLock = false;
 			}
