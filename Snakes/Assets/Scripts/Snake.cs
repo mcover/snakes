@@ -8,6 +8,7 @@ public class Snake : BoardObject {
 	//unique ID for snake, must match goal
 	private int length;
 	private Vector2 startPos;
+    public bool exitInStory = false;
 	private List<Vector2> story;
 	private List<Vector2> directionStory;
     public new readonly bool traversable = true;
@@ -55,11 +56,13 @@ public class Snake : BoardObject {
 		if (story == null || story.Count == 0) {
             return null;
 		}
-		if (t > story.Count){
-            return null;
-		}
-		int tailIndex = Math.Max(0, t - length);
-		return story.GetRange(tailIndex, t + 1 - tailIndex);
+        
+		int tailIndex = Math.Max(0, t + 1 - length);
+        if (tailIndex < story.Count) {
+            return story.GetRange(tailIndex, Math.Min(t + 1 - tailIndex, story.Count - tailIndex));
+        } else {
+            return new List<Vector2>();
+        }
 	}
 
 	//returns whether or not the snake is still on the board
@@ -67,7 +70,7 @@ public class Snake : BoardObject {
 	public new bool onBoardAtTime(int t){
 		if (story == null || story.Count == 0) {
 		}
-		bool isOnBoard =  (story.Count + length <= t);
+		bool isOnBoard =  ((story.Count + length <= t));
 		return isOnBoard;
 	}
 
@@ -83,7 +86,8 @@ public class Snake : BoardObject {
 
 	// Reset the story of the snake to the original position. (Used to rollBackTime)
 	public void resetStory(){
-	story = new List<Vector2>();
-	story.Add(startPos);
+	    story = new List<Vector2>();
+	    story.Add(startPos);
+        exitInStory = false;
 	}
 }

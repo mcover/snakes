@@ -14,7 +14,7 @@ public class Goal : BoardObject {
     }
 
 	public override Color getColor(){
-		Debug.Log ("Goal color called");
+		//Debug.Log ("Goal color called");
 		return color;
 	}
 

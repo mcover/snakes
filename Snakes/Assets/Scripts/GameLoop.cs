@@ -147,23 +147,23 @@ public class GameLoop : MonoBehaviour {
 		}
 
 		if (Input.GetKeyUp (KeyCode.UpArrow)) {
-			Debug.Log("up key was released");
+			//Debug.Log("up key was released");
 			move (activeSnake, Vector2.up);
 		}
 		if (Input.GetKeyUp (KeyCode.DownArrow)) {
-			Debug.Log("down key was released");
+			//Debug.Log("down key was released");
 			move (activeSnake, Vector2.down);
 		}
 		if (Input.GetKeyUp (KeyCode.LeftArrow)) {
-			Debug.Log("left key was released");
+			//Debug.Log("left key was released");
 			move (activeSnake, Vector2.left);
 		}
 		if (Input.GetKeyUp (KeyCode.RightArrow)) {
-			Debug.Log("right key was released");
+			//Debug.Log("right key was released");
 			move (activeSnake, Vector2.right);
 		}
 		if (Input.GetKeyUp (KeyCode.Alpha1)) {
-			Debug.Log("1 key was released");
+			//Debug.Log("1 key was released");
 			// Possibly refresh game / refresh snake
 		}
 
@@ -221,7 +221,8 @@ public class GameLoop : MonoBehaviour {
 		int previousIndex = Math.Max(0, gameTime - 1);
 		List<Vector2> storyAtPrevTime = obj.getPositionAtTime (previousIndex);
 		Vector2 previousPos = storyAtPrevTime[storyAtPrevTime.Count - 1];
-		// Check if the position is traversable, and check if the object is walking into itself
+        // Check if the position is traversable, and check if the object is walking into itself
+        Debug.Log("snake traversable " + activeSnake.traversable);
 		if (map.isTraversable(pos) && (previousPos != pos)){
 			return true;
 		}
@@ -233,8 +234,8 @@ public class GameLoop : MonoBehaviour {
 		map = new Map (gameTime, mapWidth, mapHeight);
 		putObjs ();
 		parseCheckTiles ();
-		//TODO trigger the drawing of the board
-//		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
+        //TODO trigger the drawing of the board
+        //		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
 		tileReference.GetComponent<Tiles>().drawMap(map);
 	}
 
@@ -265,14 +266,16 @@ public class GameLoop : MonoBehaviour {
 		foreach (var boardEvent in boardEvents){
 			BoardObject obj0 = boardEvent.getObjectPair ()[0];
 			BoardObject obj1 = boardEvent.getObjectPair ()[1];
-			Debug.Log ("Getting board event");
+			//Debug.Log ("Getting board event");
 			if ((obj0 == activeSnake && obj1.isLethal ()) || (obj1 == activeSnake && obj0.isLethal ())) {
 				collision (boardEvent.getPos ());
 			} else if (obj0 is Goal && obj1 is Snake && ((Goal)obj0).getColor ().Equals (((Snake)obj1).getColor ())) {
 				exitPosition = boardEvent.getPos ();
+                ((Snake)obj1).exitInStory = true;
 			} else if (obj1 is Goal && obj0 is Snake && obj0.getColor ().Equals  (obj1.getColor ())) {
 				exitPosition = boardEvent.getPos ();
-			} else {
+                ((Snake)obj0).exitInStory = true;
+            } else {
 				//this means a snake has collided with something that is not its goal, do nothing
 			}
 		}
@@ -293,10 +296,16 @@ public class GameLoop : MonoBehaviour {
 	//
 	void reachedExit(Vector2 exitCoord){
 		keyboardLock = true;
-		if (snakesStillOnBoardAtTimeStep (gameTime)) {
-			gameTime++;
-			updateBoard ();
+        Debug.Log("CHECKCHECKCHECK " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
+		//if (snakesStillOnBoardAtTimeStep (gameTime)) {
+        if (!activeSnake.exitInStory) {
+            Debug.Log("CHECKCHECKCHECK2 " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
+            //gameTime++;
+            keyboardLock = false;
+            //updateBoard ();
+            Debug.Log("FIRST EXIT IF");
 		} else {
+            Debug.Log("SECOND EXIT IF");
 			pastSnakes.Add (activeSnake);
 
 			//you've won the level
@@ -307,7 +316,7 @@ public class GameLoop : MonoBehaviour {
 				updateBoard ();
 				updateSnakeSelectionPanel ();
 				activeSnake = allSnakes[1];
-				Debug.Log("Resetting active snake!");
+				//Debug.Log("Resetting active snake!");
 				keyboardLock = false;
 			}
 		}
@@ -320,7 +329,8 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	bool snakesStillOnBoardAtTimeStep(int t) {
-		bool stillOn = activeSnake.onBoardAtTime (t);
+		bool stillOn = !activeSnake.exitInStory;
+        Debug.Log("STILL ON: " + stillOn + " " + t);
 			foreach (Snake snake in pastSnakes){
 				stillOn = stillOn || snake.onBoardAtTime(t);
 			}

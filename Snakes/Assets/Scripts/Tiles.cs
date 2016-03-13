@@ -10,7 +10,6 @@ public class Tiles: MonoBehaviour {
 	public GameObject[,] tileList;
     //public Transform tileCanvas;
 	void Start () {
-//		drawEmptyBoard (5,5);
 	}
 
 	// private List<GameObject> mapTiles;
@@ -56,7 +55,14 @@ public class Tiles: MonoBehaviour {
 				}
 			}
 		}
-		
+    
+    // paint all tiles back to white		
+    public void clearBoard() {
+        foreach(GameObject tile in tileList) {
+            tile.GetComponent<Image>().color = Color.white;
+        }
+
+    }
 	// I would personally add all the sprites you want as components to your GameObject and 
 	// activate/deactivate the sprites as necessary.
 		void drawUpdates() {
@@ -75,13 +81,13 @@ public class Tiles: MonoBehaviour {
 //		}
 
 	public void drawMap(Map map){
-		drawEmptyBoard (map.getWidth (), map.getHeight ());
+		clearBoard();
 		for (int i = 0; i < map.getWidth(); i++) {
 			for (int j = 0; j < map.getHeight(); j++) {
 				List<BoardObject> drawObjects = map.getObjectAtPosition (new Vector2 (i, j));
 				foreach (BoardObject drawThis in drawObjects) {
-					Debug.Log ("Here we are!");
-					Debug.Log ("Tile list is" + tileList);
+					//Debug.Log ("Here we are!");
+					//Debug.Log ("Tile list is" + tileList);
 					GameObject tile = tileList [i, j];
 					tile.GetComponent<Image> ().color = drawThis.getColor ();
 				}
