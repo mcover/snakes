@@ -110,6 +110,7 @@ public class UIManager : MonoBehaviour {
             if (i < buttonColors.Count)
             {
                 buttons[i].gameObject.SetActive(true);
+                buttons[i].enabled = true;
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
                 buttons[i].colors = buttonColor;
@@ -119,7 +120,7 @@ public class UIManager : MonoBehaviour {
             {
                 buttons[i].enabled = false; //makes unused buttons go away?
                 buttons[i].gameObject.SetActive(false);
-                Debug.Log("disabling buttons");
+                //Debug.Log("disabling buttons");
             }
         }
     }
@@ -149,14 +150,6 @@ public class UIManager : MonoBehaviour {
     }
     public void ResetTiles()
     {
-        //Debug.Log("reset tiles");
-        //need to delete tiles
-        
-        //while (boardPanel.transform.childCount > 0)
-        //{
-        //    GameObject.Destroy(boardPanel.transform.GetChild(0) );
-        //    Debug.Log(boardPanel.transform.childCount);
-        //}
         int childs = boardPanel.transform.childCount;
         for (int i = childs - 1; i >= 0; i--)
         {
