@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour {
     public GameObject snakeSelectionBlocker;
     public Transform boardPanel;
 
+    private int currentLevel;
+
     public List<Button> buttons;
 
 	// Use this for initialization
@@ -75,6 +77,7 @@ public class UIManager : MonoBehaviour {
         //load level num
         levelCanvas.enabled = false;
         mainCanvas.enabled = true;
+        currentLevel = num;
 
         this.GetComponent<GameLoop>().loadLevel(num);
     }
@@ -165,5 +168,11 @@ public class UIManager : MonoBehaviour {
             b.image.sprite = Resources.Load<Sprite>("completed_square");
         }
 
+    }
+    public void LoadNextLevel()
+    {
+        ResetTiles();
+        LoadLevel(currentLevel + 1);
+        finishedLevelCanvas.enabled = false;
     }
 }
