@@ -55,6 +55,8 @@ public class GameLoop : MonoBehaviour {
         string[] objectStrings = levelString.Replace("\r", "").Split('\n');
         allSnakes = new List<Snake>(); //list of all snakes that exist in the puzzle
         puzzleObjects = new List<BoardObject>(); //list of all other objects inside the puzzle
+        gameTime = 0;
+        keyboardLock = false;
 
         foreach (string objectString in objectStrings) {
             string[] tokens = objectString.Split(',');
@@ -120,7 +122,8 @@ public class GameLoop : MonoBehaviour {
             }
         }
 		activeSnake = allSnakes [0];
-		pastSnakes = new List<Snake>(new Snake[] {});
+        Debug.Log("active snake " + activeSnake.getColor());
+        pastSnakes = new List<Snake>(new Snake[] {});
 		setSnakeSelectionPanel ();
 		Debug.Log ("GAME LOOP DRAW CALL 0");
 		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
@@ -188,7 +191,8 @@ public class GameLoop : MonoBehaviour {
 	//move the snake
 	//if the move took place, call update board
 	void move(BoardObject obj, Vector2 direction){
-//		Debug.Log ("MOVING SNAKE");
+        //		Debug.Log ("MOVING SNAKE");
+        Debug.Log(obj + " " + obj.getColor());
 		List<Vector2> storyAtTime = obj.getPositionAtTime(gameTime);
 		Vector2 newPos = storyAtTime[storyAtTime.Count - 1] + direction;
 		if (canMove(obj, newPos)){
@@ -241,6 +245,7 @@ public class GameLoop : MonoBehaviour {
 	//put all objects in the map at the current time
 	void putObjs(){
 		map.put (activeSnake); //put in the active snake
+        Debug.Log("PUT ACTIVE SNAKE " + activeSnake + " " + activeSnake.getColor());
 //		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
 		foreach (BoardObject obstacle in puzzleObjects){
 //			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
@@ -315,7 +320,7 @@ public class GameLoop : MonoBehaviour {
 				gameWin ();
 			} else {
 				gameTime = 0;
-                activeSnake = allSnakes[1];
+                activeSnake = allSnakes.Find(x => !x.exitInStory);
                 updateBoard ();
 				updateSnakeSelectionPanel ();
 				//Debug.Log("Resetting active snake!");
@@ -343,6 +348,7 @@ public class GameLoop : MonoBehaviour {
 	//Reset the gameTime to 0 and reset the story of the activeSnake to 0, then redraw the board with updateBoard
 	void rollBackTime(){
 		gameTime = 0;
+        activeSnake.resetStory();
 		updateBoard ();
 	}
 
