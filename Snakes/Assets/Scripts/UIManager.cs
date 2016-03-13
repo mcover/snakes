@@ -82,6 +82,8 @@ public class UIManager : MonoBehaviour {
         levelCanvas.enabled = false;
         mainCanvas.enabled = true;
         currentLevel = num;
+        
+        activeSnakeFeedback(0);
 
         this.GetComponent<GameLoop>().loadLevel(num);
     }
@@ -175,6 +177,8 @@ public class UIManager : MonoBehaviour {
     }
     public void LoadNextLevel()
     {
+       
+        activeSnakeFeedback(0);
         ResetTiles();
         LoadLevel(currentLevel + 1);
         finishedLevelCanvas.enabled = false;
