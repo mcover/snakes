@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour {
     public Transform boardPanel;
 
     private int currentLevel;
+    private int snake;
 
     public List<Button> buttons;
 
@@ -30,8 +31,11 @@ public class UIManager : MonoBehaviour {
         finishedLevelCanvas.enabled = false;
         foreach (Button snakeButton in buttons)
         {
+            snakeButton.GetComponent<Outline>().enabled = false;
             snakeButton.enabled = false;
         }
+        snake = 0;
+        activeSnakeFeedback(0);
 	
 	}
 	
@@ -174,5 +178,15 @@ public class UIManager : MonoBehaviour {
         ResetTiles();
         LoadLevel(currentLevel + 1);
         finishedLevelCanvas.enabled = false;
+    }
+    public void activeSnakeFeedback(int newSnake)
+    {
+        buttons[snake].GetComponent<Outline>().enabled = false;
+        //remove old active snake feedback
+        //enable current active snake feedback
+        
+        buttons[newSnake].GetComponent<Outline>().enabled = true;
+        snake = newSnake;
+
     }
 }

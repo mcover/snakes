@@ -322,7 +322,9 @@ public class GameLoop : MonoBehaviour {
 				gameTime = 0;
                 activeSnake = allSnakes.Find(x => !x.exitInStory);
                 updateBoard ();
-				updateSnakeSelectionPanel ();
+                int snakeIndex = allSnakes.IndexOf(activeSnake);
+                this.GetComponent<UIManager>().activeSnakeFeedback(snakeIndex);
+                updateSnakeSelectionPanel ();
 				//Debug.Log("Resetting active snake!");
 				keyboardLock = false;
 			}
@@ -367,6 +369,7 @@ public class GameLoop : MonoBehaviour {
 	public void selectSnakeatIndex( int snakeIndex) {
 		activeSnake = allSnakes [snakeIndex];
 		keyboardLock = false;
+        this.GetComponent<UIManager>().activeSnakeFeedback(snakeIndex);
         //Debug.Log("switching to snake" + snakeIndex);
 	}
 
