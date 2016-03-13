@@ -75,6 +75,7 @@ public class Tiles: MonoBehaviour {
 //		}
 
 	public void drawMap(Map map){
+		drawEmptyBoard (map.getWidth (), map.getHeight ());
 		for (int i = 0; i < map.getWidth(); i++) {
 			for (int j = 0; j < map.getHeight(); j++) {
 				List<BoardObject> drawObjects = map.getObjectAtPosition (new Vector2 (i, j));
