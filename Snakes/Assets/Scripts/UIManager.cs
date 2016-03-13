@@ -164,4 +164,8 @@ public class UIManager : MonoBehaviour {
         }
         
     }
+    public void WonLevel()
+    {
+        finishedLevelCanvas.enabled = true;
+    }
 }

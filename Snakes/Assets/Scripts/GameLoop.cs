@@ -327,7 +327,8 @@ public class GameLoop : MonoBehaviour {
 
 	void gameWin (){
 		Debug.Log ("Game has been won");
-		//enable win prompt
+        //enable win prompt
+        this.GetComponent<UIManager>().WonLevel();
 	}
 
 	bool snakesStillOnBoardAtTimeStep(int t) {
