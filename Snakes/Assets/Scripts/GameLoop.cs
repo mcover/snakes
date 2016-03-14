@@ -195,7 +195,9 @@ public class GameLoop : MonoBehaviour {
         //		Debug.Log ("MOVING SNAKE");
         Debug.Log(obj + " " + obj.getColor());
 		List<Vector2> storyAtTime = obj.getPositionAtTime(gameTime);
-		Vector2 newPos = storyAtTime[storyAtTime.Count - 1] + direction;
+        Vector2 oldPos = storyAtTime[storyAtTime.Count - 1];
+
+        Vector2 newPos = oldPos + direction;
 		if (canMove(obj, newPos)){
 //			Debug.Log ("OBJECT CAN MOVE");
 			// if game time is zero, this is the special case
@@ -218,7 +220,7 @@ public class GameLoop : MonoBehaviour {
             updateBoard ();
             
             // if no moves available, reset snake
-            if (!(canMove(obj, Vector2.up) || canMove(obj, Vector2.down) || canMove(obj, Vector2.right) || canMove(obj, Vector2.left))) {
+            if (!(canMove(obj, oldPos + Vector2.up) || canMove(obj, oldPos + Vector2.down) || canMove(obj, oldPos + Vector2.right) || canMove(obj, oldPos + Vector2.left))) {
                 noAvailableMoves();
             }
 		}
@@ -237,10 +239,15 @@ public class GameLoop : MonoBehaviour {
 		List<Vector2> storyAtPrevTime = obj.getPositionAtTime (previousIndex);
 		Vector2 previousPos = storyAtPrevTime[storyAtPrevTime.Count - 1];
         // Check if the position is traversable, and check if the object is walking into itself
-		if (map.isTraversable(pos) && (previousPos != pos)){
+        int x = Convert.ToInt32(pos.x);
+        int y = Convert.ToInt32(pos.y);
+        if ((x < 0) || (x >= mapWidth) || (y < 0) || (y >= mapHeight)) {
+            return false;
+        }
+        else if (map.isTraversable(pos) && (previousPos != pos)){
 			return true;
 		}
-        return false;
+        return false;  
 	}
 
 	//increase timestep, update board visually
