@@ -124,6 +124,8 @@ public class UIManager : MonoBehaviour {
                 buttonColor.normalColor = buttonColors[i];
                 buttons[i].colors = buttonColor;
                 buttons[i].image.sprite = Resources.Load<Sprite>("square");
+                buttons[i].image.color = buttonColors[i];
+                buttons[i].GetComponent<Outline>().effectColor = buttonColors[i];
             }
             else if (i>=buttonColors.Count)
             {

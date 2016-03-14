@@ -24,9 +24,11 @@ public class Tiles: MonoBehaviour {
 				for (int j = 0; j < mapHeight; j++) {
 					GameObject tile = new GameObject();
                     tile.name = "Tile";
+                    
                     GameObject snakeTile = new GameObject();
-//                    tile.transform.parent = this.transform;
-					tile.transform.parent = this.gameObject.transform;
+                    snakeTile.name = "SnakeTile";
+                //                    tile.transform.parent = this.transform;
+                    tile.transform.parent = this.gameObject.transform;
                     snakeTile.transform.parent = this.gameObject.transform;
 //				    GameObject newTile = this.gameObject.AddComponent<GameObject>("Tile");
 					Image tileImage = tile.AddComponent<Image> ();
