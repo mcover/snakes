@@ -93,7 +93,7 @@ public class Snake : BoardObject {
 		
 	//Given a position in the game board and a time
 	//Returns list length two to draw the correct snake sprites
-	public List<string> getSpriteInPositionAtTime(Vector2 pos, int t){
+	public override List<string> getSpriteInPositionAtTime(Vector2 pos, int t){
 		//get the snake position at time
 		string tileType;
 		string orientation;
@@ -103,9 +103,9 @@ public class Snake : BoardObject {
 
 		//get tile type
 		if (index == 0 && currentPositions.Count == length) {
-			tileType = "HEAD";
-		} else if (index == (currentPositions.Count - 1)) {
 			tileType = "TAIL";
+		} else if (index == (currentPositions.Count - 1)) {
+			tileType = "HEAD";
 		} else {
 			Vector2 middlePiece = currentPositions [index - 1] + currentPositions [index + 1];
 			if (middlePiece.x != 0 && middlePiece.y != 0) {

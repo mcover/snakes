@@ -92,20 +92,48 @@ public class Tiles: MonoBehaviour {
 				List<BoardObject> drawObjects = map.getObjectAtPosition (new Vector2 (i, j));
 				foreach (BoardObject drawThis in drawObjects) {
 					List<string> spriteInfo = drawThis.getSpriteInPositionAtTime(new Vector2 (i, j),map.getTime());
-					//sprite info is now a list -> [tileType,orientation]
-					//tileType can be: WALL, GOAL, HEAD, CORNER, STRAIGHT, TAIL
-					//orientation can be: UP, DOWN, LEFT, RIGHT
+                    //sprite info is now a list -> [tileType,orientation]
+                    //tileType can be: WALL, GOAL, HEAD, CORNER, STRAIGHT, TAIL
+                    //orientation can be: UP, DOWN, LEFT, RIGHT
+                    string tileType = spriteInfo[0];
+                    string direction = spriteInfo[1];
 
+                    if (!(tileType.Equals("WALL")) || !(tileType.Equals("GOAL")))
+                    {
+                        GameObject tile = tileList[i, j];
+                        //tile.GetComponent<Image> ().color = drawThis.getColor ();
+                        Image snakeImage = tile.GetComponentInChildren<Image>(); //the snake image
+                        //Debug.Log(snakeImage == null);
+                        snakeImage.enabled = true;
+                        snakeImage.color = drawThis.getColor();  //set color of image
+                        Sprite newSprite = Resources.Load<Sprite>(tileType.ToString()) as Sprite; //grabs head from resources folder...maintains orientation in folder
+                        Debug.Log(spriteInfo[1]);
+                        snakeImage.sprite = newSprite;
+                        if (tileType.Equals("HEAD") || tileType.Equals("STRAIGHT")||tileType.Equals("TAIL"))
+                        {
+                            if (spriteInfo[1].Equals("UP"))
+                            {
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 0));
+                            }
+                            else if (spriteInfo[1].Equals("DOWN"))
+                            {
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 180));
+                            }
+                            else if (spriteInfo[1].Equals("LEFT"))
+                            {
 
-
-					GameObject tile = tileList [i, j];
-					tile.GetComponent<Image> ().color = drawThis.getColor ();
-                    //Image snakeImage = tile.GetComponentInChildren<Image>(); //the snake image
-                    //snakeImage.enabled = true;
-                    //snakeImage.color = drawThis.getColor();  //set color of image
-                    //Sprite headSprite = Resources.Load<Sprite>("Head"); //grabs head from resources folder...maintains orientation in folder
-                    //snakeImage.transform.Rotate();
-                    //
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 270));
+                            }
+                            else if (spriteInfo[1].Equals("RIGHT"))
+                            {
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 90));
+                            }
+                                
+                        }
+                         
+                        //snakeImage.transform.Rotate();
+                        //
+                   }
 				}
 			}
 		}
