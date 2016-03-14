@@ -74,7 +74,10 @@ public class Tiles: MonoBehaviour {
         foreach(GameObject tile in tileList) {
             tile.GetComponent<Image>().color = Color.white;
         }
-
+        foreach (GameObject snake in snakeList)
+        {
+            snake.GetComponent<Image>().enabled = false;
+        }
     }
 	// I would personally add all the sprites you want as components to your GameObject and 
 	// activate/deactivate the sprites as necessary.
