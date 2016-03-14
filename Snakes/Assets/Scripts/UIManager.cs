@@ -101,14 +101,12 @@ public class UIManager : MonoBehaviour {
         if (helpText.enabled == false)
         {
             helpText.enabled = true;
-            Debug.Log("enabled help");
-            Debug.Log(helpText.enabled);
+           
         }
         else if (helpText.enabled == true)
         {
             helpText.enabled = false;
-            Debug.Log("disabled help");
-            Debug.Log(helpText.enabled);
+           
         }
 
     }
