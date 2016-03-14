@@ -212,9 +212,13 @@ public class GameLoop : MonoBehaviour {
 //			Debug.Log ("Attemt to move to new position: " + newPos	);
 //		Debug.Log ("The object is: " + obj);
 			obj.moveTo (newPos);
-
 //			Debug.Log ("Snake head position " + (Snake(obj)).getHead() );
 			updateBoard ();
+
+            // if no moves available, reset snake
+            if (!(canMove(obj, Vector2.up) || canMove(obj, Vector2.down) || canMove(obj, Vector2.right) || canMove(obj, Vector2.left))) {
+                noAvailableMoves();
+            }
 		}
 	}
 
@@ -301,6 +305,11 @@ public class GameLoop : MonoBehaviour {
 		rollBackTime();
         enableSelectionPanel();
 	}
+
+    void noAvailableMoves() {
+        rollBackTime();
+        enableSelectionPanel();
+    }
 
 	//
 	void reachedExit(Vector2 exitCoord){
