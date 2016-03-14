@@ -116,11 +116,10 @@ public class Snake : BoardObject {
 
 		int index = currentPositions.FindIndex(a => a == pos);
 	
-//		List<Vector2> currentDirections = getDirectionAtTime(t);
-//
-//		int index = currentPositions.FindIndex(a => a == pos);
-//		Vector2 entryDirection = currentDirections [index];
-//		Vector2 exitDirection = currentDirections[Math.Min(index + 1, currentDirections.Count - 1)];
+		List<Vector2> currentDirections = getDirectionAtTime(t);
+
+		Vector2 entryDirection = currentDirections [index];
+		Vector2 exitDirection = currentDirections[Math.Min(index + 1, currentDirections.Count - 1)];
 //
 		//get tile type
 		Debug.Log ("what t: " + t);
@@ -171,9 +170,7 @@ public class Snake : BoardObject {
 		//		Vector2 orientationVector = directionStory[t - index];
 //		Vector2 orientationVector = directionStory[index];
 		if (orientationVector.Equals (Vector2.up)) {
-
-//		if (entryDirection.Equals (Vector2.up)) {
-			orientation = "UP";
+					orientation = "UP";
 		} else if (entryDirection.Equals (Vector2.right)) {
 			orientation = "RIGHT";	
 		} else if (entryDirection.Equals (Vector2.down)) {
@@ -181,6 +178,9 @@ public class Snake : BoardObject {
 		} else {
 			orientation = "LEFT";
 		}
+		Debug.Log ("CURRENT POSITION IS  " + pos);
+		Debug.Log ("TILETYPE IS " + tileType);
+		Debug.Log ("ORIENTATION IS " + orientation);
 		return new List<string>(new string[] {tileType, orientation});
 	}
 
