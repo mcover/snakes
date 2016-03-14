@@ -8,6 +8,7 @@ public class Snake : BoardObject {
 	//unique ID for snake, must match goal
 	private int length;
 	private Vector2 startPos;
+	private Vector2 heading;
     public bool exitInStory = false;
 	private List<Vector2> story;
 	private List<Vector2> directionStory;
@@ -20,6 +21,7 @@ public class Snake : BoardObject {
 		this.directionStory = new List<Vector2>();
 		// Initialize the directionStory with the initial heading
 		this.directionStory.Add (heading);
+		this.heading = heading;
 		this.startPos = startPos;
         this.story = new List<Vector2>();
         this.story.Add(startPos);
@@ -101,8 +103,8 @@ public class Snake : BoardObject {
 
 	// Reset the story of the snake to the original position. (Used to rollBackTime)
 	public void resetStory(){
-	    story = new List<Vector2>();
-	    story.Add(startPos);
+		story = new List<Vector2>() {startPos};
+		directionStory =  new List<Vector2>() {heading};
         exitInStory = false;
 	}
 		
