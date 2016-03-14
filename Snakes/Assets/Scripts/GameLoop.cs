@@ -213,14 +213,19 @@ public class GameLoop : MonoBehaviour {
 //			Debug.Log ("Attemt to move to new position: " + newPos	);
 //		Debug.Log ("The object is: " + obj);
 			obj.moveTo (newPos);
-//			Debug.Log ("Snake head position " + (Snake(obj)).getHead() );
-			updateBoard ();
-
+            //			Debug.Log ("Snake head position " + (Snake(obj)).getHead() );
+            soundPlayer.PlayMoveSound();
+            updateBoard ();
+            
             // if no moves available, reset snake
             if (!(canMove(obj, Vector2.up) || canMove(obj, Vector2.down) || canMove(obj, Vector2.right) || canMove(obj, Vector2.left))) {
                 noAvailableMoves();
             }
 		}
+        else
+        {
+            soundPlayer.PlayErrorSound();
+        }
 	}
 
 
@@ -301,13 +306,15 @@ public class GameLoop : MonoBehaviour {
 
 	//
 	void collision(Vector2 collCoord){
-		//TODO Draw collision on the board, give feedback for the error, and wait a few seconds
-		//Go back in time to the beginning of the game, mantaining the activeSnake
-		rollBackTime();
+        //TODO Draw collision on the board, give feedback for the error, and wait a few seconds
+        //Go back in time to the beginning of the game, mantaining the activeSnake
+        soundPlayer.PlayErrorSound();
+        rollBackTime();
         enableSelectionPanel();
 	}
 
     void noAvailableMoves() {
+        soundPlayer.PlayErrorSound();
         rollBackTime();
         enableSelectionPanel();
     }
@@ -315,6 +322,7 @@ public class GameLoop : MonoBehaviour {
 	//
 	void reachedExit(Vector2 exitCoord){
 		keyboardLock = true;
+        soundPlayer.PlaySuccessSound();
         Debug.Log("CHECKCHECKCHECK " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
 		//if (snakesStillOnBoardAtTimeStep (gameTime)) {
         if (!activeSnake.exitInStory) {
