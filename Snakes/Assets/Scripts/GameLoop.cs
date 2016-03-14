@@ -220,7 +220,7 @@ public class GameLoop : MonoBehaviour {
             updateBoard ();
             
             // if no moves available, reset snake
-            if (!(canMove(obj, oldPos + Vector2.up) || canMove(obj, oldPos + Vector2.down) || canMove(obj, oldPos + Vector2.right) || canMove(obj, oldPos + Vector2.left))) {
+            if (!(canMove(obj, newPos + Vector2.up) || canMove(obj, newPos + Vector2.down) || canMove(obj, newPos + Vector2.right) || canMove(obj, newPos + Vector2.left))) {
                 noAvailableMoves();
             }
 		}
