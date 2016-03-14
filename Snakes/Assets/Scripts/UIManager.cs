@@ -139,7 +139,7 @@ public class UIManager : MonoBehaviour {
         {
             if (completed[i])
             {
-                Sprite buttonSprite = Resources.Load<Sprite>("completed_square");
+                Sprite buttonSprite = Resources.Load<Sprite>("completed");
                 buttons[i].image.sprite = buttonSprite;
             }
             else if (!completed[i])
