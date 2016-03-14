@@ -13,6 +13,7 @@ public class GameLoop : MonoBehaviour {
         {"blue", Color.blue },
     };
 	public GameObject tileReference;
+    public AudioController soundPlayer;
 	//initialization of the snake buttons based upon snake colors
 	private void setSnakeSelectionPanel(){
 		List<Color> buttonColors = new List<Color> ();
@@ -195,7 +196,9 @@ public class GameLoop : MonoBehaviour {
         //		Debug.Log ("MOVING SNAKE");
         Debug.Log(obj + " " + obj.getColor());
 		List<Vector2> storyAtTime = obj.getPositionAtTime(gameTime);
-		Vector2 newPos = storyAtTime[storyAtTime.Count - 1] + direction;
+        Vector2 oldPos = storyAtTime[storyAtTime.Count - 1];
+
+        Vector2 newPos = oldPos + direction;
 		if (canMove(obj, newPos)){
 //			Debug.Log ("OBJECT CAN MOVE");
 			// if game time is zero, this is the special case
@@ -213,10 +216,19 @@ public class GameLoop : MonoBehaviour {
 //			Debug.Log ("Attemt to move to new position: " + newPos	);
 //		Debug.Log ("The object is: " + obj);
 			obj.moveTo (newPos);
-
-//			Debug.Log ("Snake head position " + (Snake(obj)).getHead() );
-			updateBoard ();
+            //			Debug.Log ("Snake head position " + (Snake(obj)).getHead() );
+            soundPlayer.PlayMoveSound();
+            updateBoard ();
+            
+            // if no moves available, reset snake
+            if (!(canMove(obj, oldPos + Vector2.up) || canMove(obj, oldPos + Vector2.down) || canMove(obj, oldPos + Vector2.right) || canMove(obj, oldPos + Vector2.left))) {
+                noAvailableMoves();
+            }
 		}
+        else
+        {
+            soundPlayer.PlayErrorSound();
+        }
 	}
 
 
@@ -228,10 +240,15 @@ public class GameLoop : MonoBehaviour {
 		List<Vector2> storyAtPrevTime = obj.getPositionAtTime (previousIndex);
 		Vector2 previousPos = storyAtPrevTime[storyAtPrevTime.Count - 1];
         // Check if the position is traversable, and check if the object is walking into itself
-		if (map.isTraversable(pos) && (previousPos != pos)){
+        int x = Convert.ToInt32(pos.x);
+        int y = Convert.ToInt32(pos.y);
+        if ((x < 0) || (x >= mapWidth) || (y < 0) || (y >= mapHeight)) {
+            return false;
+        }
+        else if (map.isTraversable(pos) && (previousPos != pos)){
 			return true;
 		}
-        return false;
+        return false;  
 	}
 
 	//increase timestep, update board visually
@@ -297,15 +314,23 @@ public class GameLoop : MonoBehaviour {
 
 	//
 	void collision(Vector2 collCoord){
-		//TODO Draw collision on the board, give feedback for the error, and wait a few seconds
-		//Go back in time to the beginning of the game, mantaining the activeSnake
-		rollBackTime();
+        //TODO Draw collision on the board, give feedback for the error, and wait a few seconds
+        //Go back in time to the beginning of the game, mantaining the activeSnake
+        soundPlayer.PlayErrorSound();
+        rollBackTime();
         enableSelectionPanel();
 	}
+
+    void noAvailableMoves() {
+        soundPlayer.PlayErrorSound();
+        rollBackTime();
+        enableSelectionPanel();
+    }
 
 	//
 	void reachedExit(Vector2 exitCoord){
 		keyboardLock = true;
+        soundPlayer.PlaySuccessSound();
         Debug.Log("CHECKCHECKCHECK " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
 		//if (snakesStillOnBoardAtTimeStep (gameTime)) {
         if (!activeSnake.exitInStory) {
@@ -384,10 +409,13 @@ public class GameLoop : MonoBehaviour {
 
 	// If the selected snake was already played, reset its story and remove it from past snakes
 	public void confirmActiveSnake(){
+        //Debug.Log("confirmingActiveSnakes!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
 		if (pastSnakes.Contains(activeSnake)) {
 			pastSnakes.Remove (activeSnake);
 			activeSnake.resetStory();
-		}
+            updateSnakeSelectionPanel();
+            //Debug.Log("past snake: " + pastSnakes.Count);
+        }
 	}
 
 
