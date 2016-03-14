@@ -171,7 +171,7 @@ public class UIManager : MonoBehaviour {
         finishedLevelCanvas.enabled = true;
         foreach (Button b in buttons)
         {
-            b.image.sprite = Resources.Load<Sprite>("completed_square");
+            b.image.sprite = Resources.Load<Sprite>("completed");
         }
 
     }
