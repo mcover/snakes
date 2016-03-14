@@ -43,8 +43,6 @@ public class GameLoop : MonoBehaviour {
 
 	private void disableSelectionPanel() {
 		this.GetComponent<UIManager>().EnableSnakeSelection();
-
-
     }
 
     public void loadLevel(int level)
@@ -192,6 +190,7 @@ public class GameLoop : MonoBehaviour {
 	//move the snake
 	//if the move took place, call update board
 	void move(BoardObject obj, Vector2 direction){
+        disableSelectionPanel();
         //		Debug.Log ("MOVING SNAKE");
         Debug.Log(obj + " " + obj.getColor());
 		List<Vector2> storyAtTime = obj.getPositionAtTime(gameTime);
@@ -300,6 +299,7 @@ public class GameLoop : MonoBehaviour {
 		//TODO Draw collision on the board, give feedback for the error, and wait a few seconds
 		//Go back in time to the beginning of the game, mantaining the activeSnake
 		rollBackTime();
+        enableSelectionPanel();
 	}
 
 	//
@@ -330,6 +330,7 @@ public class GameLoop : MonoBehaviour {
 				//Debug.Log("Resetting active snake!");
 				keyboardLock = false;
 			}
+            enableSelectionPanel();
 		}
 		//updateboard
 	}

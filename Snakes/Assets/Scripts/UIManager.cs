@@ -152,11 +152,11 @@ public class UIManager : MonoBehaviour {
     }
     public void DisableSnakeSelection()
     {
-        snakeSelectionBlocker.SetActive(true);
+        snakeSelectionBlocker.SetActive(false);
     }
     public void EnableSnakeSelection()
     {
-        snakeSelectionBlocker.SetActive(false);
+        snakeSelectionBlocker.SetActive(true);
     }
     public void ResetTiles()
     {
