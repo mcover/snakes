@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Tiles: MonoBehaviour {
 	// store the GameObjects in a List
 	public GameObject[,] tileList;
+    public GameObject[,] snakeList;
     //public Transform tileCanvas;
 	void Start () {
 	}
@@ -16,6 +17,7 @@ public class Tiles: MonoBehaviour {
 		public void drawEmptyBoard(int mapWidth, int mapHeight) {
 		Debug.Log ("Draw empty board being called");
 		tileList = new GameObject[mapWidth, mapHeight];
+        snakeList = new GameObject[mapWidth, mapHeight];
 		Debug.Log ("initialized tile list to " + tileList);
 //        Debug.Log ("level dim" + mapWidth + " " + mapHeight);
 			for (int i = 0; i < mapWidth; i++) {
@@ -23,14 +25,17 @@ public class Tiles: MonoBehaviour {
 					GameObject tile = new GameObject();
                     tile.name = "Tile";
                     
-//                    tile.transform.parent = this.transform;
-					tile.transform.parent = this.gameObject.transform;
+                    GameObject snakeTile = new GameObject();
+                    snakeTile.name = "SnakeTile";
+                //                    tile.transform.parent = this.transform;
+                    tile.transform.parent = this.gameObject.transform;
+                    snakeTile.transform.parent = this.gameObject.transform;
 //				    GameObject newTile = this.gameObject.AddComponent<GameObject>("Tile");
 					Image tileImage = tile.AddComponent<Image> ();
-                    GameObject snakeImage = (GameObject) Instantiate(Resources.Load("snakeImage"),tile.transform.position, Quaternion.identity);
-                    snakeImage.transform.SetParent(tile.transform);
-                    snakeImage.SetActive(false);
+                    Image snakeSquare = snakeTile.AddComponent<Image>();
+                    
 					RectTransform rt = tileImage.rectTransform;
+                    RectTransform st = snakeSquare.rectTransform;
 					RectTransform panelRT = (RectTransform)this.gameObject.transform;
 
 					float width = rt.rect.width;
@@ -42,18 +47,24 @@ public class Tiles: MonoBehaviour {
 					float scaleRatio = (float)(pWidth/mapWidth)/width;
 
 					tile.transform.localScale = new Vector3 (scaleRatio,scaleRatio,1);
+                    snakeSquare.transform.localScale = new Vector3(scaleRatio, scaleRatio, 1);
+
 				    Sprite tileSprite = Resources.Load<Sprite>("tile") as Sprite;
+                    snakeSquare.enabled = false;
 				    tileImage.sprite = tileSprite;
                 
 					// transform.rotation not necessary untill handling boardObjects
 					Vector3 tilePos = new Vector3(i*width*scaleRatio,j*height*scaleRatio,0f);
 					Vector3 panelOffset = new Vector3(-pWidth/2f,-pHeight/2f,0f);
 					Vector3 tileOffset = new Vector3 (width*scaleRatio/2f, height*scaleRatio/2f,0f);
-					
+                    Vector3 snakeOffset = new Vector3(0f, 0f, 10);
 					tile.transform.localPosition = tilePos + panelOffset + tileOffset;
+                    snakeTile.transform.localPosition = tilePos + panelOffset + tileOffset+snakeOffset;
+               
 				//	store tile GameObjects to access later for updates
 
 					tileList[i,j] = tile;
+                    snakeList[i, j] = snakeTile;
 				}
 			}
 		}
@@ -63,7 +74,10 @@ public class Tiles: MonoBehaviour {
         foreach(GameObject tile in tileList) {
             tile.GetComponent<Image>().color = Color.white;
         }
-
+        foreach (GameObject snake in snakeList)
+        {
+            snake.GetComponent<Image>().enabled = false;
+        }
     }
 	// I would personally add all the sprites you want as components to your GameObject and 
 	// activate/deactivate the sprites as necessary.
@@ -99,7 +113,7 @@ public class Tiles: MonoBehaviour {
 					Debug.Log("drawThis tileType: " + tileType + " direction: " + direction);
                     if (!(tileType.Equals("WALL")) || !(tileType.Equals("GOAL")))
                     {
-                        GameObject tile = tileList[i, j];
+                        GameObject tile = snakeList[i, j];
                         //tile.GetComponent<Image> ().color = drawThis.getColor ();
                         Image snakeImage = tile.GetComponentInChildren<Image>(); //the snake image
                         //Debug.Log(snakeImage == null);
