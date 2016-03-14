@@ -11,7 +11,10 @@ public class AudioController : MonoBehaviour
     public AudioClip move;
     [HideInInspector]
     public bool soundOn = true;
+    [HideInInspector]
+    public float volume = 1f;
     public Toggle toggle;
+    public Slider volumeControl;
 
     private AudioSource soundPlayer;
     // Use this for initialization
@@ -23,6 +26,13 @@ public class AudioController : MonoBehaviour
             OnSoundToggle(value);
         });//Do this in Start() for example
         soundOn = true;
+        volumeControl.onValueChanged.AddListener((value) =>
+        {
+            OnVolumeChange(value);
+        });
+        volumeControl.value = volume;
+        soundPlayer.volume = volume;
+
     }
 
     // Update is called once per frame
@@ -64,6 +74,11 @@ public class AudioController : MonoBehaviour
         soundOn = !soundOn;
     }
 
+    public void OnVolumeChange(float num)
+    {
+        volume = num;
+        soundPlayer.volume = volume;
+    }
 
 
 
