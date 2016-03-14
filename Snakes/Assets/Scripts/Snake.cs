@@ -90,4 +90,16 @@ public class Snake : BoardObject {
 	    story.Add(startPos);
         exitInStory = false;
 	}
+		
+	//Given a position in the game board and a time
+	//Returns information to draw the correct snake sprites
+	public void getSpriteInPositionAtTime(Vector2 pos, int t){
+		//get the snake position at time
+		//interpolate the movement by parsing through the list
+		//return (string, orientation) tuple
+		//string = type of tile
+		//orientation = a number 0-3 of orientation like a clock, (noon is 0)
+		//NOTE: I assume here that bend is at zero when it looks like an L
+	}
+
 }
