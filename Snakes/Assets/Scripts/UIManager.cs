@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour {
     public Canvas finishedLevelCanvas;
     public GameObject snakeSelectionBlocker;
     public Transform boardPanel;
+    public int maxLevel = 8;
 
     private int currentLevel;
     private int snake;
@@ -179,11 +180,18 @@ public class UIManager : MonoBehaviour {
     }
     public void LoadNextLevel()
     {
-       
-        activeSnakeFeedback(0);
-        ResetTiles();
-        LoadLevel(currentLevel + 1);
-        finishedLevelCanvas.enabled = false;
+        if (currentLevel < maxLevel)
+        {
+            activeSnakeFeedback(0);
+            ResetTiles();
+            LoadLevel(currentLevel + 1);
+            finishedLevelCanvas.enabled = false;
+        }
+        else
+        {
+            BackToMenu();
+            EnableCredits();
+        }
     }
     public void activeSnakeFeedback(int newSnake)
     {
