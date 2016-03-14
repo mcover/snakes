@@ -12,6 +12,7 @@ public class GameLoop : MonoBehaviour {
         {"blue", Color.blue },
     };
 	public GameObject tileReference;
+    public AudioController soundPlayer;
 	//initialization of the snake buttons based upon snake colors
 	private void setSnakeSelectionPanel(){
 		List<Color> buttonColors = new List<Color> ();
