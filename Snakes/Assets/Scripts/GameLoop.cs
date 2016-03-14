@@ -1,8 +1,9 @@
-﻿	using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+
 public class GameLoop : MonoBehaviour {
     public Dictionary<string, Color> color_map = new Dictionary<string, Color>() {
         {"red", Color.red },
@@ -321,14 +322,15 @@ public class GameLoop : MonoBehaviour {
 			if (pastSnakes.Count == allSnakes.Count) {
 				gameWin ();
 			} else {
-				gameTime = 0;
+				InvokeRepeating ("rewind", 0.0F, 0.25F);
+//				gameTime = 0;
                 activeSnake = allSnakes.Find(x => !x.exitInStory);
                 updateBoard ();
                 int snakeIndex = allSnakes.IndexOf(activeSnake);
                 this.GetComponent<UIManager>().activeSnakeFeedback(snakeIndex);
                 updateSnakeSelectionPanel ();
 				//Debug.Log("Resetting active snake!");
-				keyboardLock = false;
+//				keyboardLock = true;
 			}
             enableSelectionPanel();
 		}
@@ -364,12 +366,14 @@ public class GameLoop : MonoBehaviour {
             gameTimeLabel.text = "Time: " + gameTime;
 			updateBoard ();
 			//make noise
-			//delay
-			//rewind();
 		} else {
-			//return;
+			CancelInvoke ();
+			keyboardLock = false;
 		}
+			
 	}
+		
+
 
 	public void selectSnakeatIndex( int snakeIndex) {
 		activeSnake = allSnakes [snakeIndex];
