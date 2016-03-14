@@ -95,6 +95,12 @@ public class Tiles: MonoBehaviour {
 					//Debug.Log ("Tile list is" + tileList);
 					GameObject tile = tileList [i, j];
 					tile.GetComponent<Image> ().color = drawThis.getColor ();
+                    //Image snakeImage = tile.GetComponentInChildren<Image>(); //the snake image
+                    //snakeImage.enabled = true;
+                    //snakeImage.color = drawThis.getColor();  //set color of image
+                    //Sprite headSprite = Resources.Load<Sprite>("Head"); //grabs head from resources folder...maintains orientation in folder
+                    //snakeImage.transform.Rotate();
+                    //
 				}
 			}
 		}
