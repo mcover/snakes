@@ -133,10 +133,10 @@ public class Snake : BoardObject {
 			
 		if (index == 0 && currentPositions.Count == length) {
 			tileType = "TAIL";
-				orientationVector = directionStory[prevMoveIndex];
+			orientationVector = currentDirections[1];
 		} else if (index == (currentPositions.Count - 1)) {
 			tileType = "HEAD";
-			orientationVector = directionStory[directionStory.Count-1];
+			orientationVector = currentDirections[currentDirections.Count-1];
 		} else {
 
 //			Vector2 middlePiece = directionStory [index + 1] + directionStory [index];
@@ -146,22 +146,23 @@ public class Snake : BoardObject {
 			// Dot product is 0 if and only if the two vectors are perpendicular
 			if (Vector2.Dot(entryDirection, exitDirection) == 0) {
 				tileType = "CORNER";
-				if (directionStory [directionStory.Count - currentLength + 1] == Vector2.up) {
-					if (directionStory [directionStory.Count - currentLength] == Vector2.left) {
+				if (((entryDirection == Vector2.left) && (exitDirection == Vector2.up))
+					|| ((entryDirection == Vector2.down) && (exitDirection == Vector2.right))) {
 						orientationVector = Vector2.up;
-					} else if (directionStory [directionStory.Count - currentLength] == Vector2.right) {
+				} else if (((entryDirection == Vector2.down) && (exitDirection == Vector2.left))
+					|| ((entryDirection == Vector2.right) && (exitDirection == Vector2.up))){
 						orientationVector = Vector2.left;
-					}
-				} else if (directionStory [directionStory.Count - currentLength] == Vector2.up) {
-					if (directionStory [directionStory.Count - currentLength + 1] == Vector2.right) {
+				} else if (((entryDirection == Vector2.up) && (exitDirection == Vector2.right))
+					|| ((entryDirection == Vector2.left) && (exitDirection == Vector2.down))){
 						orientationVector = Vector2.right;
-					} else if (directionStory [directionStory.Count - currentLength + 1] == Vector2.left) {
+				} else if (((entryDirection == Vector2.up) && (exitDirection == Vector2.left))
+					|| ((entryDirection == Vector2.right) && (exitDirection == Vector2.down))){
 						orientationVector = Vector2.down;
 					}
 				}
-			} else {
+			else {
 				tileType = "STRAIGHT";
-				orientationVector = directionStory [directionStory.Count - currentLength];
+				orientationVector = entryDirection;
 			}
 		}
 		Debug.Log ("what tileType: " + tileType);
@@ -170,16 +171,18 @@ public class Snake : BoardObject {
 		//		Vector2 orientationVector = directionStory[t - index];
 //		Vector2 orientationVector = directionStory[index];
 		if (orientationVector.Equals (Vector2.up)) {
-					orientation = "UP";
-		} else if (entryDirection.Equals (Vector2.right)) {
+			orientation = "UP";
+		} else if (orientationVector.Equals (Vector2.right)) {
 			orientation = "RIGHT";	
-		} else if (entryDirection.Equals (Vector2.down)) {
+		} else if (orientationVector.Equals (Vector2.down)) {
 			orientation = "DOWN";
 		} else {
 			orientation = "LEFT";
 		}
 		Debug.Log ("CURRENT POSITION IS  " + pos);
+		Debug.Log ("GET DIRECTION AT TIME: " + currentDirections[0]);
 		Debug.Log ("TILETYPE IS " + tileType);
+		Debug.Log ("ORIENTATION VECTOR IS " + orientationVector);
 		Debug.Log ("ORIENTATION IS " + orientation);
 		return new List<string>(new string[] {tileType, orientation});
 	}
