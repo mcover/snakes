@@ -98,25 +98,52 @@ public class Snake : BoardObject {
 		string tileType;
 		string orientation;
 		List<Vector2> currentPositions = getPositionAtTime(t);
-
 		int index = currentPositions.FindIndex(a => a == pos);
-
+	
 		//get tile type
+		Debug.Log ("what t: " + t);
+		Debug.Log ("what cP: " + currentPositions[index]);
+		Debug.Log ("pos: " + pos);
+//		Debug.Log ("what directionStoryatT: " + directionStory[index]);
+		Vector2 orientationVector = new Vector2(0,0);
+		int currentLength = currentPositions.Count;
+		int prevMoveIndex = directionStory.Count - currentLength + 1;
+		int currentIndex = directionStory.Count - currentLength;
+			
 		if (index == 0 && currentPositions.Count == length) {
 			tileType = "TAIL";
+				orientationVector = directionStory[prevMoveIndex];
 		} else if (index == (currentPositions.Count - 1)) {
 			tileType = "HEAD";
+			orientationVector = directionStory[directionStory.Count-1];
 		} else {
-			Vector2 middlePiece = currentPositions [index - 1] + currentPositions [index + 1];
+//			Vector2 middlePiece = currentPositions [index - 1] + currentPositions [index + 1];
+			Vector2 middlePiece = directionStory [index + 1] + directionStory [index];
 			if (middlePiece.x != 0 && middlePiece.y != 0) {
+				Debug.Log ("what index: " + index);
 				tileType = "CORNER";
+				if (directionStory [directionStory.Count - currentLength + 1] == Vector2.up) {
+					if (directionStory [directionStory.Count - currentLength] == Vector2.left) {
+						orientationVector = Vector2.up;
+					} else if (directionStory [directionStory.Count - currentLength] == Vector2.right) {
+						orientationVector = Vector2.left;
+					}
+				} else if (directionStory [directionStory.Count - currentLength] == Vector2.up) {
+					if (directionStory [directionStory.Count - currentLength + 1] == Vector2.right) {
+						orientationVector = Vector2.right;
+					} else if (directionStory [directionStory.Count - currentLength + 1] == Vector2.left) {
+						orientationVector = Vector2.down;
+					}
+				}
 			} else {
 				tileType = "STRAIGHT";
+				orientationVector = directionStory [directionStory.Count - currentLength];
 			}
 		}
-
+		Debug.Log ("what tileType: " + tileType);
 		//whatever index it is, we go that far back into directionStory to get direction
-		Vector2 orientationVector = directionStory[t - index];
+//		Vector2 orientationVector = directionStory[t - index];
+//		Vector2 orientationVector = directionStory[index];
 		if (orientationVector.Equals (Vector2.up)) {
 			orientation = "UP";
 		} else if (orientationVector.Equals (Vector2.right)) {

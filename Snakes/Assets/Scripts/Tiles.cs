@@ -120,31 +120,31 @@ public class Tiles: MonoBehaviour {
                         snakeImage.enabled = true;
                         snakeImage.color = drawThis.getColor();  //set color of image
                         Sprite newSprite = Resources.Load<Sprite>(tileType.ToString()) as Sprite; //grabs head from resources folder...maintains orientation in folder
-						Debug.Log("sprite info direction" + spriteInfo[1]);
+//						Debug.Log("sprite info direction" + spriteInfo[1]);
                         snakeImage.sprite = newSprite;
                         if (tileType.Equals("HEAD") || tileType.Equals("STRAIGHT")||tileType.Equals("TAIL"))
-                        {
+                        {	
+							// clear previous rotation history
+							snakeImage.transform.rotation = Quaternion.identity;
                             if (spriteInfo[1].Equals("UP"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 0));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 270f));
                             }
                             else if (spriteInfo[1].Equals("DOWN"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 180));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 90f));
                             }
                             else if (spriteInfo[1].Equals("LEFT"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 270));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 180f));
                             }
                             else if (spriteInfo[1].Equals("RIGHT"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 90));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 0f));
                             }
                                 
                         }
                          
-                        //snakeImage.transform.Rotate();
-                        //
                    }
 				}
 			}
