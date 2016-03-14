@@ -107,7 +107,7 @@ public class Snake : BoardObject {
 		} else if (index == (currentPositions.Count - 1)) {
 			tileType = "HEAD";
 		} else {
-			Vector2 middlePiece = currentPositions [index - 1] + currentPositions [index + 1];
+			Vector2 middlePiece = 2 * pos - (currentPositions [index + 1] + currentPositions [index - 1]);
 			if (middlePiece.x != 0 && middlePiece.y != 0) {
 				tileType = "CORNER";
 			} else {
