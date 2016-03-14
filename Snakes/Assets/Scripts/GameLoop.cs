@@ -380,10 +380,13 @@ public class GameLoop : MonoBehaviour {
 
 	// If the selected snake was already played, reset its story and remove it from past snakes
 	public void confirmActiveSnake(){
+        //Debug.Log("confirmingActiveSnakes!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
 		if (pastSnakes.Contains(activeSnake)) {
 			pastSnakes.Remove (activeSnake);
 			activeSnake.resetStory();
-		}
+            updateSnakeSelectionPanel();
+            //Debug.Log("past snake: " + pastSnakes.Count);
+        }
 	}
 
 

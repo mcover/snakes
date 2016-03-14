@@ -136,6 +136,14 @@ public class UIManager : MonoBehaviour {
     }
     public void UpdateSnakeButtons(List<bool> completed)
     {
+        if (completed.Count == 0)
+        {
+            foreach (Button button in buttons)
+            {
+                Sprite buttonSprite = Resources.Load<Sprite>("square");
+                button.image.sprite = buttonSprite;
+            }
+        }
         for (int i=0; i< completed.Count;i++)
         {
             if (completed[i])
@@ -143,10 +151,11 @@ public class UIManager : MonoBehaviour {
                 Sprite buttonSprite = Resources.Load<Sprite>("completed");
                 buttons[i].image.sprite = buttonSprite;
             }
-            else if (!completed[i])
+            else
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 buttons[i].image.sprite = buttonSprite;
+                Debug.Log("RETURNING TO ORIG SPRITE!!!!");
             }
         }
     }
