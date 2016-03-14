@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour {
     public Canvas finishedLevelCanvas;
     public GameObject snakeSelectionBlocker;
     public Transform boardPanel;
+    public int maxLevel = 8;
 
     private int currentLevel;
     private int snake;
@@ -100,14 +101,12 @@ public class UIManager : MonoBehaviour {
         if (helpText.enabled == false)
         {
             helpText.enabled = true;
-            Debug.Log("enabled help");
-            Debug.Log(helpText.enabled);
+           
         }
         else if (helpText.enabled == true)
         {
             helpText.enabled = false;
-            Debug.Log("disabled help");
-            Debug.Log(helpText.enabled);
+           
         }
 
     }
@@ -137,6 +136,14 @@ public class UIManager : MonoBehaviour {
     }
     public void UpdateSnakeButtons(List<bool> completed)
     {
+        if (completed.Count == 0)
+        {
+            foreach (Button button in buttons)
+            {
+                Sprite buttonSprite = Resources.Load<Sprite>("square");
+                button.image.sprite = buttonSprite;
+            }
+        }
         for (int i=0; i< completed.Count;i++)
         {
             if (completed[i])
@@ -144,20 +151,21 @@ public class UIManager : MonoBehaviour {
                 Sprite buttonSprite = Resources.Load<Sprite>("completed");
                 buttons[i].image.sprite = buttonSprite;
             }
-            else if (!completed[i])
+            else
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 buttons[i].image.sprite = buttonSprite;
+                Debug.Log("RETURNING TO ORIG SPRITE!!!!");
             }
         }
     }
     public void DisableSnakeSelection()
     {
-        snakeSelectionBlocker.SetActive(true);
+        snakeSelectionBlocker.SetActive(false);
     }
     public void EnableSnakeSelection()
     {
-        snakeSelectionBlocker.SetActive(false);
+        snakeSelectionBlocker.SetActive(true);
     }
     public void ResetTiles()
     {
@@ -179,11 +187,18 @@ public class UIManager : MonoBehaviour {
     }
     public void LoadNextLevel()
     {
-       
-        activeSnakeFeedback(0);
-        ResetTiles();
-        LoadLevel(currentLevel + 1);
-        finishedLevelCanvas.enabled = false;
+        if (currentLevel < maxLevel)
+        {
+            activeSnakeFeedback(0);
+            ResetTiles();
+            LoadLevel(currentLevel + 1);
+            finishedLevelCanvas.enabled = false;
+        }
+        else
+        {
+            BackToMenu();
+            EnableCredits();
+        }
     }
     public void activeSnakeFeedback(int newSnake)
     {

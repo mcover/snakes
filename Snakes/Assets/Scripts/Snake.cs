@@ -65,6 +65,21 @@ public class Snake : BoardObject {
         }
 	}
 
+	//return list of direction snake had at given time
+	//Note: assuming t starts at 0 at that snakes are instantiated with nonempty story
+	public new List<Vector2> getDirectionAtTime(int t){
+		if (directionStory == null || directionStory.Count == 0) {
+			return null;
+		}
+
+		int tailIndex = Math.Max(0, t + 1 - length);
+		if (tailIndex < directionStory.Count) {
+			return directionStory.GetRange(tailIndex, Math.Min(t + 1 - tailIndex, directionStory.Count - tailIndex));
+		} else {
+			return new List<Vector2>();
+		}
+	}
+
 	//returns whether or not the snake is still on the board
 	// Note: only return false when the entire snake left the board
 	public new bool onBoardAtTime(int t){
@@ -98,8 +113,15 @@ public class Snake : BoardObject {
 		string tileType;
 		string orientation;
 		List<Vector2> currentPositions = getPositionAtTime(t);
+
 		int index = currentPositions.FindIndex(a => a == pos);
 	
+//		List<Vector2> currentDirections = getDirectionAtTime(t);
+//
+//		int index = currentPositions.FindIndex(a => a == pos);
+//		Vector2 entryDirection = currentDirections [index];
+//		Vector2 exitDirection = currentDirections[Math.Min(index + 1, currentDirections.Count - 1)];
+//
 		//get tile type
 		Debug.Log ("what t: " + t);
 		Debug.Log ("what cP: " + currentPositions[index]);
@@ -117,10 +139,13 @@ public class Snake : BoardObject {
 			tileType = "HEAD";
 			orientationVector = directionStory[directionStory.Count-1];
 		} else {
-//			Vector2 middlePiece = currentPositions [index - 1] + currentPositions [index + 1];
-			Vector2 middlePiece = directionStory [index + 1] + directionStory [index];
-			if (middlePiece.x != 0 && middlePiece.y != 0) {
-				Debug.Log ("what index: " + index);
+
+//			Vector2 middlePiece = directionStory [index + 1] + directionStory [index];
+//			if (middlePiece.x != 0 && middlePiece.y != 0) {
+//				Debug.Log ("what index: " + index);
+//
+			// Dot product is 0 if and only if the two vectors are perpendicular
+			if (Vector2.Dot(entryDirection, exitDirection) == 0) {
 				tileType = "CORNER";
 				if (directionStory [directionStory.Count - currentLength + 1] == Vector2.up) {
 					if (directionStory [directionStory.Count - currentLength] == Vector2.left) {
@@ -142,19 +167,21 @@ public class Snake : BoardObject {
 		}
 		Debug.Log ("what tileType: " + tileType);
 		//whatever index it is, we go that far back into directionStory to get direction
-//		Vector2 orientationVector = directionStory[t - index];
+
+		//		Vector2 orientationVector = directionStory[t - index];
 //		Vector2 orientationVector = directionStory[index];
 		if (orientationVector.Equals (Vector2.up)) {
+
+//		if (entryDirection.Equals (Vector2.up)) {
 			orientation = "UP";
-		} else if (orientationVector.Equals (Vector2.right)) {
+		} else if (entryDirection.Equals (Vector2.right)) {
 			orientation = "RIGHT";	
-		} else if (orientationVector.Equals (Vector2.down)) {
+		} else if (entryDirection.Equals (Vector2.down)) {
 			orientation = "DOWN";
 		} else {
 			orientation = "LEFT";
 		}
-
-		return new List<string>(new string[] { tileType, orientation });
+		return new List<string>(new string[] {tileType, orientation});
 	}
 
 }
