@@ -110,7 +110,13 @@ public class Tiles: MonoBehaviour {
                     //orientation can be: UP, DOWN, LEFT, RIGHT
                     string tileType = spriteInfo[0];
                     string direction = spriteInfo[1];
-					Debug.Log("drawThis tileType: " + tileType + " direction: " + direction);
+                    if (tileType.Equals("WALL"))
+                    {
+                        GameObject bottomTile = tileList[i, j];
+                        bottomTile.GetComponent<Image>().color = drawThis.getColor();
+                        Debug.Log("Drawing Wall");
+                    }
+                    Debug.Log("drawThis tileType: " + tileType + " direction: " + direction);
                     if (!(tileType.Equals("WALL")) || !(tileType.Equals("GOAL")))
                     {
                         GameObject tile = snakeList[i, j];
@@ -142,6 +148,8 @@ public class Tiles: MonoBehaviour {
                             }
                                 
                         }
+
+                        
                          
                         //snakeImage.transform.Rotate();
                         //
