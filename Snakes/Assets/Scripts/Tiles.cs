@@ -21,10 +21,15 @@ public class Tiles: MonoBehaviour {
 			for (int i = 0; i < mapWidth; i++) {
 				for (int j = 0; j < mapHeight; j++) {
 					GameObject tile = new GameObject();
+                    tile.name = "Tile";
+                    
 //                    tile.transform.parent = this.transform;
 					tile.transform.parent = this.gameObject.transform;
 //				    GameObject newTile = this.gameObject.AddComponent<GameObject>("Tile");
 					Image tileImage = tile.AddComponent<Image> ();
+                    GameObject snakeImage = (GameObject) Instantiate(Resources.Load("snakeImage"),tile.transform.position, Quaternion.identity);
+                    snakeImage.transform.SetParent(tile.transform);
+                    snakeImage.SetActive(false);
 					RectTransform rt = tileImage.rectTransform;
 					RectTransform panelRT = (RectTransform)this.gameObject.transform;
 
