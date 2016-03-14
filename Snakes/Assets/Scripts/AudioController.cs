@@ -20,7 +20,7 @@ public class AudioController : MonoBehaviour {
 	}
 
 
-    public void PlaySucessSound()
+    public void PlaySuccessSound()
     {
         soundPlayer.clip = success;
         soundPlayer.Play();
