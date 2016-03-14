@@ -91,8 +91,13 @@ public class Tiles: MonoBehaviour {
 			for (int j = 0; j < map.getHeight(); j++) {
 				List<BoardObject> drawObjects = map.getObjectAtPosition (new Vector2 (i, j));
 				foreach (BoardObject drawThis in drawObjects) {
-					//Debug.Log ("Here we are!");
-					//Debug.Log ("Tile list is" + tileList);
+					List<string> spriteInfo = drawThis.getSpriteInPositionAtTime(new Vector2 (i, j),map.getTime());
+					//sprite info is now a list -> [tileType,orientation]
+					//tileType can be: WALL, GOAL, HEAD, CORNER, STRAIGHT, TAIL
+					//orientation can be: UP, DOWN, LEFT, RIGHT
+
+
+
 					GameObject tile = tileList [i, j];
 					tile.GetComponent<Image> ().color = drawThis.getColor ();
 				}

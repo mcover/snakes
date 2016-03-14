@@ -104,5 +104,8 @@ public class Map {
 	public List<BoardObject> getObjectAtPosition(Vector2 pos){
 		return map [Convert.ToInt32(pos.x), Convert.ToInt32(pos.y)];
 	}
+	public int getTime(){
+		return time;
+	}
 
 }

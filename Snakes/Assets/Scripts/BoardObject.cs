@@ -43,4 +43,9 @@ public class BoardObject {
 	public virtual Color getColor(){
 		return Color.clear;
 	}
+
+	public virtual List<string> getSpriteInPositionAtTime(Vector2 pos, int t) {
+		return new List<string>();
+	}
+
 }

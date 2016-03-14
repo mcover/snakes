@@ -19,4 +19,9 @@ public class Goal : BoardObject {
 	}
 
     //implement class methods
+
+
+	public override List<string> getSpriteInPositionAtTime(Vector2 pos, int t){
+		return new List<string>(new string[] { "GOAL", "UP" });
+	}
 }

@@ -92,14 +92,42 @@ public class Snake : BoardObject {
 	}
 		
 	//Given a position in the game board and a time
-	//Returns information to draw the correct snake sprites
-	public void getSpriteInPositionAtTime(Vector2 pos, int t){
+	//Returns list length two to draw the correct snake sprites
+	public List<string> getSpriteInPositionAtTime(Vector2 pos, int t){
 		//get the snake position at time
-		//interpolate the movement by parsing through the list
-		//return (string, orientation) tuple
-		//string = type of tile
-		//orientation = a number 0-3 of orientation like a clock, (noon is 0)
-		//NOTE: I assume here that bend is at zero when it looks like an L
+		string tileType;
+		string orientation;
+		List<Vector2> currentPositions = getPositionAtTime(t);
+
+		int index = currentPositions.FindIndex(a => a == pos);
+
+		//get tile type
+		if (index == 0 && currentPositions.Count == length) {
+			tileType = "HEAD";
+		} else if (index == (currentPositions.Count - 1)) {
+			tileType = "TAIL";
+		} else {
+			Vector2 middlePiece = currentPositions [index - 1] + currentPositions [index + 1];
+			if (middlePiece.x != 0 && middlePiece.y != 0) {
+				tileType = "CORNER";
+			} else {
+				tileType = "STRAIGHT";
+			}
+		}
+
+		//whatever index it is, we go that far back into directionStory to get direction
+		Vector2 orientationVector = directionStory[t - index];
+		if (orientationVector.Equals (Vector2.up)) {
+			orientation = "UP";
+		} else if (orientationVector.Equals (Vector2.right)) {
+			orientation = "RIGHT";	
+		} else if (orientationVector.Equals (Vector2.down)) {
+			orientation = "DOWN";
+		} else {
+			orientation = "LEFT";
+		}
+
+		return new List<string>(new string[] { tileType, orientation });
 	}
 
 }
