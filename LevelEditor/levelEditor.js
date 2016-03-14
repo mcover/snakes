@@ -39,6 +39,10 @@ $(function() {
             }
             $mapContainer.append($row);
         }
+
+        $mapContainer.find('td').click(function() {
+           $(this).removeClass().addClass('wall').attr('heading', '');
+	});
     };
 
     $('#build-map-btn').click(buildMap);
