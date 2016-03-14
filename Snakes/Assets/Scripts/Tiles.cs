@@ -42,9 +42,6 @@ public class Tiles: MonoBehaviour {
 					float scaleRatio = (float)(pWidth/mapWidth)/width;
 
 					tile.transform.localScale = new Vector3 (scaleRatio,scaleRatio,1);
-//					Debug.Log	("ratio");
-//					Debug.Log (scaleRatio);
-//					Debug.Log (pWidth/mapWidth);
 				    Sprite tileSprite = Resources.Load<Sprite>("tile") as Sprite;
 				    tileImage.sprite = tileSprite;
                 
@@ -87,17 +84,19 @@ public class Tiles: MonoBehaviour {
 
 	public void drawMap(Map map){
 		clearBoard();
+		Debug.Log("drawMap called");
 		for (int i = 0; i < map.getWidth(); i++) {
 			for (int j = 0; j < map.getHeight(); j++) {
-				List<BoardObject> drawObjects = map.getObjectAtPosition (new Vector2 (i, j));
+				Vector2 mapPos = new Vector2 (i, j);
+				List<BoardObject> drawObjects = map.getObjectAtPosition (mapPos);
 				foreach (BoardObject drawThis in drawObjects) {
-					List<string> spriteInfo = drawThis.getSpriteInPositionAtTime(new Vector2 (i, j),map.getTime());
+					List<string> spriteInfo = drawThis.getSpriteInPositionAtTime(mapPos,map.getTime());
                     //sprite info is now a list -> [tileType,orientation]
                     //tileType can be: WALL, GOAL, HEAD, CORNER, STRAIGHT, TAIL
                     //orientation can be: UP, DOWN, LEFT, RIGHT
                     string tileType = spriteInfo[0];
                     string direction = spriteInfo[1];
-
+					Debug.Log("drawThis tileType: " + tileType + " direction: " + direction);
                     if (!(tileType.Equals("WALL")) || !(tileType.Equals("GOAL")))
                     {
                         GameObject tile = tileList[i, j];
@@ -107,7 +106,7 @@ public class Tiles: MonoBehaviour {
                         snakeImage.enabled = true;
                         snakeImage.color = drawThis.getColor();  //set color of image
                         Sprite newSprite = Resources.Load<Sprite>(tileType.ToString()) as Sprite; //grabs head from resources folder...maintains orientation in folder
-                        Debug.Log(spriteInfo[1]);
+						Debug.Log("sprite info direction" + spriteInfo[1]);
                         snakeImage.sprite = newSprite;
                         if (tileType.Equals("HEAD") || tileType.Equals("STRAIGHT")||tileType.Equals("TAIL"))
                         {
@@ -121,7 +120,6 @@ public class Tiles: MonoBehaviour {
                             }
                             else if (spriteInfo[1].Equals("LEFT"))
                             {
-
                                 snakeImage.transform.Rotate(new Vector3(0, 0, 270));
                             }
                             else if (spriteInfo[1].Equals("RIGHT"))
