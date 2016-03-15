@@ -116,11 +116,10 @@ public class Snake : BoardObject {
 
 		int index = currentPositions.FindIndex(a => a == pos);
 	
-//		List<Vector2> currentDirections = getDirectionAtTime(t);
-//
-//		int index = currentPositions.FindIndex(a => a == pos);
-//		Vector2 entryDirection = currentDirections [index];
-//		Vector2 exitDirection = currentDirections[Math.Min(index + 1, currentDirections.Count - 1)];
+		List<Vector2> currentDirections = getDirectionAtTime(t);
+
+		Vector2 entryDirection = currentDirections [index];
+		Vector2 exitDirection = currentDirections[Math.Min(index + 1, currentDirections.Count - 1)];
 //
 		//get tile type
 		Debug.Log ("what t: " + t);
@@ -150,19 +149,19 @@ public class Snake : BoardObject {
 				if (directionStory [directionStory.Count - currentLength + 1] == Vector2.up) {
 					if (directionStory [directionStory.Count - currentLength] == Vector2.left) {
 						orientationVector = Vector2.up;
-					} else if (directionStory [directionStory.Count - currentLength] == Vector2.right) {
+					} else if (directionStory [currentIndex] == Vector2.right) {
 						orientationVector = Vector2.left;
 					}
-				} else if (directionStory [directionStory.Count - currentLength] == Vector2.up) {
-					if (directionStory [directionStory.Count - currentLength + 1] == Vector2.right) {
+				} else if (directionStory [currentIndex] == Vector2.up) {
+					if (directionStory [prevMoveIndex] == Vector2.right) {
 						orientationVector = Vector2.right;
-					} else if (directionStory [directionStory.Count - currentLength + 1] == Vector2.left) {
+					} else if (directionStory [prevMoveIndex] == Vector2.left) {
 						orientationVector = Vector2.down;
 					}
 				}
 			} else {
 				tileType = "STRAIGHT";
-				orientationVector = directionStory [directionStory.Count - currentLength];
+				orientationVector = directionStory [currentIndex];
 			}
 		}
 		Debug.Log ("what tileType: " + tileType);

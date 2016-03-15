@@ -128,19 +128,19 @@ public class Tiles: MonoBehaviour {
 							snakeImage.transform.rotation = Quaternion.identity;
                             if (spriteInfo[1].Equals("UP"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 270f));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 0f));
                             }
                             else if (spriteInfo[1].Equals("DOWN"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 90f));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 180f));
                             }
                             else if (spriteInfo[1].Equals("LEFT"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 180f));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 270f));
                             }
                             else if (spriteInfo[1].Equals("RIGHT"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 0f));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 90f));
                             }
                                 
                         }
@@ -151,11 +151,6 @@ public class Tiles: MonoBehaviour {
 		}
 	}
 
-		// Tile object should read information from GameLoop
-		// and render the correct type of tile in the scene. 
-		// 2. render puzzleObjects tiles (update/draw snakes & walls)
-
-		// Tile types: wall/obstacles, head, body, turn, tail, map
 		// TODO: need map art
 		// Tile position: 
 		// initialize tiles with initPositions of the snakes, 
