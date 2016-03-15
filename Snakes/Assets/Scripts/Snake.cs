@@ -38,6 +38,7 @@ public class Snake : BoardObject {
 	//add position to story, and newDirection to directionStory
 	// NOTE: If we want to teleport the snake to a cell far away, we will need to pass a new heading
 	 public override void moveTo(Vector2 pos){
+		Debug.Log ("SNAKE IS MOVING");
 //		if (story == null || story.Count == 0) {
 //            
 //		}
@@ -85,9 +86,8 @@ public class Snake : BoardObject {
 	//returns whether or not the snake is still on the board
 	// Note: only return false when the entire snake left the board
 	public new bool onBoardAtTime(int t){
-		if (story == null || story.Count == 0) {
-		}
-		bool isOnBoard =  ((story.Count + length <= t));
+		
+		bool isOnBoard =  ((story.Count + length) >= t);
 		return isOnBoard;
 	}
 
