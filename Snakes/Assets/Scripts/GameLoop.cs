@@ -25,7 +25,7 @@ public class GameLoop : MonoBehaviour {
 	//updates selection panel by giving a list of booleans
 	//false: snake isn't complete
 	private void updateSnakeSelectionPanel(){
-		List<bool> complete = new List<bool> (new bool[pastSnakes.Count]);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
+		List<bool> complete = new List<bool> (new bool[allSnakes.Count]);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
 		for (int i = 0; i < allSnakes.Count; i++) {
 			foreach (Snake snake in pastSnakes){
 				if (snake.getColor () == allSnakes [i].getColor ()) {
@@ -353,6 +353,7 @@ public class GameLoop : MonoBehaviour {
                 activeSnake = allSnakes.Find(x => !x.exitInStory);
                 updateBoard ();
                 int snakeIndex = allSnakes.IndexOf(activeSnake);
+                Debug.Log("snake index: " + snakeIndex);
                 this.GetComponent<UIManager>().activeSnakeFeedback(snakeIndex);
                 updateSnakeSelectionPanel ();
 				//Debug.Log("Resetting active snake!");
@@ -399,7 +400,7 @@ public class GameLoop : MonoBehaviour {
 		}
 	}
 
-	public void selectSnakeatIndex( int snakeIndex) {
+	public void selectSnakeatIndex( int snakeIndex) {//does this need to update the snakePanel?
 		activeSnake = allSnakes [snakeIndex];
 		keyboardLock = false;
         this.GetComponent<UIManager>().activeSnakeFeedback(snakeIndex);
