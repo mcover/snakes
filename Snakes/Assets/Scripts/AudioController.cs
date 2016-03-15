@@ -32,7 +32,6 @@ public class AudioController : MonoBehaviour
         });
         volumeControl.value = volume;
         soundPlayer.volume = volume;
-
     }
 
     // Update is called once per frame
@@ -46,17 +45,15 @@ public class AudioController : MonoBehaviour
     {
         if (soundOn)
         {
-            soundPlayer.clip = success;
-            soundPlayer.Play();
-        }
+            soundPlayer.PlayOneShot(success);
+         }
     }
 
     public void PlayErrorSound()
     {
         if (soundOn)
         {
-            soundPlayer.clip = error;
-            soundPlayer.Play();
+            soundPlayer.PlayOneShot(error);
         }
     }
 
@@ -64,8 +61,7 @@ public class AudioController : MonoBehaviour
     {
         if (soundOn)
         {
-            soundPlayer.clip = move;
-            soundPlayer.Play();
+            soundPlayer.PlayOneShot(move);
         }
     }
 
@@ -79,6 +75,7 @@ public class AudioController : MonoBehaviour
         volume = num;
         soundPlayer.volume = volume;
     }
+   
 
 
 

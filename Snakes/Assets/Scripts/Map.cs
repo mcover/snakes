@@ -41,7 +41,7 @@ public class Map {
 //				Debug.Log ("object list for i = " + i + " and j = " + j + " = " + objs.Count);
                 // if at least one event could occur
                 if (objs.Count >= 2) {
-					Debug.Log ("FOUND TWO OR MORE OBJECTS IN ONE SQUARE");
+					//Debug.Log ("FOUND TWO OR MORE OBJECTS IN ONE SQUARE");
                     // double for loop to find each event that could occur
                     for (int firstObjectIndex = 0; firstObjectIndex < objs.Count - 1; firstObjectIndex++)
                     {

@@ -7,18 +7,22 @@ using UnityEngine.UI;
 
 public class Tiles: MonoBehaviour {
 	// store the GameObjects in a List
+    [HideInInspector]
 	public GameObject[,] tileList;
+    [HideInInspector]
     public GameObject[,] snakeList;
+
+    public float pastSnakeAlpha = .5f;
     //public Transform tileCanvas;
 	void Start () {
 	}
 
 	// private List<GameObject> mapTiles;
 		public void drawEmptyBoard(int mapWidth, int mapHeight) {
-		Debug.Log ("Draw empty board being called");
+		//Debug.Log ("Draw empty board being called");
 		tileList = new GameObject[mapWidth, mapHeight];
         snakeList = new GameObject[mapWidth, mapHeight];
-		Debug.Log ("initialized tile list to " + tileList);
+		//Debug.Log ("initialized tile list to " + tileList);
 //        Debug.Log ("level dim" + mapWidth + " " + mapHeight);
 			for (int i = 0; i < mapWidth; i++) {
 				for (int j = 0; j < mapHeight; j++) {
@@ -96,9 +100,9 @@ public class Tiles: MonoBehaviour {
 //			}
 //		}
 
-	public void drawMap(Map map){
+	public void drawMap(Map map, Snake activeSnake){
 		clearBoard();
-		Debug.Log("drawMap called");
+		//Debug.Log("drawMap called");
 		for (int i = 0; i < map.getWidth(); i++) {
 			for (int j = 0; j < map.getHeight(); j++) {
 				Vector2 mapPos = new Vector2 (i, j);
@@ -115,7 +119,7 @@ public class Tiles: MonoBehaviour {
                         GameObject bottomTile = tileList[i, j];
                         bottomTile.GetComponent<Image>().color = drawThis.getColor();
                     }
-                    Debug.Log("drawThis tileType: " + tileType + " direction: " + direction);
+                    //Debug.Log("drawThis tileType: " + tileType + " direction: " + direction);
                     if (!(tileType.Equals("WALL")) && !(tileType.Equals("GOAL")))
                     { 
                         GameObject tile = snakeList[i, j];
@@ -123,7 +127,15 @@ public class Tiles: MonoBehaviour {
                         Image snakeImage = tile.GetComponentInChildren<Image>(); //the snake image
                         //Debug.Log(snakeImage == null);
                         snakeImage.enabled = true;
-                        snakeImage.color = drawThis.getColor();  //set color of image
+                        if (drawThis.getColor() == activeSnake.getColor())
+                        {
+                            snakeImage.color = drawThis.getColor();  //set color of image
+                        }
+                        else
+                        {
+                            snakeImage.color = drawThis.getColor();
+                            snakeImage.color = new Color(snakeImage.color.r, snakeImage.color.g, snakeImage.color.b, pastSnakeAlpha);
+                        }
                         Sprite newSprite = Resources.Load<Sprite>(tileType.ToString()) as Sprite; //grabs head from resources folder...maintains orientation in folder
 //						Debug.Log("sprite info direction" + spriteInfo[1]);
                         snakeImage.sprite = newSprite;
@@ -155,11 +167,6 @@ public class Tiles: MonoBehaviour {
 		}
 	}
 
-		// Tile object should read information from GameLoop
-		// and render the correct type of tile in the scene. 
-		// 2. render puzzleObjects tiles (update/draw snakes & walls)
-
-		// Tile types: wall/obstacles, head, body, turn, tail, map
 		// TODO: need map art
 		// Tile position: 
 		// initialize tiles with initPositions of the snakes, 

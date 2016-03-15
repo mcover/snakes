@@ -124,9 +124,9 @@ public class Snake : BoardObject {
 		Vector2 exitDirection = currentDirections[Math.Min(index + 1, currentDirections.Count - 1)];
 //
 		//get tile type
-		Debug.Log ("what t: " + t);
-		Debug.Log ("what cP: " + currentPositions[index]);
-		Debug.Log ("pos: " + pos);
+		//Debug.Log ("what t: " + t);
+		//Debug.Log ("what cP: " + currentPositions[index]);
+		//Debug.Log ("pos: " + pos);
 //		Debug.Log ("what directionStoryatT: " + directionStory[index]);
 		Vector2 orientationVector = new Vector2(0,0);
 		int currentLength = currentPositions.Count;
@@ -167,7 +167,7 @@ public class Snake : BoardObject {
 				orientationVector = entryDirection;
 			}
 		}
-		Debug.Log ("what tileType: " + tileType);
+		//Debug.Log ("what tileType: " + tileType);
 		//whatever index it is, we go that far back into directionStory to get direction
 
 		//		Vector2 orientationVector = directionStory[t - index];
@@ -181,11 +181,11 @@ public class Snake : BoardObject {
 		} else {
 			orientation = "LEFT";
 		}
-		Debug.Log ("CURRENT POSITION IS  " + pos);
-		Debug.Log ("GET DIRECTION AT TIME: " + currentDirections[0]);
-		Debug.Log ("TILETYPE IS " + tileType);
-		Debug.Log ("ORIENTATION VECTOR IS " + orientationVector);
-		Debug.Log ("ORIENTATION IS " + orientation);
+		//Debug.Log ("CURRENT POSITION IS  " + pos);
+		//Debug.Log ("GET DIRECTION AT TIME: " + currentDirections[0]);
+		//Debug.Log ("TILETYPE IS " + tileType);
+		//Debug.Log ("ORIENTATION VECTOR IS " + orientationVector);
+		//Debug.Log ("ORIENTATION IS " + orientation);
 		return new List<string>(new string[] {tileType, orientation});
 	}
 
