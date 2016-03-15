@@ -1,8 +1,9 @@
-﻿	using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+
 public class GameLoop : MonoBehaviour {
     public Dictionary<string, Color> color_map = new Dictionary<string, Color>() {
         {"red", Color.red },
@@ -25,7 +26,7 @@ public class GameLoop : MonoBehaviour {
 	//updates selection panel by giving a list of booleans
 	//false: snake isn't complete
 	private void updateSnakeSelectionPanel(){
-		List<bool> complete = new List<bool> (new bool[pastSnakes.Count]);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
+		List<bool> complete = new List<bool> (new bool[allSnakes.Count]);//I assume that list (int x) constructor creates list of size x set to default (false) bool vals
 		for (int i = 0; i < allSnakes.Count; i++) {
 			foreach (Snake snake in pastSnakes){
 				if (snake.getColor () == allSnakes [i].getColor ()) {
@@ -199,12 +200,7 @@ public class GameLoop : MonoBehaviour {
 
         Vector2 newPos = oldPos + direction;
 		if (canMove(obj, newPos)){
-//			Debug.Log ("OBJECT CAN MOVE");
-			// if game time is zero, this is the special case
-			// reset the past snake if it's in there
-			// disable the snake selection panel
 			if (gameTime == 0 && activeSnake != null) {
-//				Debug.Log ("special case of game time = 0");
 				confirmActiveSnake ();
 				//NOTE: Commented out for debugging
 //				disableSelectionPanel ();
@@ -212,16 +208,13 @@ public class GameLoop : MonoBehaviour {
 			}
 			gameTime++;
             gameTimeLabel.text = "Time: " + gameTime; 
-//			Debug.Log ("Attemt to move to new position: " + newPos	);
-//		Debug.Log ("The object is: " + obj);
 			obj.moveTo (newPos);
-            //			Debug.Log ("Snake head position " + (Snake(obj)).getHead() );
             soundPlayer.PlayMoveSound();
             updateBoard ();
             
             // if no moves available, reset snake
-            if (!(canMove(obj, newPos + Vector2.up) || canMove(obj, newPos + Vector2.down) || canMove(obj, newPos + Vector2.right) || canMove(obj, newPos + Vector2.left))) {
-                noAvailableMoves();
+			if (!(canMove(obj, newPos + Vector2.up) || canMove(obj, newPos + Vector2.down) || canMove(obj, newPos + Vector2.right) || canMove(obj, newPos + Vector2.left))) {
+                noAvailableMoves();//being called on win as well?
             }
 		}
         else
@@ -257,38 +250,43 @@ public class GameLoop : MonoBehaviour {
 		parseCheckTiles ();
         //TODO trigger the drawing of the board
         //		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
-		tileReference.GetComponent<Tiles>().drawMap(map);
+		tileReference.GetComponent<Tiles>().drawMap(map, activeSnake);
 	}
 
 	//put all objects in the map at the current time
 	void putObjs(){
-		map.put (activeSnake); //put in the active snake
-        //Debug.Log("PUT ACTIVE SNAKE " + activeSnake + " " + activeSnake.getColor());
-//		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
-		foreach (BoardObject obstacle in puzzleObjects){
-//			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
-			map.put (obstacle); // put in all obstacles
-		}
-		foreach (var snake in pastSnakes){
-			map.put(snake); // put in the snakes you've already moved
+
+		// If the time is not 0, only draw activeSnake and pastSnakes 
+		if (gameTime != 0) {
+			map.put (activeSnake); //put in the active snake
+			//Debug.Log("PUT ACTIVE SNAKE " + activeSnake + " " + activeSnake.getColor());
+			//		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
+
+			foreach (var snake in pastSnakes) {
+				map.put (snake); // put in the snakes you've already moved
+			}
+		//Insert the initial position of all of the snakes, only if the time is 0
+		} else { 
+			foreach (var snake in allSnakes) {
+				map.put (snake); // put in the snakes you've already moved
+			}
 		}
 
+		// Add non-snake gameobjects
+		foreach (BoardObject obstacle in puzzleObjects) {
+			//			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
+			map.put (obstacle); // put in all obstacles
+		}
 	}
 
 	//parses map.checkTiles(), runs any animations/game logic needed
 	void parseCheckTiles(){
-//
-//		Debug.Log ("Checking tiles");
-//		Debug.Log ("snake head is at " + activeSnake.getHead ());
-//		Debug.Log ("map position 1,2" + map.map [1, 2].Count);
 
 		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
-        //		Debug.Log ("Board event list size = " + boardEvents.Count);
 		foreach (var boardEvent in boardEvents){
 			BoardObject obj0 = boardEvent.getObjectPair ()[0];
 			BoardObject obj1 = boardEvent.getObjectPair ()[1];
-            //Debug.Log ("Getting board event");
 			if ( (obj0 == activeSnake && (obj1 is Snake)) 
                 || (obj1 == activeSnake && (obj0 is Snake))
                 ) {
@@ -313,6 +311,7 @@ public class GameLoop : MonoBehaviour {
 
 	//
 	void collision(Vector2 collCoord){
+		Debug.Log ("COLLISION");
         //TODO Draw collision on the board, give feedback for the error, and wait a few seconds
         //Go back in time to the beginning of the game, mantaining the activeSnake
         soundPlayer.PlayErrorSound();
@@ -321,43 +320,40 @@ public class GameLoop : MonoBehaviour {
 	}
 
     void noAvailableMoves() {
-        soundPlayer.PlayErrorSound();
-        rollBackTime();
-        enableSelectionPanel();
+		if (!(allSnakes.Count == pastSnakes.Count)) {
+			soundPlayer.PlayErrorSound ();
+			rollBackTime ();
+			enableSelectionPanel ();
+		}
     }
 
 	//
 	void reachedExit(Vector2 exitCoord){
 		keyboardLock = true;
-        soundPlayer.PlaySuccessSound();
-        //Debug.Log("CHECKCHECKCHECK " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
-		//if (snakesStillOnBoardAtTimeStep (gameTime)) {
         if (!activeSnake.exitInStory) {
-            //Debug.Log("CHECKCHECKCHECK2 " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
-            //gameTime++;
-            keyboardLock = false;
-            //updateBoard ();
-            //Debug.Log("FIRST EXIT IF");
-		} else {
-            //Debug.Log("SECOND EXIT IF");
-			pastSnakes.Add (activeSnake);
 
-			//you've won the level
-			if (pastSnakes.Count == allSnakes.Count) {
+            keyboardLock = false;
+            
+            //updateBoard ();
+
+		} else {
+			pastSnakes.Add (activeSnake);
+            soundPlayer.PlaySuccessSound();
+            //you've won the level
+            if (pastSnakes.Count == allSnakes.Count) {
 				gameWin ();
 			} else {
-				gameTime = 0;
-                activeSnake = allSnakes.Find(x => !x.exitInStory);
-                updateBoard ();
-                int snakeIndex = allSnakes.IndexOf(activeSnake);
-                this.GetComponent<UIManager>().activeSnakeFeedback(snakeIndex);
-                updateSnakeSelectionPanel ();
-				//Debug.Log("Resetting active snake!");
-				keyboardLock = false;
+
+				InvokeRepeating ("stepThrough", 0.0F, 0.4F);
+
+				activeSnake = allSnakes.Find(x => !x.exitInStory);
+				int snakeIndex = allSnakes.IndexOf(activeSnake);
+				this.GetComponent<UIManager>().activeSnakeFeedback(snakeIndex);
+				updateSnakeSelectionPanel ();
+
 			}
             enableSelectionPanel();
 		}
-		//updateboard
 	}
 
 	void gameWin (){
@@ -367,8 +363,7 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	bool snakesStillOnBoardAtTimeStep(int t) {
-		bool stillOn = !activeSnake.exitInStory;
-        //Debug.Log("STILL ON: " + stillOn + " " + t);
+		bool stillOn = activeSnake.onBoardAtTime(t);
 			foreach (Snake snake in pastSnakes){
 				stillOn = stillOn || snake.onBoardAtTime(t);
 			}
@@ -377,10 +372,23 @@ public class GameLoop : MonoBehaviour {
 
 	//Reset the gameTime to 0 and reset the story of the activeSnake to 0, then redraw the board with updateBoard
 	void rollBackTime(){
+		Debug.Log ("ROLL BACK TIME");
 		gameTime = 0;
         gameTimeLabel.text = "Time: " + 0;
         activeSnake.resetStory();
 		updateBoard ();
+	}
+
+	void stepThrough(){
+		if (snakesStillOnBoardAtTimeStep (gameTime)) {
+			gameTime++;
+			gameTimeLabel.text = "Time: " + gameTime;
+			updateBoard ();
+		} else {
+			CancelInvoke();
+			//run animation and delay
+			InvokeRepeating ("rewind", 0.0F, 0.2F);
+		}
 	}
 
 	void rewind(){
@@ -389,14 +397,14 @@ public class GameLoop : MonoBehaviour {
             gameTimeLabel.text = "Time: " + gameTime;
 			updateBoard ();
 			//make noise
-			//delay
-			//rewind();
 		} else {
-			//return;
+			CancelInvoke ();
+			keyboardLock = false;
 		}
+			
 	}
 
-	public void selectSnakeatIndex( int snakeIndex) {
+	public void selectSnakeatIndex( int snakeIndex) {//does this need to update the snakePanel?
 		activeSnake = allSnakes [snakeIndex];
 		keyboardLock = false;
         this.GetComponent<UIManager>().activeSnakeFeedback(snakeIndex);
@@ -413,11 +421,5 @@ public class GameLoop : MonoBehaviour {
             //Debug.Log("past snake: " + pastSnakes.Count);
         }
 	}
-
-
-	//timer func
-	//if (gameTime > 0) {
-	//rewind();
-	//}
 
 }

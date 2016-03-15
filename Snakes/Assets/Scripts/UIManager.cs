@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour {
     public GameObject snakeSelectionBlocker;
     public Transform boardPanel;
     public int maxLevel = 8;
+    public Canvas collisionCanvas;
+    public float delayTime = 0.5f;
 
     private int currentLevel;
     private int snake;
@@ -22,6 +24,7 @@ public class UIManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        collisionCanvas.enabled = false;
         snakeSelectionBlocker.SetActive(false);
         startCanvas.enabled = true;
         levelCanvas.enabled = false;
@@ -119,6 +122,7 @@ public class UIManager : MonoBehaviour {
             {
                 buttons[i].gameObject.SetActive(true);
                 buttons[i].enabled = true;
+                buttons[i].GetComponent<Text>().text = "0";
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
                 buttons[i].colors = buttonColor;
@@ -215,5 +219,18 @@ public class UIManager : MonoBehaviour {
     {
         ResetTiles();
         LoadLevel(currentLevel);
+    }
+    public void OnCollision(Snake aggressor, Snake victim)
+    {
+        collisionCanvas.enabled = true;
+        Text[] collisionInfo =collisionCanvas.GetComponents<Text>();
+        collisionInfo[1].text = "Snake " + aggressor.getColor().ToString() + " hit Snake " +victim.getColor().ToString();
+        StartCoroutine(DelayToDisable(collisionCanvas));
+    }
+
+    IEnumerator DelayToDisable(Canvas c)
+    {
+        yield return new WaitForSeconds(delayTime);
+        c.enabled = false;
     }
 }

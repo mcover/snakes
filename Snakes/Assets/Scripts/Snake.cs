@@ -38,12 +38,6 @@ public class Snake : BoardObject {
 	//add position to story, and newDirection to directionStory
 	// NOTE: If we want to teleport the snake to a cell far away, we will need to pass a new heading
 	 public override void moveTo(Vector2 pos){
-//		if (story == null || story.Count == 0) {
-//            
-//		}
-//		if (pos == null) {
-//            
-//		}
 		// Compute new direction of the snake and add it to the directionStory  
 		Vector2 prevPos = this.getHead ();
 		Vector2 newDirection = pos - prevPos;
@@ -85,9 +79,8 @@ public class Snake : BoardObject {
 	//returns whether or not the snake is still on the board
 	// Note: only return false when the entire snake left the board
 	public new bool onBoardAtTime(int t){
-		if (story == null || story.Count == 0) {
-		}
-		bool isOnBoard =  ((story.Count + length <= t));
+		
+		bool isOnBoard =  ((story.Count + length) >= t);
 		return isOnBoard;
 	}
 
@@ -140,11 +133,7 @@ public class Snake : BoardObject {
 			tileType = "HEAD";
 			orientationVector = currentDirections[currentDirections.Count-1];
 		} else {
-
-//			Vector2 middlePiece = directionStory [index + 1] + directionStory [index];
-//			if (middlePiece.x != 0 && middlePiece.y != 0) {
-//				Debug.Log ("what index: " + index);
-//
+			
 			// Dot product is 0 if and only if the two vectors are perpendicular
 			if (Vector2.Dot(entryDirection, exitDirection) == 0) {
 				tileType = "CORNER";
