@@ -261,8 +261,14 @@ public class GameLoop : MonoBehaviour {
 		}
 		foreach (var snake in pastSnakes){
 			map.put(snake); // put in the snakes you've already moved
+
 		}
 
+		// Add non-snake gameobjects
+		foreach (BoardObject obstacle in puzzleObjects) {
+			//			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
+			map.put (obstacle); // put in all obstacles
+		}
 	}
 
 	//parses map.checkTiles(), runs any animations/game logic needed
@@ -354,12 +360,8 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	bool snakesStillOnBoardAtTimeStep(int t) {
-//<<<<<<< Updated upstream
-//		bool stillOn = !activeSnake.exitInStory;
-//        //Debug.Log("STILL ON: " + stillOn + " " + t);
-//=======
+
 		bool stillOn = activeSnake.onBoardAtTime(t);
-//		Debug.Log("STILL ON: " + stillOn + " " + t);
 			foreach (Snake snake in pastSnakes){
 				Debug.Log ("snake is in past snakes");
 				stillOn = stillOn || snake.onBoardAtTime(t);
