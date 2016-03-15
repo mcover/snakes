@@ -27,7 +27,8 @@ public class BoardObject {
 //		if (startPos == null) {
 //            return false;
 //		}
-		return true;
+		Debug.Log("board object is murdering me");
+		return false;
 	}
 
 	//add position to story
