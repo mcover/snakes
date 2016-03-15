@@ -155,7 +155,7 @@ public class UIManager : MonoBehaviour {
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 buttons[i].image.sprite = buttonSprite;
-                Debug.Log("RETURNING TO ORIG SPRITE!!!!");
+                //Debug.Log("RETURNING TO ORIG SPRITE!!!!");
             }
         }
     }
@@ -209,5 +209,11 @@ public class UIManager : MonoBehaviour {
         buttons[newSnake].GetComponent<Outline>().enabled = true;
         snake = newSnake;
 
+    }
+
+    public void ResetLevel()
+    {
+        ResetTiles();
+        LoadLevel(currentLevel);
     }
 }
