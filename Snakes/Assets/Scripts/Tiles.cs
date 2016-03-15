@@ -110,15 +110,14 @@ public class Tiles: MonoBehaviour {
                     //orientation can be: UP, DOWN, LEFT, RIGHT
                     string tileType = spriteInfo[0];
                     string direction = spriteInfo[1];
-                    if (tileType.Equals("WALL"))
+                    if (tileType.Equals("WALL")||tileType.Equals("GOAL"))
                     {
                         GameObject bottomTile = tileList[i, j];
                         bottomTile.GetComponent<Image>().color = drawThis.getColor();
-                        Debug.Log("Drawing Wall");
                     }
                     Debug.Log("drawThis tileType: " + tileType + " direction: " + direction);
-                    if (!(tileType.Equals("WALL")) || !(tileType.Equals("GOAL")))
-                    {
+                    if (!(tileType.Equals("WALL")) && !(tileType.Equals("GOAL")))
+                    { 
                         GameObject tile = snakeList[i, j];
                         //tile.GetComponent<Image> ().color = drawThis.getColor ();
                         Image snakeImage = tile.GetComponentInChildren<Image>(); //the snake image
@@ -128,31 +127,28 @@ public class Tiles: MonoBehaviour {
                         Sprite newSprite = Resources.Load<Sprite>(tileType.ToString()) as Sprite; //grabs head from resources folder...maintains orientation in folder
 //						Debug.Log("sprite info direction" + spriteInfo[1]);
                         snakeImage.sprite = newSprite;
-                        if (tileType.Equals("HEAD") || tileType.Equals("STRAIGHT")||tileType.Equals("TAIL"))
+						if (tileType.Equals("HEAD") || tileType.Equals("STRAIGHT")
+							||tileType.Equals("TAIL") || (tileType.Equals("CORNER")))
                         {	
 							// clear previous rotation history
 							snakeImage.transform.rotation = Quaternion.identity;
                             if (spriteInfo[1].Equals("UP"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 270f));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 0f));
                             }
                             else if (spriteInfo[1].Equals("DOWN"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 90f));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 180f));
                             }
                             else if (spriteInfo[1].Equals("LEFT"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 180f));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 90f));
                             }
                             else if (spriteInfo[1].Equals("RIGHT"))
                             {
-                                snakeImage.transform.Rotate(new Vector3(0, 0, 0f));
+                                snakeImage.transform.Rotate(new Vector3(0, 0, 270f));
                             }
-                                
-                        }
-
-                        
-                         
+                        }    
                    }
 				}
 			}
