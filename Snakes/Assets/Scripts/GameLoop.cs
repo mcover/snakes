@@ -329,21 +329,22 @@ public class GameLoop : MonoBehaviour {
 	//
 	void reachedExit(Vector2 exitCoord){
 		keyboardLock = true;
-        soundPlayer.PlaySuccessSound();
+        
         //Debug.Log("CHECKCHECKCHECK " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
 		//if (snakesStillOnBoardAtTimeStep (gameTime)) {
         if (!activeSnake.exitInStory) {
             //Debug.Log("CHECKCHECKCHECK2 " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
             //gameTime++;
             keyboardLock = false;
+            
             //updateBoard ();
             //Debug.Log("FIRST EXIT IF");
-		} else {
+        } else {
             //Debug.Log("SECOND EXIT IF");
 			pastSnakes.Add (activeSnake);
-
-			//you've won the level
-			if (pastSnakes.Count == allSnakes.Count) {
+            soundPlayer.PlaySuccessSound();
+            //you've won the level
+            if (pastSnakes.Count == allSnakes.Count) {
 				gameWin ();
 			} else {
 				gameTime = 0;
