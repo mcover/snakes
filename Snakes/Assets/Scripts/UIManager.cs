@@ -122,6 +122,7 @@ public class UIManager : MonoBehaviour {
             {
                 buttons[i].gameObject.SetActive(true);
                 buttons[i].enabled = true;
+                buttons[i].GetComponent<Text>().text = "0";
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
                 buttons[i].colors = buttonColor;
