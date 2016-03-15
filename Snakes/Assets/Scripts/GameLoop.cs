@@ -262,17 +262,27 @@ public class GameLoop : MonoBehaviour {
 
 	//put all objects in the map at the current time
 	void putObjs(){
-		map.put (activeSnake); //put in the active snake
-        //Debug.Log("PUT ACTIVE SNAKE " + activeSnake + " " + activeSnake.getColor());
-//		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
-		foreach (BoardObject obstacle in puzzleObjects){
-//			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
-			map.put (obstacle); // put in all obstacles
-		}
-		foreach (var snake in pastSnakes){
-			map.put(snake); // put in the snakes you've already moved
+		// If the time is not 0, only draw activeSnake and pastSnakes 
+		if (gameTime != 0) {
+			map.put (activeSnake); //put in the active snake
+			//Debug.Log("PUT ACTIVE SNAKE " + activeSnake + " " + activeSnake.getColor());
+			//		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
+
+			foreach (var snake in pastSnakes) {
+				map.put (snake); // put in the snakes you've already moved
+			}
+		//Insert the initial position of all of the snakes, only if the time is 0
+		} else { 
+			foreach (var snake in allSnakes) {
+				map.put (snake); // put in the snakes you've already moved
+			}
 		}
 
+		// Add non-snake gameobjects
+		foreach (BoardObject obstacle in puzzleObjects) {
+			//			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
+			map.put (obstacle); // put in all obstacles
+		}
 	}
 
 	//parses map.checkTiles(), runs any animations/game logic needed
