@@ -178,4 +178,7 @@ public class Snake : BoardObject {
 		return new List<string>(new string[] {tileType, orientation});
 	}
 
+	public new int getLength(){
+		return length;
+	}
 }
