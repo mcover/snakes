@@ -20,7 +20,8 @@ public class GameLoop : MonoBehaviour {
 		foreach (Snake snake in allSnakes) {
 			buttonColors.Add (snake.getColor ());
 		}
-        this.GetComponent<UIManager>().SetColors(buttonColors); //grabs UI manager and calls the fuction which sets the colors.
+		List <int> lengths = allSnakes.ConvertAll(snake  => snake.getLength ());
+        this.GetComponent<UIManager>().SetColorsAndLenghts(buttonColors, lengths); //grabs UI manager and calls the fuction which sets the colors.
 	}
 
 	//updates selection panel by giving a list of booleans
