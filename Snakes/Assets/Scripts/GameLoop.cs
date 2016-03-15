@@ -353,7 +353,7 @@ public class GameLoop : MonoBehaviour {
                 activeSnake = allSnakes.Find(x => !x.exitInStory);
                 updateBoard ();
                 int snakeIndex = allSnakes.IndexOf(activeSnake);
-                Debug.Log("snake index: " + snakeIndex);
+                //Debug.Log("snake index: " + snakeIndex);
                 this.GetComponent<UIManager>().activeSnakeFeedback(snakeIndex);
                 updateSnakeSelectionPanel ();
 				//Debug.Log("Resetting active snake!");
