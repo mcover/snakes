@@ -210,4 +210,10 @@ public class UIManager : MonoBehaviour {
         snake = newSnake;
 
     }
+
+    public void ResetLevel()
+    {
+        ResetTiles();
+        LoadLevel(currentLevel);
+    }
 }

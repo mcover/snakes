@@ -16,11 +16,12 @@ public class AudioController : MonoBehaviour
     public Toggle toggle;
     public Slider volumeControl;
 
-    private AudioSource soundPlayer;
+    public AudioSource successPlayer;
+    public AudioSource movePlayer;
+    public AudioSource errorPlayer;
     // Use this for initialization
     void Start()
     {
-        soundPlayer = GetComponent<AudioSource>();
         toggle.onValueChanged.AddListener((value) =>
         {
             OnSoundToggle(value);
@@ -31,8 +32,9 @@ public class AudioController : MonoBehaviour
             OnVolumeChange(value);
         });
         volumeControl.value = volume;
-        soundPlayer.volume = volume;
-
+        successPlayer.volume = volume;
+        movePlayer.volume = volume;
+        errorPlayer.volume = volume;
     }
 
     // Update is called once per frame
@@ -46,8 +48,8 @@ public class AudioController : MonoBehaviour
     {
         if (soundOn)
         {
-            soundPlayer.clip = success;
-            soundPlayer.Play();
+            //successPlayer.clip = success;
+            successPlayer.Play();
         }
     }
 
@@ -55,8 +57,8 @@ public class AudioController : MonoBehaviour
     {
         if (soundOn)
         {
-            soundPlayer.clip = error;
-            soundPlayer.Play();
+            //errorPlayer.clip = error;
+            errorPlayer.Play();
         }
     }
 
@@ -64,8 +66,8 @@ public class AudioController : MonoBehaviour
     {
         if (soundOn)
         {
-            soundPlayer.clip = move;
-            soundPlayer.Play();
+            //movePlayer.clip = move;
+            movePlayer.Play();
         }
     }
 
@@ -77,7 +79,9 @@ public class AudioController : MonoBehaviour
     public void OnVolumeChange(float num)
     {
         volume = num;
-        soundPlayer.volume = volume;
+        successPlayer.volume = volume;
+        movePlayer.volume = volume;
+        errorPlayer.volume = volume;
     }
 
 
