@@ -257,7 +257,7 @@ public class GameLoop : MonoBehaviour {
 		parseCheckTiles ();
         //TODO trigger the drawing of the board
         //		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
-		tileReference.GetComponent<Tiles>().drawMap(map);
+		tileReference.GetComponent<Tiles>().drawMap(map, activeSnake);
 	}
 
 	//put all objects in the map at the current time
