@@ -320,6 +320,7 @@ public class GameLoop : MonoBehaviour {
 	}
 
     void noAvailableMoves() {
+		Debug.Log ("No available moves!");
 		if (!(allSnakes.Count == pastSnakes.Count)) {
 			soundPlayer.PlayErrorSound ();
 			rollBackTime ();
