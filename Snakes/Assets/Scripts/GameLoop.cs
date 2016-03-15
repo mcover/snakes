@@ -255,13 +255,21 @@ public class GameLoop : MonoBehaviour {
 
 	//put all objects in the map at the current time
 	void putObjs(){
-		map.put (activeSnake); //put in the active snake
-		foreach (BoardObject obstacle in puzzleObjects){
-			map.put (obstacle); // put in all obstacles
-		}
-		foreach (var snake in pastSnakes){
-			map.put(snake); // put in the snakes you've already moved
 
+		// If the time is not 0, only draw activeSnake and pastSnakes 
+		if (gameTime != 0) {
+			map.put (activeSnake); //put in the active snake
+			//Debug.Log("PUT ACTIVE SNAKE " + activeSnake + " " + activeSnake.getColor());
+			//		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
+
+			foreach (var snake in pastSnakes) {
+				map.put (snake); // put in the snakes you've already moved
+			}
+		//Insert the initial position of all of the snakes, only if the time is 0
+		} else { 
+			foreach (var snake in allSnakes) {
+				map.put (snake); // put in the snakes you've already moved
+			}
 		}
 
 		// Add non-snake gameobjects
@@ -273,18 +281,12 @@ public class GameLoop : MonoBehaviour {
 
 	//parses map.checkTiles(), runs any animations/game logic needed
 	void parseCheckTiles(){
-//
-//		Debug.Log ("Checking tiles");
-//		Debug.Log ("snake head is at " + activeSnake.getHead ());
-//		Debug.Log ("map position 1,2" + map.map [1, 2].Count);
 
 		Vector2 exitPosition = new Vector2(-1,-1);
 		List<BoardEvent> boardEvents = map.checkTiles ();
-        //		Debug.Log ("Board event list size = " + boardEvents.Count);
 		foreach (var boardEvent in boardEvents){
 			BoardObject obj0 = boardEvent.getObjectPair ()[0];
 			BoardObject obj1 = boardEvent.getObjectPair ()[1];
-            //Debug.Log ("Getting board event");
 			if ( (obj0 == activeSnake && (obj1 is Snake)) 
                 || (obj1 == activeSnake && (obj0 is Snake))
                 ) {
@@ -309,6 +311,7 @@ public class GameLoop : MonoBehaviour {
 
 	//
 	void collision(Vector2 collCoord){
+		Debug.Log ("COLLISION");
         //TODO Draw collision on the board, give feedback for the error, and wait a few seconds
         //Go back in time to the beginning of the game, mantaining the activeSnake
         soundPlayer.PlayErrorSound();
@@ -360,10 +363,8 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	bool snakesStillOnBoardAtTimeStep(int t) {
-
 		bool stillOn = activeSnake.onBoardAtTime(t);
 			foreach (Snake snake in pastSnakes){
-				Debug.Log ("snake is in past snakes");
 				stillOn = stillOn || snake.onBoardAtTime(t);
 			}
 		return stillOn;
