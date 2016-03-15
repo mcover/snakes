@@ -146,6 +146,7 @@ public class UIManager : MonoBehaviour {
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 button.image.sprite = buttonSprite;
+                button.GetComponentInChildren<Text>().enabled = true;
             }
         }
         for (int i=0; i< completed.Count;i++)
@@ -154,11 +155,13 @@ public class UIManager : MonoBehaviour {
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("completed");
                 buttons[i].image.sprite = buttonSprite;
+                buttons[i].GetComponentInChildren<Text>().enabled = false;
             }
             else
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 buttons[i].image.sprite = buttonSprite;
+                buttons[i].GetComponentInChildren<Text>().enabled = true;
                 //Debug.Log("RETURNING TO ORIG SPRITE!!!!");
             }
         }

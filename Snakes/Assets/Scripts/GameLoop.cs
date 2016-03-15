@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class GameLoop : MonoBehaviour {
     public Dictionary<string, Color> color_map = new Dictionary<string, Color>() {
-        {"red", Color.red },
-        {"green", Color.green },
-        {"yellow", Color.yellow },
-        {"purple", Color.magenta},
-        {"blue", Color.blue },
+        {"red", new Color(255,102,102)},
+        {"green", new Color(11,219,162) },
+        {"yellow", new Color(204,255,102) },
+        {"purple", new Color(150,56,171)},
+        {"blue", new Color(82,5,255) },
     };
 	public GameObject tileReference;
     public AudioController soundPlayer;
