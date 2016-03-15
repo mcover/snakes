@@ -113,7 +113,7 @@ public class UIManager : MonoBehaviour {
         }
 
     }
-    public void SetColorsAndLenghts(List<Color> buttonColors,List<int> lengths)
+    public void SetColorsAndLengths(List<Color> buttonColors,List<int> lengths)
     {
         
         for (int i=0; i< buttons.Count;i++)
@@ -122,7 +122,7 @@ public class UIManager : MonoBehaviour {
             {
                 buttons[i].gameObject.SetActive(true);
                 buttons[i].enabled = true;
-                //buttons[i].GetComponent<Text>().text = "0";
+                buttons[i].GetComponentInChildren<Text>().text= lengths[i].ToString();
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
                 buttons[i].colors = buttonColor;
