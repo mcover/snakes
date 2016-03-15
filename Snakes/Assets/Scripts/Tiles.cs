@@ -15,10 +15,10 @@ public class Tiles: MonoBehaviour {
 
 	// private List<GameObject> mapTiles;
 		public void drawEmptyBoard(int mapWidth, int mapHeight) {
-		Debug.Log ("Draw empty board being called");
+		//Debug.Log ("Draw empty board being called");
 		tileList = new GameObject[mapWidth, mapHeight];
         snakeList = new GameObject[mapWidth, mapHeight];
-		Debug.Log ("initialized tile list to " + tileList);
+		//Debug.Log ("initialized tile list to " + tileList);
 //        Debug.Log ("level dim" + mapWidth + " " + mapHeight);
 			for (int i = 0; i < mapWidth; i++) {
 				for (int j = 0; j < mapHeight; j++) {
@@ -98,7 +98,7 @@ public class Tiles: MonoBehaviour {
 
 	public void drawMap(Map map){
 		clearBoard();
-		Debug.Log("drawMap called");
+		//Debug.Log("drawMap called");
 		for (int i = 0; i < map.getWidth(); i++) {
 			for (int j = 0; j < map.getHeight(); j++) {
 				Vector2 mapPos = new Vector2 (i, j);
@@ -115,7 +115,7 @@ public class Tiles: MonoBehaviour {
                         GameObject bottomTile = tileList[i, j];
                         bottomTile.GetComponent<Image>().color = drawThis.getColor();
                     }
-                    Debug.Log("drawThis tileType: " + tileType + " direction: " + direction);
+                    //Debug.Log("drawThis tileType: " + tileType + " direction: " + direction);
                     if (!(tileType.Equals("WALL")) && !(tileType.Equals("GOAL")))
                     { 
                         GameObject tile = snakeList[i, j];

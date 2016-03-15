@@ -48,7 +48,7 @@ public class GameLoop : MonoBehaviour {
 
     public void loadLevel(int level)
     {	
-		Debug.Log ("level" + level);
+		//Debug.Log ("level" + level);
         TextAsset txt = (TextAsset)Resources.Load("levels/level" + level.ToString(), typeof(TextAsset));
         string levelString = txt.text;
         string[] objectStrings = levelString.Replace("\r", "").Split('\n');
@@ -121,12 +121,12 @@ public class GameLoop : MonoBehaviour {
             }
         }
 		activeSnake = allSnakes [0];
-        Debug.Log("active snake " + activeSnake.getColor());
+       // Debug.Log("active snake " + activeSnake.getColor());
         pastSnakes = new List<Snake>(new Snake[] {});
 		setSnakeSelectionPanel ();
-		Debug.Log ("GAME LOOP DRAW CALL 0");
+		//Debug.Log ("GAME LOOP DRAW CALL 0");
 		tileReference.GetComponent<Tiles>().drawEmptyBoard(mapWidth, mapHeight);
-		Debug.Log ("GAME LOOP DRAW CALL 5");
+		//Debug.Log ("GAME LOOP DRAW CALL 5");
 
 		updateBoard ();
     }
@@ -193,7 +193,7 @@ public class GameLoop : MonoBehaviour {
 	void move(BoardObject obj, Vector2 direction){
         disableSelectionPanel();
         //		Debug.Log ("MOVING SNAKE");
-        Debug.Log(obj + " " + obj.getColor());
+        //Debug.Log(obj + " " + obj.getColor());
 		List<Vector2> storyAtTime = obj.getPositionAtTime(gameTime);
         Vector2 oldPos = storyAtTime[storyAtTime.Count - 1];
 
@@ -263,7 +263,7 @@ public class GameLoop : MonoBehaviour {
 	//put all objects in the map at the current time
 	void putObjs(){
 		map.put (activeSnake); //put in the active snake
-        Debug.Log("PUT ACTIVE SNAKE " + activeSnake + " " + activeSnake.getColor());
+        //Debug.Log("PUT ACTIVE SNAKE " + activeSnake + " " + activeSnake.getColor());
 //		Debug.Log("HERE WE ARE " + map.get(new Vector2(1,2)).Count);
 		foreach (BoardObject obstacle in puzzleObjects){
 //			Debug.Log ("put obstacle "+ obstacle.getPositionAtTime(gameTime)[0].x + " " + obstacle.getPositionAtTime(gameTime)[0].y);
@@ -307,7 +307,7 @@ public class GameLoop : MonoBehaviour {
 
 		if (exitPosition.x != -1) { //-1 is magic value as there can never be negative position
 			reachedExit (exitPosition);
-			Debug.Log ("reached exit");
+			//Debug.Log ("reached exit");
 		}
 	}
 
@@ -330,16 +330,16 @@ public class GameLoop : MonoBehaviour {
 	void reachedExit(Vector2 exitCoord){
 		keyboardLock = true;
         soundPlayer.PlaySuccessSound();
-        Debug.Log("CHECKCHECKCHECK " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
+        //Debug.Log("CHECKCHECKCHECK " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
 		//if (snakesStillOnBoardAtTimeStep (gameTime)) {
         if (!activeSnake.exitInStory) {
-            Debug.Log("CHECKCHECKCHECK2 " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
+            //Debug.Log("CHECKCHECKCHECK2 " + snakesStillOnBoardAtTimeStep(gameTime) + " " + gameTime);
             //gameTime++;
             keyboardLock = false;
             //updateBoard ();
-            Debug.Log("FIRST EXIT IF");
+            //Debug.Log("FIRST EXIT IF");
 		} else {
-            Debug.Log("SECOND EXIT IF");
+            //Debug.Log("SECOND EXIT IF");
 			pastSnakes.Add (activeSnake);
 
 			//you've won the level
@@ -361,14 +361,14 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	void gameWin (){
-		Debug.Log ("Game has been won");
+		//Debug.Log ("Game has been won");
         //enable win prompt
         this.GetComponent<UIManager>().WonLevel();
 	}
 
 	bool snakesStillOnBoardAtTimeStep(int t) {
 		bool stillOn = !activeSnake.exitInStory;
-        Debug.Log("STILL ON: " + stillOn + " " + t);
+        //Debug.Log("STILL ON: " + stillOn + " " + t);
 			foreach (Snake snake in pastSnakes){
 				stillOn = stillOn || snake.onBoardAtTime(t);
 			}

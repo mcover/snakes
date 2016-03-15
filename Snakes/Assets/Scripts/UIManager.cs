@@ -155,7 +155,7 @@ public class UIManager : MonoBehaviour {
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 buttons[i].image.sprite = buttonSprite;
-                Debug.Log("RETURNING TO ORIG SPRITE!!!!");
+                //Debug.Log("RETURNING TO ORIG SPRITE!!!!");
             }
         }
     }
