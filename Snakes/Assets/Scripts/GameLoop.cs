@@ -212,9 +212,13 @@ public class GameLoop : MonoBehaviour {
 			obj.moveTo (newPos);
             soundPlayer.PlayMoveSound();
             updateBoard ();
-            
+
+
             // if no moves available, reset snake
-			if (!(canMove(obj, newPos + Vector2.up) || canMove(obj, newPos + Vector2.down) || canMove(obj, newPos + Vector2.right) || canMove(obj, newPos + Vector2.left))) {
+            Goal goal_found = (Goal)map.get(newPos).Find(x => (x is Goal));
+            if(((goal_found == null) || (goal_found.getColor() != obj.getColor())) 
+                && !(canMove(obj, newPos + Vector2.up) || canMove(obj, newPos + Vector2.down) 
+                || canMove(obj, newPos + Vector2.right) || canMove(obj, newPos + Vector2.left))) {
                 noAvailableMoves();//being called on win as well?
             }
 		}
@@ -321,6 +325,7 @@ public class GameLoop : MonoBehaviour {
 	}
 
     void noAvailableMoves() {
+
 		if (!(allSnakes.Count == pastSnakes.Count)) {
 			soundPlayer.PlayErrorSound ();
 			rollBackTime ();
