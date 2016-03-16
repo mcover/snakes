@@ -1,0 +1,9 @@
+dims,5,5
+snake,0,0,5,1,0,red
+snake,4,0,5,0,1,yellow
+snake,0,4,5,0,-1,purple
+snake,4,4,5,-1,0,blue
+goal,0,0,blue
+goal,4,0,purple
+goal,0,4,yellow
+goal,4,4,red
