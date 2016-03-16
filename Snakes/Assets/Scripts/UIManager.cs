@@ -239,7 +239,12 @@ public class UIManager : MonoBehaviour {
 		Color victimColor = victim.getColor ();
 		string aggressorColorName = colorDict.FirstOrDefault(x => x.Value == aggressorColor).Key;
 		string victimColorName = colorDict.FirstOrDefault(x => x.Value == victimColor).Key;
-		collisionInfo[1].text = aggressorColorName.ToString() + " snake" + " hit " + victimColorName.ToString() + " snake!";
+		if (aggressorColor == victimColor) {
+			collisionInfo[1].text = aggressorColorName.ToString() + " snake" + " ran into himself!!";
+		} else {
+			collisionInfo[1].text = aggressorColorName.ToString() + " snake" + " hit " + victimColorName.ToString() + " snake!";
+		}
+
 		StartCoroutine(DelayToDisable(collisionCanvas));
     }
 
