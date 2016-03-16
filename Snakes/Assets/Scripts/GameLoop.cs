@@ -192,6 +192,8 @@ public class GameLoop : MonoBehaviour {
 	private List<Snake> pastSnakes;
 	private List<Snake> allSnakes; //list of all snakes that exist in the puzzle
 	private List<BoardObject> puzzleObjects; //list of all objects inside the puzzle
+	private float reverseIncrement = 0.1F;
+	private float forwardIncrement = 0.3F;
 
 	//take keyboard input somehow
 	//check if moving the current snake to the new position would be a valid move
@@ -354,7 +356,7 @@ public class GameLoop : MonoBehaviour {
 				gameWin ();
 			} else {
 
-				InvokeRepeating ("stepThrough", 0.0F, 0.4F);
+				InvokeRepeating ("stepThrough", 0.0F, forwardIncrement);
 
 				activeSnake = allSnakes.Find(x => !x.exitInStory);
 				int snakeIndex = allSnakes.IndexOf(activeSnake);
@@ -397,7 +399,7 @@ public class GameLoop : MonoBehaviour {
 		} else {
 			CancelInvoke();
 			//run animation and delay
-			InvokeRepeating ("rewind", 0.0F, 0.2F);
+			InvokeRepeating ("rewind", 0.0F, reverseIncrement);
 		}
 	}
 
