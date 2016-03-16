@@ -323,6 +323,7 @@ public class GameLoop : MonoBehaviour {
 	//
 	void collision(Vector2 collCoord, BoardObject obj1, BoardObject obj2){
 		Debug.Log ("COLLISION");
+		keyboardLock = false;
         //TODO Draw collision on the board, give feedback for the error, and wait a few seconds
         //Go back in time to the beginning of the game, mantaining the activeSnake
         BoardObject aggressor;
@@ -338,6 +339,7 @@ public class GameLoop : MonoBehaviour {
 		soundPlayer.PlayErrorSound();
         rollBackTime();
         enableSelectionPanel();
+		keyboardLock = true;
 	}
 
     void noAvailableMoves() {
