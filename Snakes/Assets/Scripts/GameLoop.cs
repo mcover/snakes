@@ -291,7 +291,7 @@ public class GameLoop : MonoBehaviour {
 			if ( (obj0 == activeSnake && (obj1 is Snake)) 
                 || (obj1 == activeSnake && (obj0 is Snake))
                 ) {
-				collision (boardEvent.getPos ());
+				collision (boardEvent.getPos (), obj0, obj1);
                 return;
 			} else if (obj0 is Goal && obj1 is Snake && ((Goal)obj0).getColor ().Equals (((Snake)obj1).getColor ())) {
 				exitPosition = boardEvent.getPos ();
@@ -306,16 +306,16 @@ public class GameLoop : MonoBehaviour {
 
 		if (exitPosition.x != -1) { //-1 is magic value as there can never be negative position
 			reachedExit (exitPosition);
-			//Debug.Log ("reached exit");
 		}
 	}
 
 	//
-	void collision(Vector2 collCoord){
+	void collision(Vector2 collCoord, BoardObject aggressor, BoardObject victim){
 		Debug.Log ("COLLISION");
         //TODO Draw collision on the board, give feedback for the error, and wait a few seconds
         //Go back in time to the beginning of the game, mantaining the activeSnake
-        soundPlayer.PlayErrorSound();
+		this.GetComponent<UIManager>().OnCollision(aggressor, victim);
+		soundPlayer.PlayErrorSound();
         rollBackTime();
         enableSelectionPanel();
 	}

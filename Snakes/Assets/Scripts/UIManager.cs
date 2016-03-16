@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
@@ -220,12 +221,17 @@ public class UIManager : MonoBehaviour {
         ResetTiles();
         LoadLevel(currentLevel);
     }
-    public void OnCollision(Snake aggressor, Snake victim)
+	public void OnCollision(BoardObject aggressor, BoardObject victim)
     {
         collisionCanvas.enabled = true;
-        Text[] collisionInfo =collisionCanvas.GetComponents<Text>();
-        collisionInfo[1].text = "Snake " + aggressor.getColor().ToString() + " hit Snake " +victim.getColor().ToString();
-        StartCoroutine(DelayToDisable(collisionCanvas));
+        Text[] collisionInfo =collisionCanvas.GetComponentsInChildren<Text>();
+		Dictionary<string, Color> colorDict = this.GetComponent<GameLoop> ().color_map; 
+		Color aggressorColor = aggressor.getColor ();
+		Color victimColor = victim.getColor ();
+		string aggressorColorName = colorDict.FirstOrDefault(x => x.Value == aggressorColor).Key;
+		string victimColorName = colorDict.FirstOrDefault(x => x.Value == victimColor).Key;
+		collisionInfo[1].text = aggressorColorName.ToString() + " snake" + " hit " + victimColorName.ToString() + "snake!";
+		StartCoroutine(DelayToDisable(collisionCanvas));
     }
 
     IEnumerator DelayToDisable(Canvas c)
