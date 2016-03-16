@@ -5,12 +5,17 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GameLoop : MonoBehaviour {
+    private static Color purple = new Color(150/255f, 56/255f, 171/255f);
+    private static Color green = new Color(11/255f, 219/255f, 162/255f);
+    private static Color yellow = new Color(179/255f, 255/255f, 10/255f);
+    private static Color red = new Color(255/255f, 102/255f, 102/255f);
+    private static Color blue = new Color(82/255f, 5/255f, 255/255f);
     public Dictionary<string, Color> color_map = new Dictionary<string, Color>() {
-        {"red", Color.red },
-        {"green", Color.green },
-        {"yellow", Color.yellow },
-        {"purple", Color.magenta},
-        {"blue", Color.blue },
+        {"red",red},
+        {"green",green },
+        {"yellow",yellow},
+        {"purple",purple},
+        {"blue", blue},
     };
 	public GameObject tileReference;
     public AudioController soundPlayer;
@@ -20,7 +25,8 @@ public class GameLoop : MonoBehaviour {
 		foreach (Snake snake in allSnakes) {
 			buttonColors.Add (snake.getColor ());
 		}
-        this.GetComponent<UIManager>().SetColors(buttonColors); //grabs UI manager and calls the fuction which sets the colors.
+		List <int> lengths = allSnakes.ConvertAll(snake  => snake.getLength ());
+        this.GetComponent<UIManager>().SetColorsAndLengths(buttonColors, lengths); //grabs UI manager and calls the fuction which sets the colors.
 	}
 
 	//updates selection panel by giving a list of booleans
@@ -211,9 +217,13 @@ public class GameLoop : MonoBehaviour {
 			obj.moveTo (newPos);
             soundPlayer.PlayMoveSound();
             updateBoard ();
-            
+
+
             // if no moves available, reset snake
-			if (!(canMove(obj, newPos + Vector2.up) || canMove(obj, newPos + Vector2.down) || canMove(obj, newPos + Vector2.right) || canMove(obj, newPos + Vector2.left))) {
+            Goal goal_found = (Goal)map.get(newPos).Find(x => (x is Goal));
+            if(((goal_found == null) || (goal_found.getColor() != obj.getColor())) 
+                && !(canMove(obj, newPos + Vector2.up) || canMove(obj, newPos + Vector2.down) 
+                || canMove(obj, newPos + Vector2.right) || canMove(obj, newPos + Vector2.left))) {
                 noAvailableMoves();//being called on win as well?
             }
 		}
@@ -320,7 +330,6 @@ public class GameLoop : MonoBehaviour {
 	}
 
     void noAvailableMoves() {
-		Debug.Log ("No available moves!");
 		if (!(allSnakes.Count == pastSnakes.Count)) {
 			soundPlayer.PlayErrorSound ();
 			rollBackTime ();

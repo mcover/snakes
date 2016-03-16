@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour {
     public GameObject snakeSelectionBlocker;
     public Transform boardPanel;
     public int maxLevel = 8;
+    public Canvas collisionCanvas;
+    public float delayTime = 0.5f;
 
     private int currentLevel;
     private int snake;
@@ -22,6 +24,7 @@ public class UIManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        collisionCanvas.enabled = false;
         snakeSelectionBlocker.SetActive(false);
         startCanvas.enabled = true;
         levelCanvas.enabled = false;
@@ -110,7 +113,7 @@ public class UIManager : MonoBehaviour {
         }
 
     }
-    public void SetColors(List<Color> buttonColors)
+    public void SetColorsAndLengths(List<Color> buttonColors,List<int> lengths)
     {
         
         for (int i=0; i< buttons.Count;i++)
@@ -119,6 +122,7 @@ public class UIManager : MonoBehaviour {
             {
                 buttons[i].gameObject.SetActive(true);
                 buttons[i].enabled = true;
+                buttons[i].GetComponentInChildren<Text>().text= lengths[i].ToString();
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
                 buttons[i].colors = buttonColor;
@@ -142,6 +146,7 @@ public class UIManager : MonoBehaviour {
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 button.image.sprite = buttonSprite;
+                button.GetComponentInChildren<Text>().enabled = true;
             }
         }
         for (int i=0; i< completed.Count;i++)
@@ -150,11 +155,13 @@ public class UIManager : MonoBehaviour {
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("completed");
                 buttons[i].image.sprite = buttonSprite;
+                buttons[i].GetComponentInChildren<Text>().enabled = false;
             }
             else
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 buttons[i].image.sprite = buttonSprite;
+                buttons[i].GetComponentInChildren<Text>().enabled = true;
                 //Debug.Log("RETURNING TO ORIG SPRITE!!!!");
             }
         }
@@ -215,5 +222,18 @@ public class UIManager : MonoBehaviour {
     {
         ResetTiles();
         LoadLevel(currentLevel);
+    }
+    public void OnCollision(Snake aggressor, Snake victim)
+    {
+        collisionCanvas.enabled = true;
+        Text[] collisionInfo =collisionCanvas.GetComponents<Text>();
+        collisionInfo[1].text = "Snake " + aggressor.getColor().ToString() + " hit Snake " +victim.getColor().ToString();
+        StartCoroutine(DelayToDisable(collisionCanvas));
+    }
+
+    IEnumerator DelayToDisable(Canvas c)
+    {
+        yield return new WaitForSeconds(delayTime);
+        c.enabled = false;
     }
 }

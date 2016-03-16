@@ -3,7 +3,7 @@ $(function() {
         'up': [0,-1],
         'right': [1, 0],
         'left': [-1, 0],
-        'down': [1, 0]
+        'down': [0, 1]
     };
     var $mapContainer = $('#map-container');
     var $outputBox = $('#output-box');
