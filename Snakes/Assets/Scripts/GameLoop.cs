@@ -330,7 +330,6 @@ public class GameLoop : MonoBehaviour {
 	}
 
     void noAvailableMoves() {
-
 		if (!(allSnakes.Count == pastSnakes.Count)) {
 			soundPlayer.PlayErrorSound ();
 			rollBackTime ();

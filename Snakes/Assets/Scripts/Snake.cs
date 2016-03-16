@@ -80,7 +80,7 @@ public class Snake : BoardObject {
 	// Note: only return false when the entire snake left the board
 	public new bool onBoardAtTime(int t){
 		
-		bool isOnBoard =  ((story.Count + length) >= t);
+		bool isOnBoard =  ((story.Count + length) > t);
 		return isOnBoard;
 	}
 
@@ -125,11 +125,10 @@ public class Snake : BoardObject {
 		int currentLength = currentPositions.Count;
 		int prevMoveIndex = directionStory.Count - currentLength + 1;
 		int currentIndex = directionStory.Count - currentLength;
-			
-		if (index == 0 && currentPositions.Count == length) {
+		if (index == 0 && (currentPositions.Count == length || t > length)) {
 			tileType = "TAIL";
-			orientationVector = currentDirections[1];
-		} else if (index == (currentPositions.Count - 1)) {
+			orientationVector = currentDirections[Math.Min(1,currentDirections.Count - 1)];
+		} else if (index == (currentPositions.Count - 1) && (t < length || currentPositions.Count == length )) {
 			tileType = "HEAD";
 			orientationVector = currentDirections[currentDirections.Count-1];
 		} else {
