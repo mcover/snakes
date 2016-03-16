@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameLoop : MonoBehaviour {
     private static Color purple = new Color(150/255f, 56/255f, 171/255f);
     private static Color green = new Color(11/255f, 219/255f, 162/255f);
-    private static Color yellow = new Color(204/255f, 255/255f, 102/255f);
+    private static Color yellow = new Color(179/255f, 255/255f, 10/255f);
     private static Color red = new Color(255/255f, 102/255f, 102/255f);
     private static Color blue = new Color(82/255f, 5/255f, 255/255f);
     public Dictionary<string, Color> color_map = new Dictionary<string, Color>() {
