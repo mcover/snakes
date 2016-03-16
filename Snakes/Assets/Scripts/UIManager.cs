@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour {
     public int maxLevel = 8;
     public Canvas collisionCanvas;
     public float delayTime = 0.5f;
+    public Text selectASnake;
 
     private int currentLevel;
     private int snake;
@@ -25,6 +26,7 @@ public class UIManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        selectASnake.enabled = true;
         collisionCanvas.enabled = false;
         snakeSelectionBlocker.SetActive(false);
         startCanvas.enabled = true;
@@ -123,6 +125,7 @@ public class UIManager : MonoBehaviour {
             {
                 buttons[i].gameObject.SetActive(true);
                 buttons[i].enabled = true;
+                buttons[i].GetComponentInChildren<Text>().enabled = true;
                 buttons[i].GetComponentInChildren<Text>().text= lengths[i].ToString();
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
@@ -147,6 +150,7 @@ public class UIManager : MonoBehaviour {
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 button.image.sprite = buttonSprite;
+                button.GetComponentInChildren<Text>().enabled = true;
             }
         }
         for (int i=0; i< completed.Count;i++)
@@ -155,11 +159,13 @@ public class UIManager : MonoBehaviour {
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("completed");
                 buttons[i].image.sprite = buttonSprite;
+                buttons[i].GetComponentInChildren<Text>().enabled = false;
             }
             else
             {
                 Sprite buttonSprite = Resources.Load<Sprite>("square");
                 buttons[i].image.sprite = buttonSprite;
+                buttons[i].GetComponentInChildren<Text>().enabled = true;
                 //Debug.Log("RETURNING TO ORIG SPRITE!!!!");
             }
         }
@@ -167,9 +173,11 @@ public class UIManager : MonoBehaviour {
     public void DisableSnakeSelection()
     {
         snakeSelectionBlocker.SetActive(false);
+        selectASnake.enabled = true;
     }
     public void EnableSnakeSelection()
     {
+        selectASnake.enabled = false;
         snakeSelectionBlocker.SetActive(true);
     }
     public void ResetTiles()
@@ -187,6 +195,7 @@ public class UIManager : MonoBehaviour {
         foreach (Button b in buttons)
         {
             b.image.sprite = Resources.Load<Sprite>("completed");
+            b.GetComponentInChildren<Text>().enabled = false;
         }
 
     }
