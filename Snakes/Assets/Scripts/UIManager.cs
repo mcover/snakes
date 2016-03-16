@@ -124,6 +124,7 @@ public class UIManager : MonoBehaviour {
             {
                 buttons[i].gameObject.SetActive(true);
                 buttons[i].enabled = true;
+                buttons[i].GetComponentInChildren<Text>().enabled = true;
                 buttons[i].GetComponentInChildren<Text>().text= lengths[i].ToString();
                 var buttonColor = buttons[i].colors;
                 buttonColor.normalColor = buttonColors[i];
@@ -193,6 +194,7 @@ public class UIManager : MonoBehaviour {
         foreach (Button b in buttons)
         {
             b.image.sprite = Resources.Load<Sprite>("completed");
+            b.GetComponentInChildren<Text>().enabled = false;
         }
 
     }
