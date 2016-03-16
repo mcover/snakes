@@ -76,6 +76,23 @@ public class Snake : BoardObject {
 		}
 	}
 
+    //returns if the head is at the coord at the time provided
+    public bool headAtCoordAtTime(Vector2 coord, int t) {
+        if (t >= story.Count) {
+            return false;
+        } else {
+            int x = Convert.ToInt32(coord.x);
+            int y = Convert.ToInt32(coord.y);
+            int head_x = Convert.ToInt32(story[t].x);
+            int head_y = Convert.ToInt32(story[t].y);
+            if ((x == head_x) && (y == head_y)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
 	//returns whether or not the snake is still on the board
 	// Note: only return false when the entire snake left the board
 	public new bool onBoardAtTime(int t){
