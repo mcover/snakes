@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour {
     public int maxLevel = 8;
     public Canvas collisionCanvas;
     public float delayTime = 0.5f;
+    public Text selectASnake;
 
     private int currentLevel;
     private int snake;
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        selectASnake.enabled = true;
         collisionCanvas.enabled = false;
         snakeSelectionBlocker.SetActive(false);
         startCanvas.enabled = true;
@@ -169,9 +171,11 @@ public class UIManager : MonoBehaviour {
     public void DisableSnakeSelection()
     {
         snakeSelectionBlocker.SetActive(false);
+        selectASnake.enabled = true;
     }
     public void EnableSnakeSelection()
     {
+        selectASnake.enabled = false;
         snakeSelectionBlocker.SetActive(true);
     }
     public void ResetTiles()
