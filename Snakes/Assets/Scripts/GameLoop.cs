@@ -321,11 +321,20 @@ public class GameLoop : MonoBehaviour {
 	}
 
 	//
-	void collision(Vector2 collCoord, BoardObject aggressor, BoardObject victim){
+	void collision(Vector2 collCoord, BoardObject obj1, BoardObject obj2){
 		Debug.Log ("COLLISION");
 		keyboardLock = false;
         //TODO Draw collision on the board, give feedback for the error, and wait a few seconds
         //Go back in time to the beginning of the game, mantaining the activeSnake
+        BoardObject aggressor;
+        BoardObject victim;
+        if ((obj1 is Snake) && (((Snake)obj1).headAtCoordAtTime(collCoord, gameTime))) {
+            aggressor = obj1;
+            victim = obj2;
+        } else {
+            victim = obj1;
+            aggressor = obj2;
+        }
 		this.GetComponent<UIManager>().OnCollision(aggressor, victim);
 		soundPlayer.PlayErrorSound();
         rollBackTime();
