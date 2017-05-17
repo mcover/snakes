@@ -140,8 +140,8 @@ public class Snake : BoardObject {
 //		Debug.Log ("what directionStoryatT: " + directionStory[index]);
 		Vector2 orientationVector = new Vector2(0,0);
 		int currentLength = currentPositions.Count;
-		int prevMoveIndex = directionStory.Count - currentLength + 1;
-		int currentIndex = directionStory.Count - currentLength;
+		//int prevMoveIndex = directionStory.Count - currentLength + 1;
+		//int currentIndex = directionStory.Count - currentLength;
 		if (index == 0 && (currentPositions.Count == length || t > length)) {
 			tileType = "TAIL";
 			orientationVector = currentDirections[Math.Min(1,currentDirections.Count - 1)];

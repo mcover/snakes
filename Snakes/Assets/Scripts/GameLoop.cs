@@ -322,7 +322,7 @@ public class GameLoop : MonoBehaviour {
 
 	//
 	void collision(Vector2 collCoord, BoardObject obj1, BoardObject obj2){
-		Debug.Log ("COLLISION");
+		//Debug.Log ("COLLISION");
 		keyboardLock = false;
         //TODO Draw collision on the board, give feedback for the error, and wait a few seconds
         //Go back in time to the beginning of the game, mantaining the activeSnake
@@ -395,7 +395,7 @@ public class GameLoop : MonoBehaviour {
 
 	//Reset the gameTime to 0 and reset the story of the activeSnake to 0, then redraw the board with updateBoard
 	void rollBackTime(){
-		Debug.Log ("ROLL BACK TIME");
+		//Debug.Log ("ROLL BACK TIME");
 		gameTime = 0;
         gameTimeLabel.text = "Time: " + 0;
         activeSnake.resetStory();
